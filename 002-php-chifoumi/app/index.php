@@ -1,8 +1,47 @@
 <?php
 
-$choixJoueur = "";
-$choixRandom = "";
+$choixJoueur = "-----";
+$choixRandom = "-----";
 $result = "";
+
+
+function RandomChoice () : string {
+    $choiceArray = ["Pierre", "Feuille", "Ciseaux"];
+    return $choiceArray[array_rand($choiceArray)];
+}
+function Delibarate(string $choixJoueur, string $choixRandom) : string {
+    if($choixJoueur === $choixRandom) {
+        return "MATCH NUL";
+    }
+    else if(
+        ($choixJoueur === "Feuille" && $choixRandom === "Pierre") ||
+        ($choixJoueur === "Pierre" && $choixRandom === "Ciseaux") ||
+        ($choixJoueur === "Ciseaux" && $choixRandom === "Feuille")
+    ) {
+        return "VICTOIRE ROYALE";
+    }
+    else {
+        return "DEFAITE ROYALE";
+    }
+}
+
+
+if(isset($_GET["choixJoueur"]) && !empty($_GET["choixJoueur"])){
+
+    $choixJoueur = $_GET["choixJoueur"];
+    $choixRandom = RandomChoice();
+
+    $result = Delibarate($choixJoueur, $choixRandom);
+
+} else {
+//    header("Location: ./index.php");
+//    exit();
+
+    $choixJoueur = "";
+    $choixRandom = "";
+    $result = "";
+}
+
 
 $html = <<<HTML
 <!DOCTYPE html>
@@ -21,10 +60,10 @@ $html = <<<HTML
         <section class="game-screen">
             <div class="players">
                 <h2>VOUS</h2>
-                <p>Pierre</p>
+                <p>$choixJoueur</p>
             </div> <div class="players">
                 <h2>PHP</h2>
-                <p>Ciseaux</p>
+                <p>$choixRandom</p>
             </div>
         </section>
 
@@ -36,8 +75,8 @@ $html = <<<HTML
                 <a href="./index.php?choixJoueur=Feuille">Feuille</a>
                 <a href="./index.php?choixJoueur=Ciseaux">Ciseaux</a>
             </div>
-            <a href="">
-                Reset Games
+            <a href="./index.php">
+                Reset Games.
             </a>
         </section>
 
@@ -47,33 +86,6 @@ $html = <<<HTML
 
 HTML;
 
-function RandomChoice () : string {
-    $choiceArray = ["Pierre", "Feuille", "Ciseaux"];
-    return array_rand($choiceArray);
-}
-function Delibarate(string $choixJoueur, string $choixRandom) : string {
-    if($choixJoueur === $choixRandom) {
-        return "MATCH NUL";
-    }
-    if(
-        ($choixJoueur === "Feuille" && $choixRandom === "Pierre") ||
-        ($choixJoueur === "Pierre" && $choixRandom === "Ciseaux") ||
-        ($choixJoueur === "Ciseaux" && $choixRandom === "Feuille")
-    ) {
 
-    }
-}
-
-if(isset($_GET["choixJoueur"]) && !empty($_GET["choixJoueur"])){
-
-    $choixJoueur = $_GET["choixJoueur"];
-    $choixRandom = RandomChoice();
-
-
-
-} else {
-    header("Location: ./index.php");
-//    exit();
-}
 
 echo $html;
