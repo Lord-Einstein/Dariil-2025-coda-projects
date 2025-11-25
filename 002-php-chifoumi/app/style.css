@@ -2,12 +2,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;500&display=swap');
 
 :root {
-    /* Palette de couleurs */
-    --bg-dark: #0f0f11; /* Noir très doux, presque anthracite */
+
+    --bg-dark: #0f0f11;
     --glass-bg: rgba(20, 20, 20, 0.6);
     --glass-border: rgba(255, 215, 0, 0.15);
     
-    /* Le fameux dégradé OR Royal */
+
     --gold-gradient: linear-gradient(
         135deg, 
         #bf953f 0%, 
@@ -21,7 +21,7 @@
     --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
 }
 
-/* Reset et mise en page globale */
+
 * {
     margin: 0;
     padding: 0;
@@ -30,7 +30,7 @@
 
 body {
     background-color: var(--bg-dark);
-    /* Ajout d'un léger spot lumineux en fond pour la profondeur */
+
     background-image: radial-gradient(circle at 50% 10%, rgba(191, 149, 63, 0.15), transparent 60%);
     font-family: 'Montserrat', sans-serif;
     color: var(--text-color);
@@ -38,17 +38,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Pour éviter les scrollbars inutiles */
+    overflow: hidden;
 }
 
-/* Le Bloc Principal (La carte) */
+
 main {
     position: relative;
     width: 90%;
     max-width: 800px;
     padding: 3rem 2rem;
     
-    /* Effet Glassmorphism */
+
     background: var(--glass-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -62,7 +62,7 @@ main {
     gap: 2rem;
 }
 
-/* Titre Royal Noir et Or */
+
 h1 {
     font-family: 'Cinzel', serif;
     font-size: 2.5rem;
@@ -71,25 +71,25 @@ h1 {
     text-transform: uppercase;
     margin-bottom: 0.5rem;
     
-    /* Application du dégradé sur le texte */
+
     background: var(--gold-gradient);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     
-    /* Ombre portée pour détacher le texte */
+
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 
-/* L'écran de jeu (VOUS vs PHP) */
+
 .game-screen {
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 2rem;
     border-radius: 20px;
-    
-    /* Style lumineux Gold et soft */
+
+
     background: rgba(255, 215, 0, 0.03);
     border: 1px solid rgba(255, 215, 0, 0.2);
     box-shadow: inset 0 0 20px rgba(191, 149, 63, 0.05);
@@ -116,14 +116,14 @@ h1 {
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
 }
 
-/* Section Résultat */
+
 .winner {
     font-family: 'Cinzel', serif;
     font-size: 1.2rem;
     font-weight: 700;
-    min-height: 2em; /* Réserve la place */
+    min-height: 2em;
     
-    /* Animation et style */
+
     color: #fff;
     padding: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -132,12 +132,12 @@ h1 {
     animation: fadeInResult 0.5s ease-out forwards;
 }
 
-/* Section Contrôles (Boutons et Reset) */
+
 .game-table {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    position: relative; /* Pour positionner le reset */
+    position: relative;
 }
 
 .games {
@@ -146,14 +146,12 @@ h1 {
     gap: 1.5rem;
 }
 
-/* Stylisation des boutons de jeu (Emoji trick) */
 .games a {
     text-decoration: none;
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    
-    /* Glassmorphism boutons */
+
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -162,17 +160,17 @@ h1 {
     align-items: center;
     justify-content: center;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    
-    /* Hack pour cacher le texte et mettre l'emoji */
+
     font-size: 0; 
 }
 
-/* Ajout des Emojis via pseudo-éléments */
 .games a:nth-child(1)::before { content: '🪨'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
 .games a:nth-child(2)::before { content: '📄'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
 .games a:nth-child(3)::before { content: '✂️'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
+.games a:nth-child(4)::before { content: '🦎'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
+.games a:nth-child(5)::before { content: '🖖'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
 
-/* Effets de survol */
+
 .games a:hover {
     transform: translateY(-5px) scale(1.1);
     border-color: #bf953f;
@@ -181,20 +179,19 @@ h1 {
 }
 
 .games a:hover::before {
-    filter: grayscale(0%); /* Rend la couleur au survol */
+    filter: grayscale(0%);
 }
 
-/* Bouton Reset décalé et stylisé */
+
 .game-table > a {
     text-decoration: none;
     color: #666;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    
-    /* Positionnement décalé */
-    align-self: flex-end; /* Pousse vers la droite */
-    margin-right: -10px; /* Petit décalage hors cadre subtil */
+
+    align-self: flex-end;
+    margin-right: -10px;
     
     display: flex;
     align-items: center;
@@ -204,7 +201,7 @@ h1 {
     transition: all 0.3s ease;
 }
 
-/* Icône de reset en CSS pur */
+
 .game-table > a::before {
     content: '↻';
     font-size: 1.2rem;
@@ -216,7 +213,7 @@ h1 {
     background: rgba(255, 215, 0, 0.05);
 }
 
-/* ANIMATIONS */
+
 @keyframes fadeInResult {
     0% {
         opacity: 0;

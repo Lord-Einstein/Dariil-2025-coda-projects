@@ -6,7 +6,7 @@ $result = "";
 
 
 function RandomChoice () : string {
-    $choiceArray = ["Pierre", "Feuille", "Ciseaux"];
+    $choiceArray = ["Pierre", "Feuille", "Ciseaux", "Lezard", "Spock"];
     return $choiceArray[array_rand($choiceArray)];
 }
 function Delibarate(string $choixJoueur, string $choixRandom) : string {
@@ -14,9 +14,12 @@ function Delibarate(string $choixJoueur, string $choixRandom) : string {
         return "DUEL NUL";
     }
     else if(
-        ($choixJoueur === "Feuille" && $choixRandom === "Pierre") ||
-        ($choixJoueur === "Pierre" && $choixRandom === "Ciseaux") ||
-        ($choixJoueur === "Ciseaux" && $choixRandom === "Feuille")
+        ($choixJoueur === "Pierre" && ($choixRandom === "Ciseaux" || "Lezard")) ||
+        ($choixJoueur === "Feuille" && ($choixRandom === "Pierre" || "Spock")) ||
+        ($choixJoueur === "Ciseaux" && ($choixRandom === "Feuille" || "Lezard")) ||
+        ($choixJoueur === "Lezard" && ($choixRandom === "Feuille" || "Spock")) ||
+        ($choixJoueur === "Spock" && ($choixRandom === "Pierre" || "Ciseaux"))
+
     ) {
         return "VICTOIRE ROYALE";
     }
@@ -71,6 +74,8 @@ $html = <<<HTML
                 <a href="./index.php?choixJoueur=Pierre">Pierre</a>
                 <a href="./index.php?choixJoueur=Feuille">Feuille</a>
                 <a href="./index.php?choixJoueur=Ciseaux">Ciseaux</a>
+                <a href="./index.php?choixJoueur=Lezard">Lezard</a>
+                <a href="./index.php?choixJoueur=Spock">Spock</a>
             </div>
             <a href="./index.php">
                 Reset Games.
