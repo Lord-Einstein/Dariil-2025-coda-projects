@@ -1,7 +1,7 @@
 <?php
 
-$choixJoueur = "-----";
-$choixRandom = "-----";
+$choixJoueur = "";
+$choixRandom = "";
 $result = "";
 
 
@@ -11,7 +11,7 @@ function RandomChoice () : string {
 }
 function Delibarate(string $choixJoueur, string $choixRandom) : string {
     if($choixJoueur === $choixRandom) {
-        return "MATCH NUL";
+        return "DUEL NUL";
     }
     else if(
         ($choixJoueur === "Feuille" && $choixRandom === "Pierre") ||
@@ -34,12 +34,9 @@ if(isset($_GET["choixJoueur"]) && !empty($_GET["choixJoueur"])){
     $result = Delibarate($choixJoueur, $choixRandom);
 
 } else {
-//    header("Location: ./index.php");
-//    exit();
-
-    $choixJoueur = "";
-    $choixRandom = "";
-    $result = "";
+    $choixJoueur = "- - -";
+    $choixRandom = "- - -";
+    $result = "DO YOUR ROYAL CHOICE.";
 }
 
 
@@ -67,7 +64,7 @@ $html = <<<HTML
             </div>
         </section>
 
-        <p class="winner">PHP is Winner</p>
+        <p class="winner">$result</p>
 
         <section class="game-table">
             <div class="games">
