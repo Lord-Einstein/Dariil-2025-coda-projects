@@ -4,6 +4,12 @@ $choixJoueur = "";
 $choixRandom = "";
 $result = "";
 
+$winsJoueur = 0;
+$winsRandom = 0;
+$drawParts = 0;
+$playedParts = 0;
+$bestSerie = 0;
+
 
 function RandomChoice () : string {
     $choiceArray = ["Pierre", "Feuille", "Ciseaux", "Lezard", "Spock"];

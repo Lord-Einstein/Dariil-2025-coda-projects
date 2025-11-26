@@ -164,11 +164,11 @@ h1 {
     font-size: 0; 
 }
 
-.games a:nth-child(1)::before { content: '🪨'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
-.games a:nth-child(2)::before { content: '📄'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
-.games a:nth-child(3)::before { content: '✂️'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
-.games a:nth-child(4)::before { content: '🦎'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
-.games a:nth-child(5)::before { content: '🦸'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
+.games a:nth-child(1)::before { content: '🪨'; font-size: 2rem; filter: grayscale(50%); transition: 0.3s; }
+.games a:nth-child(2)::before { content: '📄'; font-size: 2rem; filter: grayscale(50%); transition: 0.3s; }
+.games a:nth-child(3)::before { content: '✂️'; font-size: 2rem; filter: grayscale(50%); transition: 0.3s; }
+.games a:nth-child(4)::before { content: '🦎'; font-size: 2rem; filter: grayscale(50%); transition: 0.3s; }
+.games a:nth-child(5)::before { content: '🦸'; font-size: 2rem; filter: grayscale(50%); transition: 0.3s; }
 
 
 .games a:hover {
