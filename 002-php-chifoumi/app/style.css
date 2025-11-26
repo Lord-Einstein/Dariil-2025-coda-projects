@@ -168,7 +168,7 @@ h1 {
 .games a:nth-child(2)::before { content: '📄'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
 .games a:nth-child(3)::before { content: '✂️'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
 .games a:nth-child(4)::before { content: '🦎'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
-.games a:nth-child(5)::before { content: '🖖'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
+.games a:nth-child(5)::before { content: '🦸'; font-size: 2rem; filter: grayscale(100%); transition: 0.3s; }
 
 
 .games a:hover {

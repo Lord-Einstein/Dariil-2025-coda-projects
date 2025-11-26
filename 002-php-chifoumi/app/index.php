@@ -10,17 +10,19 @@ function RandomChoice () : string {
     return $choiceArray[array_rand($choiceArray)];
 }
 function Delibarate(string $choixJoueur, string $choixRandom) : string {
+
+    $winCases = [
+        "Pierre" => ["Ciseaux", "Lezard"],
+        "Feuille" => ["Pierre", "Spock"],
+        "Ciseaux" => ["Feuille", "Lezard"],
+        "Lezard" => ["Feuille", "Spock"],
+        "Spock" => ["Pierre", "Ciseaux"]
+    ];
+
     if($choixJoueur === $choixRandom) {
         return "DUEL NUL";
     }
-    else if(
-        ($choixJoueur === "Pierre" && ($choixRandom === "Ciseaux" || "Lezard")) ||
-        ($choixJoueur === "Feuille" && ($choixRandom === "Pierre" || "Spock")) ||
-        ($choixJoueur === "Ciseaux" && ($choixRandom === "Feuille" || "Lezard")) ||
-        ($choixJoueur === "Lezard" && ($choixRandom === "Feuille" || "Spock")) ||
-        ($choixJoueur === "Spock" && ($choixRandom === "Pierre" || "Ciseaux"))
-
-    ) {
+    else if(in_array($choixRandom, $winCases[$choixJoueur])) {
         return "VICTOIRE ROYALE";
     }
     else {
