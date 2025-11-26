@@ -5,10 +5,15 @@ $choixRandom = "";
 $result = "";
 
 $winsJoueur = 0;
-$winsRandom = 0;
-$drawParts = 0;
-$playedParts = 0;
-$bestSerie = 0;
+
+$stats = [
+    "winsJoueur" => 0,
+    "winsRandom" => 0,
+    "drawParts" => 0,
+    "playedParts" => 0,
+    "serie" => 0,
+    "bestSerie" => 0
+];
 
 
 function RandomChoice () : string {
@@ -35,6 +40,41 @@ function Delibarate(string $choixJoueur, string $choixRandom) : string {
         return "DEFAITE ROYALE";
     }
 }
+function StatsFiller(string $result, array &$stats) : void {
+
+    foreach ($stats as $key => $value) {
+        $stats[$key] = (int) ($_GET[$key] ?? 0);
+    }
+
+    $stats["playedParts"]++;
+
+    switch($result) {
+        case "DUEL NUL":
+            $stats["drawParts"]++;
+            $stats["serie"] = 0;
+        break;
+
+        case "VICTOIRE ROYALE":
+            $stats["winsJoueur"]++;
+            $stats["serie"]++;
+        break;
+
+        case "DEFAITE ROYALE":
+            $stats["winsRandom"]++;
+            $stats["serie"] = 0;
+        break;
+
+        default:
+        return;
+
+    }
+
+    if($stats["bestSerie"] < $stats["serie"]) {
+        $stats["bestSerie"] = $stats["serie"];
+    }
+
+}
+
 
 
 if(isset($_GET["choixJoueur"]) && !empty($_GET["choixJoueur"])){
@@ -43,6 +83,7 @@ if(isset($_GET["choixJoueur"]) && !empty($_GET["choixJoueur"])){
     $choixRandom = RandomChoice();
 
     $result = Delibarate($choixJoueur, $choixRandom);
+    StatsFiller($result, $stats);
 
 } else {
     $choixJoueur = "- - -";
@@ -62,6 +103,7 @@ $html = <<<HTML
 
 </head>
 <body>
+
     <main>
         <h1>CHIFOUMI - ROYAL</h1>
 
@@ -79,11 +121,40 @@ $html = <<<HTML
 
         <section class="game-table">
             <div class="games">
-                <a href="./index.php?choixJoueur=Pierre">Pierre</a>
-                <a href="./index.php?choixJoueur=Feuille">Feuille</a>
-                <a href="./index.php?choixJoueur=Ciseaux">Ciseaux</a>
-                <a href="./index.php?choixJoueur=Lezard">Lezard</a>
-                <a href="./index.php?choixJoueur=Spock">Spock</a>
+                <a href="./index.php?choixJoueur=Pierre&winsJoueur={$stats["winsJoueur"]}&winsRandom={$stats["winsRandom"]}&drawParts={$stats["drawParts"]}&playedParts={$stats["playedParts"]}&serie={$stats["serie"]}&bestSerie={$stats["bestSerie"]}">Pierre</a>
+                
+                <a href="./index.php?choixJoueur=Feuille&winsJoueur={$stats['winsJoueur']}
+                    &winsRandom={$stats['winsRandom']}
+                    &drawParts={$stats['drawParts']}
+                    &playedParts={$stats['playedParts']}
+                    &serie={$stats['serie']}
+                    &bestSerie={$stats['bestSerie']}
+                ">Feuille</a>
+                
+                <a href="./index.php?choixJoueur=Ciseaux&winsJoueur={$stats['winsJoueur']}
+                    &winsRandom={$stats['winsRandom']}
+                    &drawParts={$stats['drawParts']}
+                    &playedParts={$stats['playedParts']}
+                    &serie={$stats['serie']}
+                    &bestSerie={$stats['bestSerie']}
+                ">Ciseaux</a>
+                
+                <a href="./index.php?choixJoueur=Lezard&winsJoueur={$stats['winsJoueur']}
+                    &winsRandom={$stats['winsRandom']}
+                    &drawParts={$stats['drawParts']}
+                    &playedParts={$stats['playedParts']}
+                    &serie={$stats['serie']}
+                    &bestSerie={$stats['bestSerie']}
+                ">Lezard</a>
+                
+                <a href="./index.php?choixJoueur=Spock&winsJoueur={$stats['winsJoueur']}
+                    &winsRandom={$stats['winsRandom']}
+                    &drawParts={$stats['drawParts']}
+                    &playedParts={$stats['playedParts']}
+                    &serie={$stats['serie']}
+                    &bestSerie={$stats['bestSerie']}
+                ">Spock</a>
+
             </div>
             <a href="./index.php">
                 Reset Games.
@@ -91,6 +162,35 @@ $html = <<<HTML
         </section>
 
     </main>
+    
+     <section class="stats">
+        <div class="box">
+            <p>VICTOIRE</p>
+            <p class="data">{$stats["winsJoueur"]}</p>
+        </div>
+        <div class="box">
+            <p>DEFAITE</p>
+            <p class="data">{$stats["winsRandom"]}</p>
+        </div>
+        <div class="box">
+            <p>Matchs nuls</p>
+            <p class="data">{$stats["drawParts"]}</p>
+        </div>
+        <div class="box">
+            <p>Parties totales</p>
+            <p class="data">{$stats["playedParts"]}</p>
+        </div>
+        <div class="box">
+            <p>série</p>
+            <p class="data">{$stats["serie"]}</p>
+        </div>
+        <div class="box">
+            <p>Meilleur score</p>
+            <p class="data">{$stats["bestSerie"]}</p>
+        </div>
+    </section>
+
+
 </body>
 </html>
 
