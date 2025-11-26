@@ -1,138 +1,262 @@
-/* Importation d'une police "Royale" */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;500;700&display=swap');
 
 :root {
+    --bg-dark: #0a0a0c;
+    --glass-bg: rgba(22, 22, 24, 0.75);
+    --glass-border: rgba(255, 215, 0, 0.25);
 
-    --bg-dark: #0f0f11;
-    --glass-bg: rgba(20, 20, 20, 0.6);
-    --glass-border: rgba(255, 215, 0, 0.15);
-    
+    /* Dégradé OR Royal Lumineux */
+    --gold-gradient: linear-gradient(135deg, #ffd700 0%, #fbf5b7 50%, #aa771c 100%);
+    --gold-glow: 0 0 25px rgba(255, 215, 0, 0.3);
 
-    --gold-gradient: linear-gradient(
-        135deg, 
-        #bf953f 0%, 
-        #fcf6ba 40%, 
-        #b38728 60%, 
-        #fbf5b7 80%, 
-        #aa771c 100%
-    );
-    
-    --text-color: #e0e0e0;
-    --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    /* Couleurs Stats */
+    --win-color: #2ecc71;
+    --lose-color: #e74c3c;
+    --draw-color: #95a5a6;
+
+    --text-main: #ecf0f1;
 }
 
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     background-color: var(--bg-dark);
-
-    background-image: radial-gradient(circle at 50% 10%, rgba(191, 149, 63, 0.15), transparent 60%);
+    /* Fond texturé subtil */
+    background-image:
+            radial-gradient(circle at 10% 20%, rgba(191, 149, 63, 0.1), transparent 40%),
+            radial-gradient(circle at 90% 80%, rgba(46, 204, 113, 0.05), transparent 40%);
     font-family: 'Montserrat', sans-serif;
-    color: var(--text-color);
+    color: var(--text-main);
     min-height: 100vh;
+    padding: 1rem;
+    padding-top: 3rem;
+
+    /* Centrage vertical de tout le contenu */
     display: flex;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
-    overflow: hidden;
+    justify-content: center;
+    gap: 3rem;
 }
 
+/* =========================================
+   1. SECTION STATISTIQUES (Glass & Grid)
+   ========================================= */
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 blocs par ligne */
+    gap: 1rem;
+    width: 100%;
+    max-width: 500px;
+    perspective: 1000px; /* Pour l'effet 3D */
+}
 
-main {
-    position: relative;
-    width: 90%;
-    max-width: 800px;
-    padding: 3rem 2rem;
-    
-
+.box {
     background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
-    border-radius: 30px;
-    box-shadow: var(--shadow-soft), 0 0 15px rgba(191, 149, 63, 0.1);
-    
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 15px;
+    padding: 1rem;
     text-align: center;
+    transition: transform 0.3s ease;
+
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
+.box:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 215, 0, 0.3);
+}
 
-h1 {
-    font-family: 'Cinzel', serif;
-    font-size: 2.5rem;
-    font-weight: 900;
-    letter-spacing: 2px;
+/* Titres des stats avec icônes (via before) */
+.box p:first-child {
+    font-size: 0.75rem;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
     margin-bottom: 0.5rem;
-    
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
+/* Couleurs spécifiques et icônes */
+.box:nth-child(1) p:first-child { color: var(--win-color); } /* Victoire */
+.box:nth-child(1) p:first-child::before { content: '🏆'; font-size: 2rem; position: absolute; top: -20px; left: -15px;}
+
+.box:nth-child(2) p:first-child { color: var(--lose-color); } /* Défaite */
+.box:nth-child(2) p:first-child::before { content: '💀'; font-size: 2rem; position: absolute; top: -20px; left: -15px; }
+
+.box:nth-child(3) p:first-child { color: var(--draw-color); } /* Nul */
+.box:nth-child(3) p:first-child::before { content: '⚖️'; font-size: 2rem; position: absolute; top: -20px; left: -15px; }
+
+.box:nth-child(4) p:first-child { color: #f1c40f; } /* Total */
+.box:nth-child(4) p:first-child::before { content: '🧩'; font-size: 2rem; position: absolute; top: -20px; left: -15px; }
+
+.box:nth-child(5) p:first-child { color: #e67e22; } /* Série */
+.box:nth-child(5) p:first-child::before { content: '🔥'; font-size: 2rem; position: absolute; top: -20px; left: -15px; }
+
+.box:nth-child(6) p:first-child { color: #9b59b6; } /* Best */
+.box:nth-child(6) p:first-child::before { content: '👑'; font-size: 2rem; position: absolute; top: -20px; left: -15px; }
+
+/* CHIFFRES - Animation Rolling 3D */
+.data {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #fff;
+
+    /* Effet Or Métallique sur le chiffre */
     background: var(--gold-gradient);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    
+    filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.4));
 
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    /* Animation du coffre fort */
+    display: inline-block;
+    animation: rollIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
+@keyframes rollIn {
+    0% {
+        opacity: 0;
+        transform: rotateX(-90deg) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateX(0deg) translateY(0);
+    }
+}
 
+/* =========================================
+   2. MAIN CARD (Jeu) - L'effet Royal Gold
+   ========================================= */
+main {
+    position: relative;
+    width: 100%;
+    max-width: 550px;
+    padding: 1rem 2rem;
+
+
+    /* Glassmorphism Ultra Lumineux */
+    background: rgba(25, 25, 25, 0.85);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 215, 0, 0.3); /* Bordure plus visible */
+    border-radius: 30px;
+
+    /* Glow Gold Externe */
+    box-shadow:
+            0 15px 40px rgba(0, 0, 0, 0.6),
+            0 0 30px rgba(255, 215, 0, 0.15), /* Halo doré */
+            inset 0 0 20px rgba(255, 215, 0, 0.05);
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+/* ICONE COURONNE 3D (Bord supérieur gauche) */
+main::before {
+    content: '👑';
+    position: absolute;
+    top: -70px;
+    left: -35px;
+    font-size: 4.5rem;
+
+    /* Effet 3D via filter drop-shadow */
+    filter:
+            drop-shadow(0 5px 0 #b8860b) /* Epaisseur 3D */
+            drop-shadow(0 15px 10px rgba(0,0,0,0.5)); /* Ombre portée */
+
+    transform: rotate(-15deg);
+    animation: floatCrown 3s ease-in-out infinite;
+    z-index: 10;
+}
+
+@keyframes floatCrown {
+    0%, 100% { transform: rotate(-15deg) translateY(0); }
+    50% { transform: rotate(-15deg) translateY(-8px); }
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.8rem;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+    margin-top: 1rem;
+}
+
+/* Game Screen */
 .game-screen {
     display: flex;
     justify-content: space-around;
-    align-items: center;
     padding: 2rem;
     border-radius: 20px;
-
-
-    background: rgba(255, 215, 0, 0.03);
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    box-shadow: inset 0 0 20px rgba(191, 149, 63, 0.05);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
 }
 
-.players {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
+.players h2 { font-size: 0.8rem; color: #666; letter-spacing: 2px; margin-bottom: 10px; }
+.players p { font-size: 1.4rem; font-family: 'Cinzel', serif; color: #fff; }
 
-.players h2 {
-    font-size: 0.9rem;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.players p {
-    font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-}
-
-
+/* =========================================
+   3. RESULTAT (Animation Ondulatoire)
+   ========================================= */
 .winner {
     font-family: 'Cinzel', serif;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 700;
     min-height: 2em;
-    
+    padding: 0.5rem;
 
-    color: #fff;
-    padding: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    
-    animation: fadeInResult 0.5s ease-out forwards;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 
+/* .winner span {
+    color: #2ecc71;
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+    display: inline-block;
+    animation: fluidWave 2s ease-in-out infinite;
+}
+
+@keyframes fluidWave {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.1); filter: brightness(1.3) drop-shadow(0 0 5px #2ecc71); }
+} */
+
+.bouncing-letter {
+    display: inline-block;
+    animation: bounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) alternate;
+    color: #2ecc71;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10px); text-shadow: 0 10px 10px rgba(46,204,113,0.5); }
+}
+
+/* Note: Pour une vraie ondulation lettre par lettre, il faudrait du JS
+   pour wrapper chaque lettre dans un span. Ici je fais un effet "pulse" fluide */
+
+/* =========================================
+   4. GAME TABLE & BOUTONS
+   ========================================= */
 .game-table {
     display: flex;
     flex-direction: column;
@@ -142,104 +266,117 @@ h1 {
 
 .games {
     display: flex;
-    justify-content: center;
-    gap: 1.5rem;
+    justify-content: space-between;
+    gap: 0.5rem;
 }
 
+/* Style des boutons (Emojis) */
 .games a {
     text-decoration: none;
-    width: 70px;
-    height: 70px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
-
-    background: rgba(255, 255, 255, 0.05);
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(0,0,0,0.2));
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
-    font-size: 0; 
+    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-size: 0; /* Cache le texte */
 }
 
-.games a:nth-child(1)::before { content: '🪨'; font-size: 2rem; filter: grayscale(50%); transition: 0.3s; }
-.games a:nth-child(2)::before { content: '📄'; font-size: 2rem; filter: grayscale(50%); transition: 0.3s; }
-.games a:nth-child(3)::before { content: '✂️'; font-size: 2rem; filter: grayscale(50%); transition: 0.3s; }
-.games a:nth-child(4)::before { content: '🦎'; font-size: 2rem; filter: grayscale(50%); transition: 0.3s; }
-.games a:nth-child(5)::before { content: '🦸'; font-size: 2rem; filter: grayscale(50%); transition: 0.3s; }
+/* Assignation des Emojis */
+.games a:nth-child(1)::before { content: '🪨'; }
+.games a:nth-child(2)::before { content: '📄'; }
+.games a:nth-child(3)::before { content: '✂️'; }
+.games a:nth-child(4)::before { content: '🦎'; }
+.games a:nth-child(5)::before { content: '🖖'; }
 
+.games a::before {
+    font-size: 2rem;
+    filter: grayscale(60%) opacity(1);
+    transition: 0.3s;
+}
 
+/* Survol des boutons */
 .games a:hover {
     transform: translateY(-5px) scale(1.1);
-    border-color: #bf953f;
-    box-shadow: 0 0 20px rgba(191, 149, 63, 0.4);
-    background: linear-gradient(135deg, rgba(191, 149, 63, 0.1), rgba(0,0,0,0));
+    border-color: #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
 }
+.games a:hover::before { filter: grayscale(0%) opacity(1); }
 
-.games a:hover::before {
-    filter: grayscale(0%);
-}
-
-
-.game-table > a {
-    text-decoration: none;
-    color: #666;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-
+/* BOUTON RESET (Luminous Gold & Spin) */
+.game-table > a:last-child {
     align-self: flex-end;
     margin-right: -10px;
-    
+    text-decoration: none;
+
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+
+    /* Style Gold Lumineux */
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    transition: all 0.3s ease;
+    gap: 10px;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
 }
 
-
-.game-table > a::before {
+/* Icône Reset */
+.game-table > a:last-child::before {
     content: '↻';
     font-size: 1.2rem;
-    font-weight: bold;
+    transition: transform 0.6s ease;
 }
 
-.game-table > a:hover {
-    color: #bf953f;
-    background: rgba(255, 215, 0, 0.05);
+/* Survol Reset */
+.game-table > a:last-child:hover {
+    background: rgba(255, 215, 0, 0.2);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
 }
 
-
-@keyframes fadeInResult {
-    0% {
-        opacity: 0;
-        transform: scale(0.9);
-        letter-spacing: 0px;
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-        letter-spacing: 2px;
-    }
+.game-table > a:last-child:hover::before {
+    transform: rotate(360deg); /* L'icône tourne sur elle-même */
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-    main {
-        width: 95%;
-        padding: 2rem 1rem;
-    }
-    
-    h1 {
-        font-size: 1.8rem;
-    }
-    
-    .games a {
-        width: 60px;
-        height: 60px;
+/* =========================================
+   5. RESPONSIVE (Mobile 320px+)
+   ========================================= */
+@media (max-width: 600px) {
+    body { padding: 1rem 0.5rem; gap: 2rem; }
+
+    /* Ajustement Stats */
+    .stats { width: 100%; gap: 0.5rem; }
+    .box { padding: 0.8rem 0.5rem; }
+    .box p:first-child { font-size: 0.65rem; }
+    .data { font-size: 1.4rem; }
+
+    /* Ajustement Main */
+    main { width: 100%; padding: 2.5rem 1rem; border-width: 1px; }
+    main::before { font-size: 3.5rem; top: -25px; left: -10px; }
+
+    h1 { font-size: 2rem; }
+
+    /* Ajustement Boutons Jeu */
+    .games a { width: 50px; height: 50px; }
+    .games a::before { font-size: 1.5rem; }
+
+    /* Reset button */
+    .game-table > a:last-child {
+        width: 100%;
+        justify-content: center;
+        margin-right: 0;
     }
 }

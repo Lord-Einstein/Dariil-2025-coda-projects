@@ -3,6 +3,7 @@
 $choixJoueur = "";
 $choixRandom = "";
 $result = "";
+$animatedResult = "";
 
 $winsJoueur = 0;
 
@@ -31,13 +32,13 @@ function Delibarate(string $choixJoueur, string $choixRandom) : string {
     ];
 
     if($choixJoueur === $choixRandom) {
-        return "DUEL NUL";
+        return "EGALITE";
     }
     else if(in_array($choixRandom, $winCases[$choixJoueur])) {
-        return "VICTOIRE ROYALE";
+        return "VICTOIRE";
     }
     else {
-        return "DEFAITE ROYALE";
+        return "DEFAITE";
     }
 }
 function StatsFiller(string $result, array &$stats) : void {
@@ -49,17 +50,17 @@ function StatsFiller(string $result, array &$stats) : void {
     $stats["playedParts"]++;
 
     switch($result) {
-        case "DUEL NUL":
+        case "EGALITE":
             $stats["drawParts"]++;
-            $stats["serie"] = 0;
+//            $stats["serie"] = 0;
         break;
 
-        case "VICTOIRE ROYALE":
+        case "VICTOIRE":
             $stats["winsJoueur"]++;
             $stats["serie"]++;
         break;
 
-        case "DEFAITE ROYALE":
+        case "DEFAITE":
             $stats["winsRandom"]++;
             $stats["serie"] = 0;
         break;
@@ -85,11 +86,22 @@ if(isset($_GET["choixJoueur"]) && !empty($_GET["choixJoueur"])){
     $result = Delibarate($choixJoueur, $choixRandom);
     StatsFiller($result, $stats);
 
+
+    $chars = str_split($result);
+
+    foreach ($chars as $index => $char) {
+        $delay = $index * 0.1;
+        $animatedResult .= "<span style=\"animation-delay: {$delay}s\" class=\"bouncing-letter\">{$char}</span>";
+    }
+
+
+
 } else {
     $choixJoueur = "- - -";
     $choixRandom = "- - -";
-    $result = "DO YOUR ROYAL CHOICE.";
+    $result = "CHIFOUMI ";
 }
+
 
 
 $html = <<<HTML
@@ -117,44 +129,19 @@ $html = <<<HTML
             </div>
         </section>
 
-        <p class="winner">$result</p>
+        <p class="winner"><span>$result</span> ROYALE.</p>
 
         <section class="game-table">
             <div class="games">
                 <a href="./index.php?choixJoueur=Pierre&winsJoueur={$stats["winsJoueur"]}&winsRandom={$stats["winsRandom"]}&drawParts={$stats["drawParts"]}&playedParts={$stats["playedParts"]}&serie={$stats["serie"]}&bestSerie={$stats["bestSerie"]}">Pierre</a>
                 
-                <a href="./index.php?choixJoueur=Feuille&winsJoueur={$stats['winsJoueur']}
-                    &winsRandom={$stats['winsRandom']}
-                    &drawParts={$stats['drawParts']}
-                    &playedParts={$stats['playedParts']}
-                    &serie={$stats['serie']}
-                    &bestSerie={$stats['bestSerie']}
-                ">Feuille</a>
+                <a href="./index.php?choixJoueur=Feuille&winsJoueur={$stats['winsJoueur']}&winsRandom={$stats['winsRandom']}&drawParts={$stats['drawParts']}&playedParts={$stats['playedParts']}&serie={$stats['serie']}&bestSerie={$stats['bestSerie']}">Feuille</a>
                 
-                <a href="./index.php?choixJoueur=Ciseaux&winsJoueur={$stats['winsJoueur']}
-                    &winsRandom={$stats['winsRandom']}
-                    &drawParts={$stats['drawParts']}
-                    &playedParts={$stats['playedParts']}
-                    &serie={$stats['serie']}
-                    &bestSerie={$stats['bestSerie']}
-                ">Ciseaux</a>
+                <a href="./index.php?choixJoueur=Ciseaux&winsJoueur={$stats['winsJoueur']}&winsRandom={$stats['winsRandom']}&drawParts={$stats['drawParts']}&playedParts={$stats['playedParts']}&serie={$stats['serie']}&bestSerie={$stats['bestSerie']}">Ciseaux</a>
                 
-                <a href="./index.php?choixJoueur=Lezard&winsJoueur={$stats['winsJoueur']}
-                    &winsRandom={$stats['winsRandom']}
-                    &drawParts={$stats['drawParts']}
-                    &playedParts={$stats['playedParts']}
-                    &serie={$stats['serie']}
-                    &bestSerie={$stats['bestSerie']}
-                ">Lezard</a>
+                <a href="./index.php?choixJoueur=Lezard&winsJoueur={$stats['winsJoueur']}&winsRandom={$stats['winsRandom']}&drawParts={$stats['drawParts']}&playedParts={$stats['playedParts']}&serie={$stats['serie']}&bestSerie={$stats['bestSerie']}">Lezard</a>
                 
-                <a href="./index.php?choixJoueur=Spock&winsJoueur={$stats['winsJoueur']}
-                    &winsRandom={$stats['winsRandom']}
-                    &drawParts={$stats['drawParts']}
-                    &playedParts={$stats['playedParts']}
-                    &serie={$stats['serie']}
-                    &bestSerie={$stats['bestSerie']}
-                ">Spock</a>
-
+                <a href="./index.php?choixJoueur=Spock&winsJoueur={$stats['winsJoueur']}&winsRandom={$stats['winsRandom']}&drawParts={$stats['drawParts']}&playedParts={$stats['playedParts']}&serie={$stats['serie']}&bestSerie={$stats['bestSerie']}">Spock</a>
             </div>
             <a href="./index.php">
                 Reset Games.
