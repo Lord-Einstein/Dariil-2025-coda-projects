@@ -52,7 +52,7 @@ function StatsFiller(string $result, array &$stats) : void {
     switch($result) {
         case "EGALITE":
             $stats["drawParts"]++;
-//            $stats["serie"] = 0;
+            $stats["serie"] = 0;
         break;
 
         case "VICTOIRE":
