@@ -15,9 +15,9 @@ $passwordGenerated = "";
 
 $selected_size = $default_selected;
 
+$options = generateSelectOptions($placeholder);
 
-
-function generateRandomString(array $chars, int $length): string {
+function generateRandomString(array $chars, int $length = 1): string {
     $str = '';
     $maxIndex = count($chars) - 1;
 
@@ -29,27 +29,40 @@ function generateRandomString(array $chars, int $length): string {
     return $str;
 }
 
-
 function generatePassword(int $maj_letters, int $min_letters, int $numbers, int $symbols , int $selected_size) : string {
     $maj_array = range('A', 'Z');
     $min_array = range('a', 'z');
     $num_array = range(0, 9);
-    $symbols_array = str_split(" !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ ");
+    $symbols_array = str_split("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ ");
 
-    $min_array = [];
+    $coched = 0;
+    $mix_array = [];
+
+    $password = "";
 
     if($maj_letters){
         $mix_array = array_merge($maj_array);
+        $password .= generateRandomString($maj_array);
+        $coched++;
     }if($min_letters){
         $mix_array = array_merge($min_array);
+        $password .= generateRandomString($min_array);
+        $coched++;
     }if($numbers){
         $mix_array = array_merge($num_array);
+        $password .= generateRandomString($num_array);
+        $coched++;
     }if($symbols){
         $mix_array = array_merge($symbols_array);
+        $password .= generateRandomString($symbols_array);
+        $coched++;
     }
 
-    generateRandomString($mix_array, $selected_size);
+    $password .= generateRandomString($mix_array, ($selected_size - $coched ));
+    $password = str_shuffle($password);
 
+//    if($coched === 0) {$password = "";}
+    return $password;
 }
 
 
@@ -68,25 +81,28 @@ function generateSelectOptions (string &$placeholder, int &$default_selected = 1
     return $options;
 }
 
-function recupDatas() : void {
-
-    if(isset($_POST["submit"])){
-        $maj_letters = (int) $_POST["maj_letters"] ?? 0;
-        $min_letters = (int) $_POST["min_letters"] ?? 0;
-        $numbers = (int) $_POST["numbers"] ?? 0;
-        $symbols = (int) $_POST["symbols"] ?? 0;
-
-        $selected_size = (int) $_POST["size"] ?? 0;
-    } else {
-        return;
-    }
 
 
-    $_POST = array();
+if(isset($_POST["submit"])){
 
+    $maj_letters = (int) $_POST["maj_letters"] ?? 0;
+    $min_letters = (int) $_POST["min_letters"] ?? 0;
+    $numbers = (int) $_POST["numbers"] ?? 0;
+    $symbols = (int) $_POST["symbols"] ?? 0;
+
+    $selected_size = (int) $_POST["size"] ?? 0;
+
+    $passwordGenerated = generatePassword($maj_letters, $min_letters, $numbers, $symbols, $selected_size);
+
+
+
+} else {
+    return;
 }
 
 $options = generateSelectOptions($placeholder);
+
+
 
 $html = <<<HTML
 
