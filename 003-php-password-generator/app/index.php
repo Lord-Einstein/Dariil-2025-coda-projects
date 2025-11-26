@@ -14,11 +14,43 @@ $symbols = 0;
 $passwordGenerated = "";
 
 $selected_size = $default_selected;
-$maj_array = range('A', 'Z');
-$min_array = range('a', 'z');
-$num_array = range(0, 9);
-$symbols_array = str_split(" !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ ");
 
+
+
+function generateRandomString(array $chars, int $length): string {
+    $str = '';
+    $maxIndex = count($chars) - 1;
+
+    for ($i = 0; $i < $length; $i++) {
+        $randomIndex = random_int(0, $maxIndex);
+        $str .= $chars[$randomIndex];
+    }
+
+    return $str;
+}
+
+
+function generatePassword(int $maj_letters, int $min_letters, int $numbers, int $symbols , int $selected_size) : string {
+    $maj_array = range('A', 'Z');
+    $min_array = range('a', 'z');
+    $num_array = range(0, 9);
+    $symbols_array = str_split(" !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ ");
+
+    $min_array = [];
+
+    if($maj_letters){
+        $mix_array = array_merge($maj_array);
+    }if($min_letters){
+        $mix_array = array_merge($min_array);
+    }if($numbers){
+        $mix_array = array_merge($num_array);
+    }if($symbols){
+        $mix_array = array_merge($symbols_array);
+    }
+
+    generateRandomString($mix_array, $selected_size);
+
+}
 
 
 function generateSelectOptions (string &$placeholder, int &$default_selected = 10, int $min_size = 8, int $max_size = 45) : string {
@@ -39,10 +71,10 @@ function generateSelectOptions (string &$placeholder, int &$default_selected = 1
 function recupDatas() : void {
 
     if(isset($_POST["submit"])){
-        $maj_letters = (int) $_POST["maj_array"] ?? 0;
-        $min_letters = (int) $_POST["maj_array"] ?? 0;
-        $numbers = (int) $_POST["maj_array"] ?? 0;
-        $min_array = (int) $_POST["maj_array"] ?? 0;
+        $maj_letters = (int) $_POST["maj_letters"] ?? 0;
+        $min_letters = (int) $_POST["min_letters"] ?? 0;
+        $numbers = (int) $_POST["numbers"] ?? 0;
+        $symbols = (int) $_POST["symbols"] ?? 0;
 
         $selected_size = (int) $_POST["size"] ?? 0;
     } else {
