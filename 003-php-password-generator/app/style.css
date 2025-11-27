@@ -32,7 +32,6 @@ body {
     padding: 2rem;
 }
 
-/* --- Container Principal (Glass Effect) --- */
 main {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
@@ -52,7 +51,7 @@ main {
 
 }
 
-/* Reset des fieldsets */
+
 fieldset {
     border: none;
     padding: 0;
@@ -82,8 +81,7 @@ label {
     transition: all 0.3s ease;
 }
 
-/* --- L'input PASSWORD (Le Hero) --- */
-/* Style du label pour le password */
+
 fieldset label {
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
@@ -110,7 +108,6 @@ fieldset label {
     letter-spacing: 5px;
 }
 
-/* Quand l'input a du contenu (hack CSS :not(:placeholder-shown)) */
 #password:not(:placeholder-shown) {
     border-color: var(--primary-red);
     color: var(--primary-red);
@@ -122,7 +119,6 @@ fieldset label {
     letter-spacing: 2px;
 }
 
-/* --- Select Size --- */
 #size {
     background: rgba(0, 0, 0, 0.5);
     border: 1px solid #444;
@@ -137,16 +133,14 @@ fieldset label {
     border-color: var(--primary-red);
     outline: none;
 }
-/* Style des options du menu déroulant */
 #size option {
-    background-color: #131313b8; /* Fond noir profond */
+    background-color: #131313b8;
     color: #fff;
     font-family: 'Consolas', sans-serif;
     padding: 10px;
 }
 
 
-/* --- Checkboxes & Labels (La partie complexe) --- */
 .conditions {
     display: flex;
     flex-direction: column;
@@ -158,7 +152,7 @@ fieldset label {
 }
 
 .conditions fieldset {
-    flex-direction: row-reverse; /* Aligner label et checkbox */
+    flex-direction: row-reverse;
     justify-content: space-between;
     align-items: center;
     position: relative;

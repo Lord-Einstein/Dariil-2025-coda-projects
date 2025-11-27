@@ -27,22 +27,13 @@ function ValidatePassword(array &$validators, string $password, int &$validators
     $matches = [];
     preg_match_all('/([A-Z])|([a-z])|(\d)|([^\w\s])/', $password, $matches);
 
-//    $validators["Contient au moins une lettre majuscule."] = !empty($matches[1]);
-//    $validators["Contient au moins une lettre minuscule."] = !empty($matches[2]);
-//    $validators["Contient au moins un chiffre."] = !empty($matches[3]);
-//    $validators["Contient au moins un symbole."] = !empty($matches[4]);
-
     $validators["Comporte au moins 8 caractères."] = (strlen($password) >= 8);
 
-    // 2. CORRECTION: Utilisation de array_filter pour compter les vraies trouvailles
-    // array_filter supprime les entrées vides ('') du tableau
-    // count() retourne le nombre d'éléments restants (doit être > 0 pour valider)
 
-    $validators["Contient au moins une lettre majuscule."] = (count(array_filter($matches[1])) > 0);
-    $validators["Contient au moins une lettre minuscule."] = (count(array_filter($matches[2])) > 0);
-    $validators["Contient au moins un chiffre."] = (count(array_filter($matches[3])) > 0);
-    // Note: $matches[4] contient les symboles
-    $validators["Contient au moins un symbole."] = (count(array_filter($matches[4])) > 0);
+    $validators["Contient au moins une lettre majuscule."] = (count(array_filter($matches[1])) > 0) ? true : false;
+    $validators["Contient au moins une lettre minuscule."] = (count(array_filter($matches[2])) > 0) ? true : false;
+    $validators["Contient au moins un chiffre."] = (count(array_filter($matches[3])) > 0) ? true : false;
+    $validators["Contient au moins un symbole."] = (count(array_filter($matches[4])) > 0) ? true : false;
 
     foreach($validators as $state) {
         if($state === true) {
@@ -67,7 +58,7 @@ function EditScore(int $validators_score) : string {
 
 
 if(isset($_POST["submit"])) {
-    $password = $_POST["password"] ?? "";
+    $password = $_POST["password"] ?? null;
 
     if ($password === "") {
         $html_validators = EditValidators($validators);
@@ -79,8 +70,8 @@ if(isset($_POST["submit"])) {
     }
 
 } else {
-    $html_validators = EditValidators($validators);
-    $html_validators_score = EditScore($validators_score);
+//    $html_validators = EditValidators($validators);
+        $html_validators_score = EditScore($validators_score);
 }
 
 
@@ -99,7 +90,7 @@ $html = <<<HTML
     <main>
         <form action="./validator.php" method="post">
             <fieldset class="first_field">
-                <label for="password">Password.</label>
+                <label for="password"></label>
                 <input type="text" name="password" id="password" value="{$password}" placeholder="**********" required>
             </fieldset>
 
