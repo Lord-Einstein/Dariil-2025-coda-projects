@@ -38,7 +38,7 @@ function generatePassword(int $maj_letters, int $min_letters, int $numbers, int 
     $maj_array = range('A', 'Z');
     $min_array = range('a', 'z');
     $num_array = range(0, 9);
-    $symbols_array = str_split("!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~");
+    $symbols_array = str_split("!#$%&'()*+,-./:;<=>?@[]^_`|~");
 
     $coched = 0;
     $mix_array = [];
@@ -143,13 +143,13 @@ $html = <<<HTML
         <form action="./" method="post">
             <fieldset>
                 <label for="password">Password.</label>
-                <input type="text"  id="password" value="{$passwordGenerated}" readonly>
+                <input type="text"  id="password" value="{$passwordGenerated}" readonly placeholder="************">
             </fieldset>
 
             <button type="submit" name="submit">Genarate.</button>
             
              <fieldset>
-                <label for="size">Generated text size.</label>
+                <label for="size">size.</label>
                 <select name="size" id="size" aria-label="The generated default text size.">
                     {$options}
                 </select>

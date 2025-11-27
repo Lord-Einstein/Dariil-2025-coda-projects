@@ -28,7 +28,7 @@ body {
     justify-content: center;
     align-items: center;
     color: #fff;
-    overflow: hidden;
+    overflow: visible;
     padding: 2rem;
 }
 
@@ -50,7 +50,6 @@ main {
     gap: 1rem;
     position: relative;
 
-    max-height: 90%;
 }
 
 /* Reset des fieldsets */
@@ -66,7 +65,7 @@ fieldset {
 .legend {
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.8rem;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 0 0 10px var(--primary-red);
@@ -95,7 +94,7 @@ fieldset label {
 #password {
     width: 100%;
     background: rgba(0, 0, 0, 0.8);
-    border: 2px solid #333;
+    border: 1px solid #333;
     border-radius: 8px;
     padding: 15px;
     font-size: 1.5rem;
@@ -107,7 +106,7 @@ fieldset label {
 }
 
 #password::placeholder {
-    color: rgba(196, 31, 31, 0.696);
+    color: rgba(196, 31, 31, 0.8);
     letter-spacing: 5px;
 }
 
@@ -117,9 +116,9 @@ fieldset label {
     color: var(--primary-red);
     background: rgba(20, 0, 0, 0.6);
     box-shadow:
-            0 0 20px var(--primary-red-glow),
+            0 0 10px var(--primary-red-glow),
             inset 0 0 15px rgba(255, 42, 42, 0.2);
-    text-shadow: 0 0 10px var(--primary-red);
+    text-shadow: 0 0 5px var(--primary-red);
     letter-spacing: 2px;
 }
 
@@ -199,10 +198,10 @@ fieldset label {
     justify-content: center;
     box-shadow: 0 0 5px var(--primary-red-glow);
     transition: all 0.3s ease;
-    overflow: hidden; /* Pour contenir le saut */
+    overflow: hidden;
 }
 
-/* Checkbox cochée : Bordure verte */
+
 .conditions input[type="checkbox"]:checked {
     border-color: var(--primary-green);
     box-shadow: 0 0 5px var(--primary-green-glow);
@@ -249,7 +248,7 @@ button[type="submit"] {
     cursor: pointer;
     overflow: hidden;
     transition: all 0.3s ease;
-    /* clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%); */
+    /*clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);*/
 }
 
 button[type="submit"]::before {
@@ -264,7 +263,7 @@ button[type="submit"]::before {
 
 button[type="submit"]:hover {
     border-color: var(--primary-red);
-    box-shadow: 0 0 30px var(--primary-red-glow);
+    box-shadow: 0 0 10px var(--primary-red-glow);
     text-shadow: 0 0 5px white;
 }
 
@@ -272,14 +271,13 @@ button[type="submit"]:hover::before {
     transform: translateX(0);
 }
 
-/* --- Bouton VALIDATEUR (Lien) --- */
+
 a[href="./validator.php"] {
     font-family: 'Courier New', Courier, monospace;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    /* Positionnement Absolu en bas à gauche */
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -290,7 +288,6 @@ a[href="./validator.php"] {
     text-decoration: none;
     color: #fff;
 
-    /* Fond de base sombre + Bordure rouge */
     background: rgba(0,0,0,0.6);
     border: 1px solid var(--primary-red);
 
@@ -298,35 +295,31 @@ a[href="./validator.php"] {
     letter-spacing: 1px;
     font-size: 1rem;
 
-    /* ESSENTIEL pour l'effet de remplissage */
     overflow: hidden;
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-/* Le calque rouge qui glisse (Exactement comme le bouton Generate) */
+
 a[href="./validator.php"]::before {
     content: '';
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     background: var(--primary-red);
     z-index: -1;
-    transform: translateX(-105%); /* Caché à gauche */
+    transform: translateX(-105%);
     transition: transform 0.3s ease;
 }
 
-/* Au survol : le calque rouge remplit le bouton */
 a[href="./validator.php"]:hover {
     box-shadow: 0 0 20px var(--primary-red-glow);
-    text-shadow: 0 0 5px white; /* Texte qui brille comme Generate */
-    /* On enlève le translateY pour que ce soit stable comme Generate */
+    text-shadow: 0 0 5px white;
 }
 
 a[href="./validator.php"]:hover::before {
-    transform: translateX(0); /* Le rouge arrive */
+    transform: translateX(0);
 }
 
-/* La flèche (Je l'ai gardée car elle est utile pour la navigation) */
 a[href="./validator.php"]::after {
     content: '➔';
     margin-left: 10px;
@@ -335,5 +328,7 @@ a[href="./validator.php"]::after {
 }
 
 a[href="./validator.php"]:hover::after {
-    transform: translateX(5px); /* Petite animation de la flèche en plus */
+    transform: translateX(5px);
 }
+
+
