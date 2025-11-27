@@ -143,7 +143,7 @@ $html = <<<HTML
         <form action="./" method="post">
             <fieldset>
                 <label for="password">Password.</label>
-                <input type="text"  id="password" value="{$passwordGenerated}" readonly placeholder="************">
+                <input type="text"  id="password" name="password" value="{$passwordGenerated}" readonly placeholder="************">
             </fieldset>
 
             <button type="submit" name="submit">Genarate.</button>
@@ -175,7 +175,7 @@ $html = <<<HTML
             </div>
         </form>
     </main>
-    <a href="./validator.php">VALIDATOR.</a>
+    <a href="./validator.php?password={$passwordGenerated}">VALIDATOR.</a>
 </body>
 </html>
 

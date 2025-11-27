@@ -3,6 +3,7 @@
 const VALIDATORS_VALUE = 5;
 $validators_score = 0;
 
+$password = "";
 $html_validators = "";
 $html_validators_score = "";
 
@@ -15,6 +16,9 @@ $validators = [
 ];
 
 
+$password = $_GET["password"] ?? null;
+$html_validators = EditValidators($validators);
+$html_validators_score = EditScore($validators_score);
 
 function ValidatePassword(array &$validators, string $password, int &$validators_score): void {
 
@@ -60,6 +64,18 @@ function EditScore(int $validators_score) : string {
     return (string)($validators_score*VALIDATORS_VALUE);
 }
 
+
+if(isset($_POST["submit"])) {
+    $password = $_POST["password"] ?? null;
+
+    if($password){
+        validatePassword($validators, $password, $validators_score);
+        $html_validators = EditValidators($validators);
+        $html_validators_score = EditScore($validators_score);
+    }
+}
+
+
 $html = <<<HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -76,19 +92,15 @@ $html = <<<HTML
         <form action="./validator.php" method="post">
             <fieldset class="first_field">
                 <label for="password">Password.</label>
-                <input type="text" name="password" id="password" placeholder="**********" required>
+                <input type="text" name="password" id="password" value="{$password}" placeholder="**********" required>
             </fieldset>
 
-            <button type="submit">Validate.</button>
+            <button type="submit" name="submit">Validate.</button>
         </form>
 
         <div class="valid_blocs">
-            <p class="note_lign"><span class="note">20</span>/100</p>
-            <p>Comporte au moins 8 caractères.</p>
-            <p>Contient au moins une lettre majuscule.</p>
-            <p>Contient au moins une lettre minuscule.</p>
-            <p>Contient au moins un chiffre.</p>
-            <p>Contient au moins un symbole.</p>
+            <p class="note_lign"><span class="note">{$html_validators_score}</span>/100</p>
+            {$html_validators}
         </div>
 
     </main>
