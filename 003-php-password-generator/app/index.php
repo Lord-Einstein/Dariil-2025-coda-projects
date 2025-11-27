@@ -175,7 +175,7 @@ $html = <<<HTML
             </div>
         </form>
     </main>
-    <a href="./validator.php">validateur.</a>
+    <a href="./validator.php">VALIDATOR.</a>
 </body>
 </html>
 
