@@ -272,7 +272,7 @@ button[type="submit"]:hover::before {
 }
 
 
-a[href="./validator.php"] {
+.validator {
     font-family: 'Courier New', Courier, monospace;
     display: inline-flex;
     align-items: center;
@@ -292,8 +292,9 @@ a[href="./validator.php"] {
     border: 1px solid var(--primary-red);
 
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 4px;
     font-size: 1rem;
+    font-weight: bold;
 
     overflow: hidden;
     transition: all 0.3s ease;
@@ -301,7 +302,7 @@ a[href="./validator.php"] {
 }
 
 
-a[href="./validator.php"]::before {
+.validator::before {
     content: '';
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -311,23 +312,23 @@ a[href="./validator.php"]::before {
     transition: transform 0.3s ease;
 }
 
-a[href="./validator.php"]:hover {
+.validator:hover {
     box-shadow: 0 0 20px var(--primary-red-glow);
     text-shadow: 0 0 5px white;
 }
 
-a[href="./validator.php"]:hover::before {
+.validator:hover::before {
     transform: translateX(0);
 }
 
-a[href="./validator.php"]::after {
+.validator::after {
     content: '➔';
     margin-left: 10px;
     font-size: 1rem;
     transition: transform 0.3s ease;
 }
 
-a[href="./validator.php"]:hover::after {
+.validator:hover::after {
     transform: translateX(5px);
 }
 

@@ -1,6 +1,8 @@
 <?php
 
 const VALIDATORS_VALUE = 5;
+//const TOTAL_SCORE = VALIDATORS_VALUE * 5;
+
 $validators_score = 0;
 
 $password = "";
@@ -17,8 +19,8 @@ $validators = [
 
 
 $password = $_GET["password"] ?? null;
-$html_validators = EditValidators($validators);
-$html_validators_score = EditScore($validators_score);
+//$html_validators = EditValidators($validators);
+//$html_validators_score = EditScore($validators_score);
 
 function ValidatePassword(array &$validators, string $password, int &$validators_score): void {
 
@@ -26,8 +28,10 @@ function ValidatePassword(array &$validators, string $password, int &$validators
         $validators["Comporte au moins 8 caractères."] = true;
     }
 
+    $matches = [];
+
     preg_match_all('/([A-Z])|([a-z])|(\d)|(\W)/', $password, $matches);
-    if(!empty($matches[0])) {
+    if(empty($matches[0])) {
         return;
     } else {
         if(!empty($matches[1])) {
@@ -53,10 +57,9 @@ function EditValidators(array $validators) : string {
     $all_validators = "";
     $class = "RED";
     foreach($validators as $description => $state) {
-        if($state) { $class = "GREEN";}
-        $all_validators .= "<p class=\"{$class}\">{$description}</p>";
+        if(((bool)$state) === true) { $class = "GREEN";}
+        $all_validators .= "<p class=\"$class\">$description</p>";
     }
-
     return $all_validators;
 }
 
@@ -68,7 +71,7 @@ function EditScore(int $validators_score) : string {
 if(isset($_POST["submit"])) {
     $password = $_POST["password"] ?? null;
 
-    if($password){
+    if($password != null){
         validatePassword($validators, $password, $validators_score);
         $html_validators = EditValidators($validators);
         $html_validators_score = EditScore($validators_score);
@@ -83,7 +86,7 @@ $html = <<<HTML
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Generator</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style2.css">
 </head>
 <body>
     

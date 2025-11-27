@@ -175,7 +175,7 @@ $html = <<<HTML
             </div>
         </form>
     </main>
-    <a href="./validator.php?password={$passwordGenerated}">VALIDATOR.</a>
+    <a class="validator" href="./validator.php?password={$passwordGenerated}">VALIDATOR.</a>
 </body>
 </html>
 
