@@ -1,7 +1,6 @@
 <?php
 
-const VALIDATORS_VALUE = 5;
-//const TOTAL_SCORE = VALIDATORS_VALUE * 5;
+const VALIDATORS_VALUE = 20;
 
 $validators_score = 0;
 
@@ -19,35 +18,34 @@ $validators = [
 
 
 $password = $_GET["password"] ?? null;
-//$html_validators = EditValidators($validators);
-//$html_validators_score = EditScore($validators_score);
+
 
 function ValidatePassword(array &$validators, string $password, int &$validators_score): void {
 
-    if(strlen($password) >= 8) {
-        $validators["Comporte au moins 8 caractères."] = true;
-    }
+    $validators_score = 0;
 
     $matches = [];
+    preg_match_all('/([A-Z])|([a-z])|(\d)|([^\w\s])/', $password, $matches);
 
-    preg_match_all('/([A-Z])|([a-z])|(\d)|(\W)/', $password, $matches);
-    if(empty($matches[0])) {
-        return;
-    } else {
-        if(!empty($matches[1])) {
-            $validators["Contient au moins une lettre majuscule."] = true;
-            $validators_score += VALIDATORS_VALUE;
-        }
-        if(!empty($matches[2])) {
-            $validators["Contient au moins une lettre minuscule."] = true;
-            $validators_score += VALIDATORS_VALUE;
-        }
-        if(!empty($matches[3])) {
-            $validators["Contient au moins un chiffre."] = true;
-            $validators_score += VALIDATORS_VALUE;
-        }
-        if(!empty($matches[4])) {
-            $validators["Contient au moins un symbole."] = true;
+//    $validators["Contient au moins une lettre majuscule."] = !empty($matches[1]);
+//    $validators["Contient au moins une lettre minuscule."] = !empty($matches[2]);
+//    $validators["Contient au moins un chiffre."] = !empty($matches[3]);
+//    $validators["Contient au moins un symbole."] = !empty($matches[4]);
+
+    $validators["Comporte au moins 8 caractères."] = (strlen($password) >= 8);
+
+    // 2. CORRECTION: Utilisation de array_filter pour compter les vraies trouvailles
+    // array_filter supprime les entrées vides ('') du tableau
+    // count() retourne le nombre d'éléments restants (doit être > 0 pour valider)
+
+    $validators["Contient au moins une lettre majuscule."] = (count(array_filter($matches[1])) > 0);
+    $validators["Contient au moins une lettre minuscule."] = (count(array_filter($matches[2])) > 0);
+    $validators["Contient au moins un chiffre."] = (count(array_filter($matches[3])) > 0);
+    // Note: $matches[4] contient les symboles
+    $validators["Contient au moins un symbole."] = (count(array_filter($matches[4])) > 0);
+
+    foreach($validators as $state) {
+        if($state === true) {
             $validators_score += VALIDATORS_VALUE;
         }
     }
@@ -55,27 +53,34 @@ function ValidatePassword(array &$validators, string $password, int &$validators
 
 function EditValidators(array $validators) : string {
     $all_validators = "";
-    $class = "RED";
+
     foreach($validators as $description => $state) {
-        if(((bool)$state) === true) { $class = "GREEN";}
-        $all_validators .= "<p class=\"$class\">$description</p>";
+        $class = ($state===true) ? "GREEN" : "RED";
+        $all_validators .= "<p class=\"$class\">$description</p>\n";
     }
     return $all_validators;
 }
 
 function EditScore(int $validators_score) : string {
-    return (string)($validators_score*VALIDATORS_VALUE);
+    return (string)($validators_score);
 }
 
 
 if(isset($_POST["submit"])) {
-    $password = $_POST["password"] ?? null;
+    $password = $_POST["password"] ?? "";
 
-    if($password != null){
+    if ($password === "") {
+        $html_validators = EditValidators($validators);
+        $html_validators_score = EditScore(0);
+    } else {
         validatePassword($validators, $password, $validators_score);
         $html_validators = EditValidators($validators);
         $html_validators_score = EditScore($validators_score);
     }
+
+} else {
+    $html_validators = EditValidators($validators);
+    $html_validators_score = EditScore($validators_score);
 }
 
 
