@@ -1,0 +1,339 @@
+
+:root {
+    --primary-red: #ff2a2a;
+    --primary-red-glow: rgba(255, 42, 42, 0.6);
+    --primary-green: #00ffcc;
+    --primary-green-glow: rgba(0, 255, 204, 0.5);
+    --dark-bg: #0a0a0a;
+    --glass-bg: rgba(20, 20, 20, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Consolas', sans-serif;
+    background-color: var(--dark-bg);
+    /* Fond complexe : dégradé radial sombre + touche de rouge lumineux */
+    background-image:
+            radial-gradient(circle at 50% 50%, rgba(50, 0, 0, 0.7) 0%, #000000 90%);
+    background-size: cover, 40px 40px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    overflow: hidden;
+    padding: 2rem;
+}
+
+/* --- Container Principal (Glass Effect) --- */
+main {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-top: 1px solid rgba(255, 42, 42, 0.3);
+    border-bottom: 1px solid rgba(255, 42, 42, 0.3);
+    box-shadow: 0 0 0px rgba(255, 0, 0, 0.15);
+    padding: 2rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+
+    max-height: 90%;
+}
+
+/* Reset des fieldsets */
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.legend {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px var(--primary-red);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+}
+
+label {
+    text-transform: uppercase;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* --- L'input PASSWORD (Le Hero) --- */
+/* Style du label pour le password */
+fieldset label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#password {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 1.5rem;
+    color: rgba(196, 31, 31, 0.696);
+    text-align: center;
+    outline: none;
+    transition: all 0.4s ease;
+    box-shadow: inset 0 0 20px rgba(0,0,0,1);
+}
+
+#password::placeholder {
+    color: rgba(196, 31, 31, 0.696);
+    letter-spacing: 5px;
+}
+
+/* Quand l'input a du contenu (hack CSS :not(:placeholder-shown)) */
+#password:not(:placeholder-shown) {
+    border-color: var(--primary-red);
+    color: var(--primary-red);
+    background: rgba(20, 0, 0, 0.6);
+    box-shadow:
+            0 0 20px var(--primary-red-glow),
+            inset 0 0 15px rgba(255, 42, 42, 0.2);
+    text-shadow: 0 0 10px var(--primary-red);
+    letter-spacing: 2px;
+}
+
+/* --- Select Size --- */
+#size {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+#size:focus {
+    border-color: var(--primary-red);
+    outline: none;
+}
+/* Style des options du menu déroulant */
+#size option {
+    background-color: #131313b8; /* Fond noir profond */
+    color: #fff;
+    font-family: 'Consolas', sans-serif;
+    padding: 10px;
+}
+
+
+/* --- Checkboxes & Labels (La partie complexe) --- */
+.conditions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+    border-radius: 0px 0px 12px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.171);
+}
+
+.conditions fieldset {
+    flex-direction: row-reverse; /* Aligner label et checkbox */
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* Style par défaut du label (Non coché = Rouge lumineux léger) */
+.conditions label {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 500;
+    color: #ffc0c0;
+    text-shadow: 0 0 2px var(--primary-red);
+    flex: 1;
+}
+
+/* Style du label quand coché (Vert lumineux) */
+/* Utilisation de :has() pour cibler le label parent/précédent */
+.conditions fieldset:has(input:checked) label {
+    color: var(--primary-green);
+    text-shadow: 0 0 8px var(--primary-green);
+    opacity: 1;
+    transform: translateX(5px); /* Petite animation de décalage */
+}
+
+/* Custom Checkbox Container */
+.conditions input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 30px;
+    height: 30px;
+    background: #000;
+    border: 1.5px solid var(--primary-red);
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 5px var(--primary-red-glow);
+    transition: all 0.3s ease;
+    overflow: hidden; /* Pour contenir le saut */
+}
+
+/* Checkbox cochée : Bordure verte */
+.conditions input[type="checkbox"]:checked {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 5px var(--primary-green-glow);
+}
+
+/* L'icône Shield (Bouclier) */
+.conditions input[type="checkbox"]::after {
+    content: '🛡️';
+    font-size: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 200%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+}
+
+/* Animation du bouclier quand coché */
+.conditions input[type="checkbox"]:checked::after {
+    transform: translate(-50%, -50%); /* Revient au centre */
+    animation: shieldBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes shieldBounce {
+    0% { transform: translate(-50%, 150%) scale(0.5); }
+    60% { transform: translate(-50%, -60%) scale(1.2); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+
+/* --- Bouton GENERATE --- */
+button[type="submit"] {
+    margin: 10px auto;
+    padding: 10px 25px;
+    background: transparent;
+    color: #fff;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    border: .5px solid #e6e6e6c7;
+    position: relative;
+    left: 30%;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    /* clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%); */
+}
+
+button[type="submit"]::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--primary-red);
+    z-index: -1;
+    transform: translateX(-105%);
+    transition: transform 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    border-color: var(--primary-red);
+    box-shadow: 0 0 30px var(--primary-red-glow);
+    text-shadow: 0 0 5px white;
+}
+
+button[type="submit"]:hover::before {
+    transform: translateX(0);
+}
+
+/* --- Bouton VALIDATEUR (Lien) --- */
+a[href="./validator.php"] {
+    font-family: 'Courier New', Courier, monospace;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Positionnement Absolu en bas à gauche */
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    margin: 0;
+
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+
+    /* Fond de base sombre + Bordure rouge */
+    background: rgba(0,0,0,0.6);
+    border: 1px solid var(--primary-red);
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1rem;
+
+    /* ESSENTIEL pour l'effet de remplissage */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* Le calque rouge qui glisse (Exactement comme le bouton Generate) */
+a[href="./validator.php"]::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--primary-red);
+    z-index: -1;
+    transform: translateX(-105%); /* Caché à gauche */
+    transition: transform 0.3s ease;
+}
+
+/* Au survol : le calque rouge remplit le bouton */
+a[href="./validator.php"]:hover {
+    box-shadow: 0 0 20px var(--primary-red-glow);
+    text-shadow: 0 0 5px white; /* Texte qui brille comme Generate */
+    /* On enlève le translateY pour que ce soit stable comme Generate */
+}
+
+a[href="./validator.php"]:hover::before {
+    transform: translateX(0); /* Le rouge arrive */
+}
+
+/* La flèche (Je l'ai gardée car elle est utile pour la navigation) */
+a[href="./validator.php"]::after {
+    content: '➔';
+    margin-left: 10px;
+    font-size: 1rem;
+    transition: transform 0.3s ease;
+}
+
+a[href="./validator.php"]:hover::after {
+    transform: translateX(5px); /* Petite animation de la flèche en plus */
+}

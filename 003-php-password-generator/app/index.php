@@ -122,7 +122,7 @@ if(isset($_POST["submit"])){
 
 
 } else {
-    echo "VIDE \n";
+    $passwordGenerated = null;
 }
 
 
@@ -138,11 +138,10 @@ $html = <<<HTML
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <h1 class="legend">Password Generator.</h1>
     <main>
         <form action="./" method="post">
             <fieldset>
-                <legend>Password Generator.</legend>
-
                 <label for="password">Password.</label>
                 <input type="text"  id="password" value="{$passwordGenerated}" readonly>
             </fieldset>
@@ -176,6 +175,7 @@ $html = <<<HTML
             </div>
         </form>
     </main>
+    <a href="./validator.php">validateur.</a>
 </body>
 </html>
 
