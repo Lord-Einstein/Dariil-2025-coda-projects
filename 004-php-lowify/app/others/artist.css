@@ -1,0 +1,98 @@
+.artist-banner {
+    position: relative;
+    height: 50vh;
+    display: flex;
+    align-items: flex-end;
+    margin-top: 0; /* Override container margin */
+}
+.bg-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+.banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 0%, var(--bg-deep) 100%);
+    z-index: -1;
+}
+.artist-header-content {
+    margin-bottom: 2rem;
+    width: 100%;
+}
+.artist-header-content h1 {
+    font-size: 4rem;
+    font-weight: 800;
+}
+.verified {
+    color: var(--gold-main);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid white;
+    color: white;
+    padding: 10px 24px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.content-split {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    margin-top: 2rem;
+}
+
+/* Track List Style */
+.track-row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    transition: 0.2s;
+    border-bottom: 1px solid var(--glass-border);
+}
+.track-row:hover {
+    background: var(--glass-bg);
+}
+.track-num {
+    width: 30px;
+    color: var(--text-muted);
+}
+.track-row img {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    border-radius: 2px;
+}
+.track-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.track-info .title {
+    color: white;
+    font-weight: 500;
+}
+.track-info .views {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+.duration {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .content-split {
+        grid-template-columns: 1fr;
+    }
+}
