@@ -1,0 +1,27 @@
+.error-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+}
+
+.glass-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 3rem 5rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+}
+
+.glass-box h1 {
+    font-size: 6rem;
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.glass-box p {
+    margin-bottom: 2rem;
+    color: var(--text-muted);
+}

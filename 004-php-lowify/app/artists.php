@@ -24,7 +24,7 @@ try {
         password: $password
     );
 } catch (PDOException $e) {
-    //...
+    echo "ERREUR DE CONNEXION BDD" . $e->getMessage();
 }
 
 // Now i run the query
@@ -36,7 +36,7 @@ try{
         SQL
     );
 } catch (PDOException $e) {
-    //...
+    echo "ERREUR DE QUERY" . $e->getMessage();
 }
 
 //And i generate the html
