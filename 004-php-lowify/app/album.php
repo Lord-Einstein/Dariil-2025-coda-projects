@@ -106,7 +106,7 @@ if(isset($_GET["id"])){
                 <h1>$albumName</h1>
                 <div class="album-meta">
                     <img src="$artistCover" class="artist-mini" alt=""> 
-                    <a href="artist.php?id={$artistId}">$artistName</a> •  $releaseMonth - $releaseYear • $totalSong titres • $durationFormat
+                    <a href="artist.php?id={$artistId}"> $artistName </a> •  $releaseMonth - $releaseYear • $totalSong titres • $durationFormat
                 </div>
                 <div class="album-actions">
                     <button class="btn-gold play-all">▶ Lire</button>

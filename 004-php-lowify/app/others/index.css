@@ -1,0 +1,122 @@
+/* Hero Spécifique */
+.hero-section {
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(
+            circle at center,
+            rgba(212, 175, 55, 0.15) 0%,
+            transparent 70%
+    );
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    letter-spacing: -2px;
+}
+.hero-content p {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+/* Barre de recherche Glass */
+.search-wrapper {
+    display: flex;
+    gap: 10px;
+    padding: 8px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+.search-wrapper input {
+    background: transparent;
+    border: none;
+    color: white;
+    flex: 1;
+    padding-left: 15px;
+    outline: none;
+}
+
+/* Grilles & Cartes */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+}
+.section-header h2 {
+    font-size: 2rem;
+    font-weight: 300;
+}
+.view-all {
+    color: var(--gold-main);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.glass-card {
+    transition: 0.3s;
+    cursor: pointer;
+}
+.glass-card:hover {
+    transform: translateY(-5px);
+}
+.card-image {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    aspect-ratio: 1/1;
+}
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+}
+.glass-card:hover img {
+    opacity: 0.6;
+}
+
+.play-hover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: var(--gold-main);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    opacity: 0;
+    transition: 0.3s;
+}
+.glass-card:hover .play-hover {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.card-info h3 {
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+.card-info p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
