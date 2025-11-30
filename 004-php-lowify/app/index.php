@@ -33,23 +33,12 @@ function formatCompact(int $number): string {
         return (string)$number;
     }
 
-    //Si ma décimale est pas propre, je remets une virgule
     if ($formatted == floor($formatted)) {
-        return "+ " . floor($formatted) . $suffix;
+        return floor($formatted) . $suffix;
     } else {
-        return "+ " . number_format($formatted, 1) . $suffix;
+        return number_format($formatted, 1) . $suffix;
     }
 }
-function formatDuration(int $seconds): string
-{
-    $minutes = floor($seconds / 60);
-    $remainingSeconds = $seconds % 60;
-
-    //faut aussi mettre mes secondes sur deux caractères... merci str_pad ;)
-    $formattedSeconds = str_pad($remainingSeconds, 2, "0", STR_PAD_LEFT);
-    return $minutes . " m : " . $formattedSeconds . " s";
-}
-
 
 try{
     $db = new DatabaseManager(
@@ -57,13 +46,11 @@ try{
         username : $username,
         password: $password
     );
-
 }catch (PDOException $e){
     echo "ERREUR DE CONNEXION BDD" . $e->getMessage();
 }
 
-//Top artists
-
+// Top artists
 try{
     $trends = $db -> executeQuery(<<<SQL
         SELECT *
@@ -76,32 +63,28 @@ try{
 }
 
 foreach($trends as $trend){
-
     $id = $trend["id"];
     $name = $trend["name"];
     $cover = $trend["cover"];
     $listeners = $trend["monthly_listeners"];
-
     $listenersFormatted = formatCompact($listeners);
 
     $trendsHtml .= <<<HTML
-         <article class="card glass-card">
+         <article class="card fade-in">
                 <div class="card-image">
                     <a href="artist.php?id={$id}">
-                        <img src="$cover" alt="Artist Cover">
+                        <img src="{$cover}" alt="{$name}" loading="lazy">
                     </a>
                 </div>
                 <div class="card-info">
-                    <h3>$name</h3>
-                    <p>$listenersFormatted Followers</p>
+                    <h3>{$name}</h3>
+                    <p>{$listenersFormatted} auditeurs</p>
                 </div>
         </article>
     HTML;
-
 }
 
-//top albums on release_date
-
+// Top albums on release_date
 try{
     $outers = $db -> executeQuery(<<<SQL
         SELECT *, YEAR(album.release_date) AS year, MONTHNAME(album.release_date) AS month
@@ -121,24 +104,21 @@ foreach($outers as $outer){
     $month = $outer["month"];
 
     $outersHtml .= <<<HTML
-         <article class="card glass-card">
+         <article class="card fade-in">
             <div class="card-image">
                 <a href="album.php?id={$id}">
-                    <img src="$cover" alt="Album">
-                    <div class="play-hover">▶</div>
+                    <img src="{$cover}" alt="{$name}" loading="lazy">
                 </a>
             </div>
             <div class="card-info">
-                <h3>$name</h3>
-                <p>$month $year</p>
+                <h3>{$name}</h3>
+                <p>{$month} {$year}</p>
             </div>
         </article>
     HTML;
-
 }
 
-//top albums on AVG(notes)
-
+// Top albums on AVG(notes)
 try{
     $albums = $db -> executeQuery(<<<SQL
         SELECT album.id, album.name, album.cover, ROUND(AVG(song.note), 2) AS moyenne
@@ -160,87 +140,92 @@ foreach($albums as $album){
     $moyenne = $album["moyenne"];
 
     $albumsHtml .= <<<HTML
-         <article class="card glass-card">
+         <article class="card fade-in">
             <div class="card-image">
                 <a href="album.php?id={$id}">
-                    <img src="$cover" alt="Album">
-                    <div class="play-hover">▶</div>
+                    <img src="{$cover}" alt="{$name}" loading="lazy">
                 </a>
             </div>
             <div class="card-info">
-                <h3>$name</h3>
-                <p>$moyenne ⭐</p>
+                <h3>{$name}</h3>
+                <p>⭐ {$moyenne}</p>
             </div>
         </article>
     HTML;
-
 }
-
-
-
 
 $htmlHead = <<<HTML
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Retrouvez vos meilleures musiques sur Lowify & Darill.">
+    <meta name="description" content="Découvrez les meilleures musiques sur Lowify & Darill.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 HTML;
 
 $html = <<<HTML
     <nav class="navbar">
         <a href="./index.php" class="logo">L<span>&</span>D</a>
-        <button class="mobile-toggle">☰</button>
+        <button class="mobile-toggle" aria-label="Toggle menu">☰</button>
         <ul class="nav-links">
             <li><a href="./index.php" class="active">Accueil</a></li>
             <li><a href="./artists.php">Artistes</a></li>
-            <li><a href="./search.php">Recherche</a></li>
+<!--            <li><a href="./search.php">Recherche</a></li>-->
         </ul>
     </nav>
 
     <header class="hero-section">
-        <div class="hero-content animate-on-scroll">
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay muted loop >
+                <source src="./assets/v1.mp4" type="video/mp4">
+            </video>
+        </div>
+        
+        <div class="hero-content">
             <h1>Feel the <span class="gold-text">Vibe</span>.</h1>
-            <p>Découvrez les pépites musicales du moment.</p>
-           <form action="./search.php" method="GET">
-                <div class="search-wrapper glass-panel">
-                    <input type="text" name="query" id="query" placeholder="Rechercher un artiste, un titre...">
+            <p class="bounce">Découvrez les pépites musicales du moment.</p>
+            <form action="./search.php" method="GET">
+                <div class="search-wrapper">
+                    <input type="text" name="query" id="query" placeholder="Rechercher un artiste, un titre..." autocomplete="off">
                     <button class="btn-gold" type="submit" name="submit">Go</button>
                 </div>
-           </form>
+            </form>
         </div>
     </header>
     
-     <main class="container">
-        <section class="trends animate-on-scroll">
+    <main class="container">
+        <section class="trends">
             <div class="section-header">
-                <h2>Top Artistes Tendances...</h2>
-                <a href="./artists.php" class="view-all">Voir tout</a>
+                <h2>Top Artistes</h2>
+                <a href="./artists.php" class="view-all btn-glass-gold">Voir tout →</a>
             </div>
             <div class="card-grid">
                 {$trendsHtml}
             </div>
+            
             <div class="section-header">
-                <h2>Top Recent Outers...</h2>
+                <h2>Dernières Sorties</h2>
             </div>
             <div class="card-grid">
                {$outersHtml}
             </div>
+            
             <div class="section-header">
-                <h2>Top Best Albums...</h2>
+                <h2>Meilleurs Albums</h2>
             </div>
             <div class="card-grid">
                {$albumsHtml}
             </div>
         </section>
     </main>
-        
 
 HTML;
 
-
-echo (new HTMLPage(title: "Acceuil"))
-->addContent($html)
-->addHead($htmlHead)
-->addStylesheet("./others/global.css")
-->addStylesheet("./others/index.css")
-->addScript("./others/global.js")
-->render();
+echo (new HTMLPage(title: "Accueil - Lowify & Darill"))
+    ->addContent($html)
+    ->addHead($htmlHead)
+    ->addStylesheet("./others/global.css")
+    ->addStylesheet("./others/index.css")
+    ->addScript("./others/global.js")
+    ->render();

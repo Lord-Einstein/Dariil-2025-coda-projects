@@ -99,18 +99,33 @@ if(isset($_GET["id"])){
         $durationFormat = formatDuration($totalDuration);
 
         $albumHtml = <<<HTML
-            <aside class="album-sidebar animate-on-scroll">
+            <aside class="album-sidebar fade-in">
                 <div class="album-art-wrapper">
-                    <img src="$cover" alt="Cover" class="album-cover">
+                    <img src="{$cover}" alt="Cover" class="album-cover">
+                    <div class="vinyl-glow"></div>
                 </div>
-                <h1>$albumName</h1>
-                <div class="album-meta">
-                    <img src="$artistCover" class="artist-mini" alt=""> 
-                    <a href="artist.php?id={$artistId}"> $artistName </a> •  $releaseMonth - $releaseYear • $totalSong titres • $durationFormat
-                </div>
-                <div class="album-actions">
-                    <button class="btn-gold play-all">▶ Lire</button>
-                    <button class="btn-glass icon-only">♥</button>
+                
+                <div class="album-details">
+                    <h1>{$albumName}</h1>
+                    
+                    <div class="album-meta">
+                        <a href="artist.php?id={$artistId}" class="artist-pill">
+                            <img src="{$artistCover}" alt="Artist">
+                            <span>{$artistName}</span>
+                        </a>
+                        <span class="dot">•</span>
+                        <span>{$releaseMonth} - {$releaseYear}</span>
+                        <span class="dot">•</span>
+                        <span>{$totalSong} titres</span>
+                        <span class="dot">•</span>
+                        <span>{$durationFormat}</span>
+                    </div>
+
+                    <div class="album-actions">
+                        <button class="btn-gold play-all"><i class="ri-play-fill"></i> Lire</button>
+                        <button class="btn-glass icon-only"><i class="ri-heart-line"></i></button>
+                        <button class="btn-glass icon-only"><i class="ri-more-fill"></i></button>
+                    </div>
                 </div>
             </aside>
         HTML;
@@ -140,13 +155,24 @@ if(isset($_GET["id"])){
         $durationFormat = formatDuration($duration);
 
         $songsHtml .= <<<HTML
-            <div class="track-row" id="$songID">
-                <span class="track-num">$trackNum</span>
-                <div class="track-info">
-                    <span class="title">$songName</span>
-                    <span class="artist-sub">$notes ⭐</span>
+            <div class="track-row fade-in" id="$songID">
+                <div class="track-left">
+                    <span class="track-num">{$trackNum}</span>
+                    <button class="mini-play"><i class="ri-play-fill"></i></button>
                 </div>
-                <span class="duration">$durationFormat</span>
+                
+                <div class="track-info">
+                    <span class="title">{$songName}</span>
+                    <div class="track-sub">
+                        <span class="artist-name">{$album["artist_name"]}</span>
+                        <span class="rating"><i class="ri-star-fill star-shine"></i> {$notes}</span>
+                    </div>
+                </div>
+                
+                <div class="track-right">
+                    <button class="like-btn"><i class="ri-heart-line"></i></button>
+                    <span class="duration">{$durationFormat}</span>
+                </div>
             </div>
         HTML;
 
@@ -163,26 +189,39 @@ if(isset($_GET["id"])){
 
 
 $htmlHead = <<<HTML
-    <meta charset="UTF-8">
+   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Retrouvez vos meilleures musiques sur Lowify & Darill.">
+    <meta name="description" content="Album {$album["name"]}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 HTML;
 
 $html = <<<HTML
+    <nav class="glass-nav">
+        <a href="./index.php" class="logo">L<span>&</span>D</a>
+    </nav>
+
     <main class="container album-layout">
          {$albumHtml}
-         <section class="album-tracks animate-on-scroll">
-            <div class="table-header">
-                <span>Titres</span>
-                <span class="align-right">Durée</span>
+         
+         <section class="album-tracks">
+            <div class="tracks-header">
+                <span>#</span>
+                <span>Titre</span>
+                <span class="align-right"><i class="ri-time-line"></i></span>
             </div>
-            {$songsHtml}
+            
+            <div class="tracks-list">
+                {$songsHtml}
+            </div>
         </section>     
     </main>
 HTML;
 
 
-echo (new HTMLPage(title: "{$album["name"]} de {$album["artist_name"]}"))
+echo (new HTMLPage(title: "{$album["name"]} | {$album["artist_name"]}"))
 ->addContent($html)
 ->addHead($htmlHead)
 ->addStylesheet("./others/global.css")

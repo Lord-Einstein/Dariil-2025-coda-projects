@@ -1,122 +1,57 @@
-/* Hero Spécifique */
+/* Hero Section Cinématique */
 .hero-section {
-    height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: radial-gradient(
-            circle at center,
-            rgba(212, 175, 55, 0.15) 0%,
-            transparent 70%
-    );
-    text-align: center;
+    position: relative; height: 85vh; min-height: 600px;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
+.hero-video-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+.hero-video { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); }
+.hero-section::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(5,5,5,0.3) 0%, var(--bg-deep) 100%);
+    z-index: 0;
+}
+.hero-content { position: relative; z-index: 2; text-align: center; max-width: 800px; padding: 0 20px; }
+.hero-content h1 { font-size: clamp(3rem, 5vw, 5rem); margin-bottom: 20px; line-height: 1.1; font-weight: 800; }
+.hero-content p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px; }
 
-.hero-content h1 {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    letter-spacing: -2px;
-}
-.hero-content p {
-    color: var(--text-muted);
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-}
-
-/* Barre de recherche Glass */
+/* Barre de Recherche Néon */
 .search-wrapper {
-    display: flex;
-    gap: 10px;
-    padding: 8px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 50px;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
+    display: flex; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 50px; padding: 6px;
+    max-width: 500px; margin: 0 auto; transition: 0.3s;
 }
-.search-wrapper input {
-    background: transparent;
-    border: none;
-    color: white;
-    flex: 1;
-    padding-left: 15px;
-    outline: none;
-}
+.search-wrapper:focus-within { border-color: var(--gold-main); box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+.search-wrapper input { flex: 1; background: transparent; border: none; padding: 0 20px; color: white; outline: none; }
 
-/* Grilles & Cartes */
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 2rem;
-}
-.section-header h2 {
-    font-size: 2rem;
-    font-weight: 300;
-}
-.view-all {
-    color: var(--gold-main);
-    text-decoration: none;
-    font-size: 0.9rem;
-}
+/* Grille et Cartes */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 30px; }
 
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 2rem;
+.card {
+    background: var(--glass-bg); border: var(--glass-border); border-radius: 16px;
+    padding: 15px; transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
+.card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.5); border-color: rgba(212, 175, 55, 0.4); }
 
-.glass-card {
-    transition: 0.3s;
-    cursor: pointer;
-}
-.glass-card:hover {
-    transform: translateY(-5px);
-}
-.card-image {
-    position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-    aspect-ratio: 1/1;
-}
-.card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: 0.5s;
-}
-.glass-card:hover img {
-    opacity: 0.6;
-}
+.card-image { position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 1/1; }
+.card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.card:hover .card-image img { transform: scale(1.1); filter: brightness(0.6); }
 
-.play-hover {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    background: var(--gold-main);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: black;
-    opacity: 0;
-    transition: 0.3s;
+/* --- ICONE FLÈCHE AU SURVOL (Demande spécifique) --- */
+/* Nécessite RemixIcon chargé dans le <head> */
+.card-image a::after {
+    content: '\EA6E'; /* Code icône flèche droite RemixIcon */
+    font-family: 'remixicon';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--gold-main); color: #000;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem; opacity: 0; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 20px var(--gold-bright);
 }
-.glass-card:hover .play-hover {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
+.card:hover .card-image a::after { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-.card-info h3 {
-    font-size: 1rem;
-    margin-bottom: 0.2rem;
-}
-.card-info p {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-}
+.card-info { padding-top: 15px; }
+.card-info h3 { font-size: 1rem; font-weight: 700; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-info p { font-size: 0.85rem; color: var(--text-secondary); margin-top: 5px; }
+.card-info p.rating { color: var(--gold-main); display: flex; align-items: center; gap: 5px; }

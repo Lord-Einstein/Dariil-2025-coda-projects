@@ -1,0 +1,508 @@
+/* ==================== ANIMATIONS BONUS ==================== */
+/* Ajoutez ces animations optionnelles pour encore plus d'effets ! */
+
+/* ==================== GLOWING TEXT ==================== */
+.glow-text {
+    animation: text-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes text-glow {
+    from {
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5),
+        0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    to {
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.4),
+        0 0 15px rgba(255, 215, 0, 0.3),
+        0 0 20px rgba(255, 215, 0, 0.3);
+    }
+}
+
+/* ==================== FLOATING ANIMATION ==================== */
+.float {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* ==================== PULSE SCALE ==================== */
+.pulse-scale {
+    animation: pulse-scale 2s ease-in-out infinite;
+}
+
+@keyframes pulse-scale {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* ==================== SLIDE IN ANIMATIONS ==================== */
+.slide-in-left {
+    animation: slideInLeft 0.6s ease-out;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.6s ease-out;
+}
+
+.slide-in-top {
+    animation: slideInTop 0.6s ease-out;
+}
+
+.slide-in-bottom {
+    animation: slideInBottom 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInTop {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==================== BOUNCE ANIMATION ==================== */
+.bounce {
+    animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-15px);
+    }
+    60% {
+        transform: translateY(-7px);
+    }
+}
+
+/* ==================== ROTATE ANIMATIONS ==================== */
+.rotate-slow {
+    animation: rotate-slow 20s linear infinite;
+}
+
+.rotate-fast {
+    animation: rotate-fast 2s linear infinite;
+}
+
+@keyframes rotate-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-fast {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==================== BREATHING ANIMATION ==================== */
+.breathe {
+    animation: breathe 3s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.03);
+        opacity: 0.9;
+    }
+}
+
+/* ==================== NEON BORDER ==================== */
+.neon-border {
+    position: relative;
+    border: 2px solid var(--gold);
+    box-shadow:
+            0 0 10px var(--gold),
+            inset 0 0 10px var(--gold);
+    animation: neon-pulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon-pulse {
+    from {
+        box-shadow:
+                0 0 10px var(--gold),
+                inset 0 0 10px var(--gold);
+    }
+    to {
+        box-shadow:
+                0 0 20px var(--gold),
+                0 0 30px var(--gold),
+                inset 0 0 20px var(--gold);
+    }
+}
+
+/* ==================== SHIMMER BACKGROUND ==================== */
+.shimmer-bg {
+    background: linear-gradient(
+            90deg,
+            var(--black-lighter) 0%,
+            var(--gold) 50%,
+            var(--black-lighter) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer-bg 3s ease-in-out infinite;
+}
+
+@keyframes shimmer-bg {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* ==================== GRADIENT SHIFT ==================== */
+.gradient-shift {
+    background: linear-gradient(
+            45deg,
+            var(--gold),
+            var(--gold-light),
+            var(--gold-dark),
+            var(--gold)
+    );
+    background-size: 300% 300%;
+    animation: gradient-shift 5s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* ==================== FLIP ANIMATION ==================== */
+.flip-horizontal {
+    animation: flipHorizontal 0.6s ease;
+}
+
+.flip-vertical {
+    animation: flipVertical 0.6s ease;
+}
+
+@keyframes flipHorizontal {
+    0% {
+        transform: rotateY(0);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+@keyframes flipVertical {
+    0% {
+        transform: rotateX(0);
+    }
+    100% {
+        transform: rotateX(360deg);
+    }
+}
+
+/* ==================== ZOOM IN/OUT ==================== */
+.zoom-in {
+    animation: zoomIn 0.5s ease;
+}
+
+.zoom-out {
+    animation: zoomOut 0.5s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes zoomOut {
+    from {
+        opacity: 0;
+        transform: scale(1.2);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ==================== TYPEWRITER EFFECT ==================== */
+.typewriter {
+    overflow: hidden;
+    border-right: 2px solid var(--gold);
+    white-space: nowrap;
+    animation:
+            typing 3.5s steps(40, end),
+            blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: var(--gold);
+    }
+}
+
+/* ==================== GLITCH EFFECT ==================== */
+.glitch {
+    position: relative;
+    animation: glitch-anim 5s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--gold);
+    clip: rect(24px, 550px, 90px, 0);
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--gold-light);
+    clip: rect(85px, 550px, 140px, 0);
+    animation: glitch-anim-3 2.5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% {
+        clip: rect(30px, 9999px, 100px, 0);
+    }
+    20% {
+        clip: rect(50px, 9999px, 90px, 0);
+    }
+    40% {
+        clip: rect(10px, 9999px, 120px, 0);
+    }
+    60% {
+        clip: rect(80px, 9999px, 40px, 0);
+    }
+    80% {
+        clip: rect(20px, 9999px, 110px, 0);
+    }
+    100% {
+        clip: rect(60px, 9999px, 70px, 0);
+    }
+}
+
+@keyframes glitch-anim-2 {
+    0% {
+        clip: rect(65px, 9999px, 100px, 0);
+    }
+    100% {
+        clip: rect(79px, 9999px, 50px, 0);
+    }
+}
+
+@keyframes glitch-anim-3 {
+    0% {
+        clip: rect(25px, 9999px, 130px, 0);
+    }
+    100% {
+        clip: rect(95px, 9999px, 35px, 0);
+    }
+}
+
+/* ==================== BLUR IN ==================== */
+.blur-in {
+    animation: blurIn 0.8s ease;
+}
+
+@keyframes blurIn {
+    from {
+        filter: blur(10px);
+        opacity: 0;
+    }
+    to {
+        filter: blur(0);
+        opacity: 1;
+    }
+}
+
+/* ==================== RIPPLE EFFECT ==================== */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 215, 0, 0.4);
+    transform: translate(-50%, -50%);
+    animation: ripple 1.5s ease-out;
+}
+
+@keyframes ripple {
+    to {
+        width: 300%;
+        height: 300%;
+        opacity: 0;
+    }
+}
+
+/* ==================== SPOTLIGHT EFFECT ==================== */
+.spotlight {
+    position: relative;
+    overflow: hidden;
+}
+
+.spotlight::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+            circle,
+            rgba(255, 215, 0, 0.3) 0%,
+            transparent 70%
+    );
+    animation: spotlight 4s ease-in-out infinite;
+}
+
+@keyframes spotlight {
+    0%, 100% {
+        transform: translate(-50%, -50%);
+    }
+    50% {
+        transform: translate(50%, 50%);
+    }
+}
+
+/* ==================== USAGE EXAMPLES ==================== */
+/*
+Pour utiliser ces animations, ajoutez simplement les classes à vos éléments :
+
+<h1 class="glow-text">Titre brillant</h1>
+<div class="card float">Carte flottante</div>
+<button class="btn-gold pulse-scale">Bouton pulsant</button>
+<img class="zoom-in" src="image.jpg">
+<div class="neon-border">Bordure néon</div>
+<span class="typewriter">Effet machine à écrire</span>
+
+Vous pouvez aussi combiner plusieurs animations :
+<div class="card float glow-text neon-border">Super effet !</div>
+*/
+
+/* ==================== RESPONSIVE ==================== */
+@media (prefers-reduced-motion: reduce) {
+    .float,
+    .pulse-scale,
+    .bounce,
+    .rotate-slow,
+    .rotate-fast,
+    .breathe,
+    .neon-border,
+    .shimmer-bg,
+    .gradient-shift,
+    .typewriter,
+    .glitch,
+    .spotlight {
+        animation: none !important;
+    }
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+.delay-5 { animation-delay: 0.5s; }
+
+.duration-fast { animation-duration: 0.3s; }
+.duration-normal { animation-duration: 0.6s; }
+.duration-slow { animation-duration: 1s; }
+.duration-slower { animation-duration: 2s; }

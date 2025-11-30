@@ -1,27 +1,166 @@
+/* =========================================
+   ERROR PAGE STYLING (Luxe & Fun)
+   ========================================= */
+
+/* 1. Container & Background */
 .error-container {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+    /* Fond Radial Gold profond */
+    background: radial-gradient(circle at center, #2e2408 0%, #0d0d0d 60%, #000000 100%);
+    overflow: hidden;
+    position: relative;
+    padding: 20px;
 }
 
+/* 2. Glass Box Centrale */
 .glass-box {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 3rem 5rem;
-    border-radius: 8px;
+    background: rgba(20, 20, 20, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 24px;
+    padding: 60px 40px;
     text-align: center;
-    border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px);
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5),
+    inset 0 0 20px rgba(212, 175, 55, 0.05);
+    position: relative;
+    z-index: 2;
 }
 
-.glass-box h1 {
-    font-size: 6rem;
+/* 3. Typographie Néon */
+.error-code {
+    font-size: 8rem;
     line-height: 1;
-    margin-bottom: 1rem;
+    font-weight: 900;
+    margin: 0;
+    /* Gradient Or sur le texte */
+    background: linear-gradient(135deg, #fff 0%, var(--gold-main) 50%, #947515 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* Ombre portée néon */
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
 }
 
-.glass-box p {
-    margin-bottom: 2rem;
-    color: var(--text-muted);
+.error-title {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.error-msg {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+/* 4. ANIMATION DU CHAT (Leaping Cat) */
+.cat-wrapper {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden; /* Cache le chat quand il sort du cadre */
+}
+
+.cat-jump-svg {
+    width: 150px;
+    height: auto;
+    color: var(--gold-main); /* Couleur du chat (SVG currentColor) */
+    position: absolute;
+    /* Animation composée : Déplacement X + Saut Y + Rotation */
+    animation: catLeap 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6)); /* Chat lumineux */
+}
+
+/* Animation des parties du SVG */
+.cat-tail {
+    animation: tailWag 0.5s ease-in-out infinite alternate;
+}
+
+.cat-shadow {
+    fill: rgba(0,0,0,0.5);
+    transform-origin: center;
+    animation: shadowScale 4s ease-in-out infinite;
+}
+
+/* Keyframes du Saut vers la GAUCHE */
+@keyframes catLeap {
+    0% {
+        right: -150px; /* Départ hors cadre à droite */
+        bottom: 0;
+        transform: rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    30% {
+        right: 40%; /* Milieu */
+        bottom: 0; /* Prêt à sauter */
+        transform: rotate(0deg);
+    }
+    40% {
+        /* Début du saut */
+        transform: rotate(-10deg) scaleY(0.9);
+    }
+    50% {
+        /* En l'air ! */
+        bottom: 40px;
+        transform: rotate(5deg);
+    }
+    60% {
+        /* Atterrissage vers la gauche */
+        right: 80%;
+        bottom: 0;
+        transform: rotate(0deg);
+    }
+    80% {
+        /* Sortie écran gauche */
+        right: 120%;
+        opacity: 1;
+    }
+    100% {
+        right: 120%;
+        opacity: 0;
+    }
+}
+
+@keyframes tailWag {
+    from { transform: rotate(-5deg); transform-origin: 160px 75px; }
+    to { transform: rotate(5deg); transform-origin: 160px 75px; }
+}
+
+@keyframes shadowScale {
+    0%, 30%, 60%, 100% { transform: scaleX(1); opacity: 0.5; }
+    50% { transform: scaleX(0.5); opacity: 0.2; } /* Ombre rétrécit quand il saute */
+}
+
+
+/* 5. Bouton Customisation */
+.action-area {
+    display: flex;
+    justify-content: center;
+}
+
+/* On surcharge légèrement le bouton global pour qu'il soit plus large ici */
+.action-area .btn-gold {
+    font-size: 1rem;
+    padding: 15px 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .error-code { font-size: 5rem; }
+    .glass-box { padding: 40px 20px; }
+    .cat-jump-svg { width: 100px; }
 }

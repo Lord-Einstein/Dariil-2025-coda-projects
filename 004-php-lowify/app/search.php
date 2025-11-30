@@ -21,6 +21,16 @@ $songsHtml = "";
 
 $query = "";
 
+$emptyStateHtml = <<<HTML
+    <div class="empty-state-container fade-in">
+        <svg class="loader-loupe" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="30" class="loupe-glass" />
+            <line x1="65" y1="65" x2="90" y2="90" class="loupe-handle" />
+        </svg>
+        <p>Aucun résultat trouvé...</p>
+    </div>
+HTML;
+
 function formatCompact(int $number): string {
     if ($number >= 1_000_000_000) {
         $formatted = $number / 1_000_000_000;
@@ -98,21 +108,19 @@ if(isset($_GET["submit"])){
                 $cover = $artist["cover"];
 
                 $artistsHtml .= <<<HTML
-                     <div class="card-horizontal glass-effect">
-                        <a href="artist.php?id={$id}">
-                            <img src="$cover" alt="Image de couverture de $name">
-                        </a>
+                    <a href="artist.php?id={$id}" class="result-card artist-style fade-in">
+                        <div class="img-wrapper">
+                            <img src="$cover" alt="$name">
+                        </div>
                         <div class="info">
-                            <h2>$name</h2>
+                            <h3>$name</h3>
                             <span class="tag">Artiste</span>
                         </div>
-                    </div>
+                    </a>
                 HTML;
             }
         }else{
-            $artistsHtml = <<<HTML
-                <p>Aucun résultat sur "Artists"...</p>
-            HTML;
+            $artistsHtml = $emptyStateHtml;
         }
 
         //albums
@@ -148,22 +156,20 @@ if(isset($_GET["submit"])){
                 $artistName = $album["artist_name"];
 
                 $albumsHtml .= <<<HTML
-                     <div class="card-horizontal glass-effect">
-                        <a href="album.php?id={$id}">
-                            <img src="$cover" alt="Image de couverture album $name de $artistName">
-                        </a>
-                        <div class="info">
-                            <h2>$name</h2>
-                            <span class="tag">Album de $artistName</span>
-                            <span class="tag">$month - $year</span>
+                    <a href="album.php?id={$id}" class="result-card album-style fade-in">
+                        <div class="img-wrapper">
+                            <img src="$cover" alt="Image de couverture album $name">
+                            <div class="overlay-icon"><i class="ri-album-line"></i></div>
                         </div>
-                    </div>
+                        <div class="info">
+                            <h3>$name</h3>
+                            <p>$artistName • $month-$year</p>
+                        </div>
+                    </a>
                 HTML;
             }
         }else{
-            $albumsHtml = <<<HTML
-                <p>Aucun résultat sur "Albums"...</p>
-            HTML;
+            $albumsHtml = $emptyStateHtml;
         }
 
 
@@ -206,38 +212,33 @@ if(isset($_GET["submit"])){
                 $formatDuration = formatDuration($duration);
 
                 $songsHtml .= <<<HTML
-                     <div class="card-horizontal glass-effect">
-                        <a href="album.php?id=$albumId#$id">
-                            <img src="$cover" alt="Image de couverture de $artistName">
-                        </a>
-                        <div class="info">
-                            <h2>$name</h2>
-                            <span class="tag">Chanson de $artistName | Album : $albumName</span>
-                            <span class="tag">$formatDuration</span>
-                            <span class="tag">$note ⭐</span>
+                    <div class="search-track-row fade-in">
+                        <div class="track-left">
+                            <img src="$cover" alt="cover">
+                            <div class="track-meta">
+                                <a href="album.php?id=$albumId#$id" class="track-title">$name</a>
+                                <span class="track-artist">$artistName | Album : $albumName</span>
+                            </div>
+                        </div>
+                        <div class="track-right">
+                             <button class="icon-btn"><i class="ri-heart-line"></i></button>
+                             <span class="duration">$note ⭐</span>
+                             <span class="duration">$formatDuration</span>
                         </div>
                     </div>
                 HTML;
             }
         }else{
-            $songsHtml = <<<HTML
-                <p>Aucun résultat sur "Chansons"...</p>
-            HTML;
+            $songsHtml = $emptyStateHtml;
         }
 
 
     } else {
-        $artistsHtml = <<<HTML
-            <p>Aucun résultat sur "Artists"...</p>
-        HTML;
+        $artistsHtml = $emptyStateHtml;
 
-        $albumsHtml = <<<HTML
-                <p>Aucun résultat sur "Albums"...</p>
-        HTML;
+        $albumsHtml = $emptyStateHtml;
 
-        $songsHtml = <<<HTML
-                <p>Aucun résultat sur "Chansons"...</p>
-        HTML;
+        $songsHtml = $emptyStateHtml;
     }
 
 }else{
@@ -247,43 +248,74 @@ if(isset($_GET["submit"])){
 
 
 
-
-
-
-
-
-
-
-
 $htmlHead = <<<HTML
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Retrouvez vos meilleures musiques sur Lowify & Darill.">
+    <meta name="description" content="Résultats de recherche Lowify">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 HTML;
 
 $html = <<<HTML
-<main>
-   <div class="search-results">
-        <section class="top-result">
-            <h3>Résultats sur "Artistes"...</h3>
-            {$artistsHtml}
-        </section>
-        <section class="top-result">
-            <h3>Résultats sur "Albums"...</h3>
-            {$albumsHtml}
-        </section>
-        <section class="top-result">
-            <h3>Résultats sur "Chansons"...</h3>
-            {$songsHtml}
-        </section>
-   </div>
-</main>
         
+    <nav class="glass-nav">
+        <a href="./index.php" class="logo">L<span>&</span>D</a>
+    </nav>
+
+    <main class="container search-page">
+        
+        <header class="search-header fade-in">
+            <h1>Résultats pour <span class="gold-text">"$query"</span></h1>
+            <form action="" method="GET" class="mini-search-form">
+                <div class="input-group">
+                    <i class="ri-search-line"></i>
+                    <input type="text" name="query" value="$query" placeholder="Rechercher autre chose...">
+                </div>
+                <button type="submit" name="submit" class="hidden-submit"></button>
+            </form>
+        </header>
+    
+       <div class="search-results-wrapper">
+            
+            <section class="result-section">
+                <div class="section-title">
+                    <h2><i class="ri-mic-line"></i> Artistes</h2>
+                    <div class="line-separator"></div>
+                </div>
+                <div class="results-grid artists-grid">
+                    {$artistsHtml}
+                </div>
+            </section>
+
+            <section class="result-section">
+                <div class="section-title">
+                    <h2><i class="ri-disc-line"></i> Albums</h2>
+                    <div class="line-separator"></div>
+                </div>
+                <div class="results-grid albums-grid">
+                    {$albumsHtml}
+                </div>
+            </section>
+
+            <section class="result-section">
+                <div class="section-title">
+                    <h2><i class="ri-music-2-line"></i> Chansons</h2>
+                    <div class="line-separator"></div>
+                </div>
+                <div class="results-list">
+                    {$songsHtml}
+                </div>
+            </section>
+            
+       </div>
+    </main>
 
 HTML;
 
 
-echo (new HTMLPage(title: "Rechercher "))
+echo (new HTMLPage(title: "Recherche : $query "))
 ->addContent($html)
 ->addHead($htmlHead)
 ->addStylesheet("./others/global.css")

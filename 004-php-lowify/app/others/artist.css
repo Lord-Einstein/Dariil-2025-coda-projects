@@ -1,98 +1,263 @@
+/* =========================================
+   ARTIST PROFILE STYLING (Gold Rush Theme)
+   ========================================= */
+
+/* 1. Global Page Background */
+.artist-page-wrapper {
+    /* Fond noir profond avec une lueur dorée diffuse au centre */
+    background: radial-gradient(circle at 50% 30%, #2e2408 0%, #0d0d0d 60%, #000000 100%);
+    min-height: 100vh;
+    padding-bottom: 80px;
+}
+
+/* 2. Navigation Simplifiée */
+.simple-nav {
+    position: fixed; /* Reste visible au scroll */
+    top: 0; left: 0;
+    padding: 20px 40px;
+    z-index: 100;
+}
+/* Le logo utilise le style global, on ajuste juste le positionnement si besoin */
+
+/* 3. Hero Banner (Cinématique) */
 .artist-banner {
     position: relative;
-    height: 50vh;
+    height: 60vh; /* Grand espace pour l'image */
+    min-height: 500px;
     display: flex;
-    align-items: flex-end;
-    margin-top: 0; /* Override container margin */
-}
-.bg-img {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -2;
-}
-.banner-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, transparent 0%, var(--bg-deep) 100%);
-    z-index: -1;
-}
-.artist-header-content {
-    margin-bottom: 2rem;
-    width: 100%;
-}
-.artist-header-content h1 {
-    font-size: 4rem;
-    font-weight: 800;
-}
-.verified {
-    color: var(--gold-main);
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    align-items: flex-end; /* Contenu en bas */
+    overflow: hidden;
+    margin-bottom: 40px;
 }
 
+/* L'image de fond fixe (Parallax effect simlulé) */
+.banner-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center 20%;
+    filter: brightness(0.8);
+    z-index: 0;
+}
+
+/* Le dégradé qui permet de lire le texte */
+.banner-gradient {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to top, #000 5%, rgba(0,0,0,0.6) 40%, transparent 100%);
+    z-index: 1;
+}
+
+.artist-content {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 60px;
+    width: 100%;
+}
+
+/* Badge Vérifié */
+.verified-badge {
+    color: #3d9be9; /* Bleu certifié standard ou Or si tu préfères */
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+.verified-badge i { font-size: 1.2rem; }
+
+.artist-content h1 {
+    font-size: clamp(3rem, 6vw, 6rem);
+    font-weight: 900;
+    margin-bottom: 10px;
+    line-height: 1;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+}
+
+.artist-content .listeners {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.artist-content .bio {
+    max-width: 600px;
+    color: #ddd;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limite à 3 lignes */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Boutons d'action */
+.actions { display: flex; gap: 15px; }
+.actions button {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 1rem;
+}
+.actions i { font-size: 1.2rem; }
+
+/* Bouton Glass Spécifique */
 .btn-glass {
+    padding: 12px 32px;
+    border-radius: 50px;
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
-    padding: 10px 24px;
     cursor: pointer;
-    border-radius: 4px;
-    margin-left: 10px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.btn-glass:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: white;
 }
 
+/* 4. Layout 2 Colonnes */
 .content-split {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 4rem;
-    margin-top: 2rem;
+    grid-template-columns: 2fr 1fr; /* 66% Sons, 33% Albums */
+    gap: 60px;
 }
 
-/* Track List Style */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+.section-title h2 { font-size: 1.8rem; }
+.line-accent {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-main), transparent);
+    opacity: 0.5;
+}
+
+/* 5. Track List (Lignes Lumineuses) */
+.track-list { display: flex; flex-direction: column; }
+
 .track-row {
     display: flex;
     align-items: center;
-    padding: 10px;
-    border-radius: 4px;
-    transition: 0.2s;
-    border-bottom: 1px solid var(--glass-border);
-}
-.track-row:hover {
-    background: var(--glass-bg);
-}
-.track-num {
-    width: 30px;
-    color: var(--text-muted);
-}
-.track-row img {
-    width: 40px;
-    height: 40px;
-    margin-right: 15px;
-    border-radius: 2px;
-}
-.track-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-.track-info .title {
-    color: white;
-    font-weight: 500;
-}
-.track-info .views {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-}
-.duration {
-    color: var(--text-muted);
-    font-size: 0.9rem;
+    padding: 15px 20px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    /* La ligne séparatrice lumineuse et fine */
+    border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    position: relative;
 }
 
+/* Effet Glow sur la bordure au survol */
+.track-row:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2); /* Ombre portée */
+}
+/* Petit effet de lumière qui court sous l'élément */
+.track-row:hover::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 1px;
+    background: var(--gold-main);
+    box-shadow: 0 0 10px var(--gold-main);
+    animation: widthGrow 0.4s ease forwards;
+}
+@keyframes widthGrow { from { width: 0; } to { width: 100%; } }
+
+.track-num {
+    width: 30px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.track-img-wrapper {
+    width: 50px; height: 50px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 20px;
+    position: relative;
+}
+.track-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Overlay Play sur l'image */
+.play-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: 0.2s;
+}
+.track-row:hover .play-overlay { opacity: 1; }
+.play-overlay i { color: white; font-size: 1.5rem; }
+
+.track-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.track-info .title { font-weight: 600; font-size: 1rem; color: white; margin-bottom: 4px; }
+
+/* ETOILE ANIMÉE ET LARGE */
+.rating {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.9rem; color: var(--text-secondary);
+}
+.star-shine-large {
+    font-size: 1.3rem; /* Visible sans être énorme */
+    /* Réutilisation de l'animation shine du global.css */
+    background: linear-gradient(120deg, var(--gold-main) 20%, #FFF 50%, var(--gold-main) 80%);
+    background-size: 200% auto;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    animation: starShine 3s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.4)); /* Glow spécifique */
+}
+
+.track-actions { display: flex; align-items: center; gap: 20px; }
+.like-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--text-secondary); font-size: 1.2rem; transition: 0.2s;
+}
+.like-btn:hover { color: var(--gold-main); transform: scale(1.1); }
+.duration { color: var(--text-secondary); font-size: 0.9rem; min-width: 40px; text-align: right; }
+
+/* 6. Albums Mini Grid */
+.grid-mini {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+}
+
+.card-mini {
+    background: var(--glass-bg);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 12px;
+    transition: 0.3s;
+}
+.card-mini:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-5px);
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+.mini-img {
+    aspect-ratio: 1/1;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+.mini-img img { width: 100%; height: 100%; object-fit: cover; }
+.mini-info { display: flex; flex-direction: column; }
+.mini-info .name { font-weight: 600; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mini-info .year { font-size: 0.8rem; color: var(--text-secondary); }
+
 /* Responsive */
-@media (max-width: 768px) {
-    .content-split {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 900px) {
+    .content-split { grid-template-columns: 1fr; gap: 40px; }
+    .artist-banner { height: 50vh; align-items: center; }
+    .artist-content { text-align: center; }
+    .artist-content .bio { margin: 0 auto 30px auto; }
+    .actions { justify-content: center; }
+    .track-row { padding: 10px; }
+    .track-img-wrapper { margin: 0 15px; }
 }

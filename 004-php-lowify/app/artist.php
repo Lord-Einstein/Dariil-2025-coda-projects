@@ -92,19 +92,24 @@ if(isset($_GET["id"])){
 
         $artistHtml .= <<<HTML
         <section class="artist-banner">
-            <div class="banner-overlay"></div>
-            <img src="$cover" alt="Banner" class="bg-img">
-             <div class="artist-header-content container">
-                <span class="verified"><i class="fas fa-check-circle"></i> Artiste Vérifié</span>
-                <h1>$name</h1>
-                <p>{$format_number} auditeurs mensuels</p> 
-                <p>{$biography}</p>
-                <div class="actions">
-                    <button class="btn-gold">Lecture</button>
-                    <button class="btn-glass">Suivre</button>
+            <div class="banner-bg" style="background-image: url('$cover');"></div>
+            <div class="banner-gradient"></div>
+            
+            <div class="artist-content container">
+                <div class="verified-badge fade-in">
+                    <i class="ri-checkbox-circle-fill"></i> Artiste Vérifié
+                </div>
+                <h1 class="fade-in">{$name}</h1>
+                <p class="listeners fade-in">{$format_number} auditeurs mensuels</p>
+                <p class="bio fade-in">{$biography}</p>
+                
+                <div class="actions fade-in">
+                    <button class="btn-gold"><i class="ri-play-fill"></i> Lecture</button>
+                    <button class="btn-glass"><i class="ri-heart-line"></i> Suivre</button>
                 </div>
             </div>
         </section>
+
         HTML;
 
     } else {
@@ -138,15 +143,24 @@ if(isset($_GET["id"])){
         $duration_formatted = formatDuration($duration);
 
         $songHtml .= <<<HTML
-            <div class="track-row">
-                    <span class="track-num">$rang</span>
+            <div class="track-row fade-in">
+                <span class="track-num">{$rang}</span>
+                <div class="track-img-wrapper">
                     <img src="$cover" alt="cover">
-                    <div class="track-info">
-                        <span class="title">$name</span>
-                        <span class="views">⭐ $note</span>
-                    </div>
-                    <span class="duration">$duration_formatted</span>
+                    <div class="play-overlay"><i class="ri-play-fill"></i></div>
+                </div>
+                <div class="track-info">
+                    <span class="title">{$name}</span>
+                    <span class="rating">
+                        <i class="ri-star-fill star-shine-large"></i> {$note}
+                    </span>
+                </div>
+                <div class="track-actions">
+                    <button class="like-btn"><i class="ri-heart-add-line"></i></button>
+                    <span class="duration">{$duration_formatted}</span>
+                </div>
             </div>
+
         HTML;
 
         $rang++;
@@ -176,10 +190,14 @@ if(isset($_GET["id"])){
         $duration_formatted = formatDuration($duration);
 
         $albumHtml .= <<<HTML
-            <a href="./album.php?id={$albumId}" class="card-mini">
-                    <img src="$cover" alt="Album">
-                    <span>$name</span>
-                    <span>$year</span>
+            <a href="./album.php?id={$albumId}" class="card-mini fade-in">
+                <div class="mini-img">
+                    <img src="{$cover}" alt="Album">
+                </div>
+                <div class="mini-info">
+                    <span class="name">{$name}</span>
+                    <span class="year">{$year}</span>
+                </div>
             </a>
         HTML;
     }
@@ -194,28 +212,42 @@ if(isset($_GET["id"])){
 $htmlHead = <<<HTML
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Retrouvez vos meilleures musiques sur Lowify & Darill.">
+    <meta name="description" content="Ecoutez {$artist["name"]} sur Lowify.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 HTML;
 
 $html = <<<HTML
-    <main class="container">
+    <nav class="glass-nav">
+        <a href="./index.php" class="logo">L<span>&</span>D</a>
+    </nav>
+
+    <main class="artist-page-wrapper">
            {$artistHtml}
       
        <div class="container content-split">
            <section class="top-tracks">
-                <h2>Populaires</h2>
+                <div class="section-title">
+                    <h2>Populaires</h2>
+                    <div class="line-accent"></div>
+                </div>
                 <div class="track-list">
                    {$songHtml}
                 </div>
            </section>     
            
            <section class="discography">
-                <h2>Albums</h2>
+                <div class="section-title">
+                    <h2>Discographie</h2>
+                    <div class="line-accent"></div>
+                </div>
                 <div class="grid-mini">
                      {$albumHtml}
                 </div>
            </section>
-           </div>
+       </div>
     </main>
 HTML;
 

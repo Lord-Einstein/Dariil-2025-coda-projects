@@ -47,11 +47,15 @@ foreach ($artists as $artist) {
 
     $artistsHtml .= <<<HTML
     
-        <a href="./artist.php?id={$id}" class="artist-card">
-            <div class="artist-img">
-                <img src="$cover" alt="Artist">
+        <a href="./artist.php?id={$id}" class="artist-card fade-in">
+            <div class="artist-img-wrapper">
+                <img src="{$cover}" alt="{$name}" loading="lazy">
+                <div class="overlay-glow"></div>
             </div>
-            <h3>$name</h3>
+            <div class="artist-info">
+                <h3>{$name}</h3>
+                <span class="view-profile">Voir le profil <i class="ri-arrow-right-line"></i></span>
+            </div>
         </a>
     HTML;
 
@@ -64,25 +68,44 @@ $htmlHead = <<<HTML
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Retrouvez vos meilleures musiques sur Lowify & Darill.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 HTML;
 
 $html = <<<HTML
-    <main class="container">
-        <div class="page-header animate-on-scroll">
-            <h1>Nos <span class="gold-text">Artistes</span></h1>
-            <div class="filters">
+    <nav class="navbar">
+        <a href="./index.php" class="logo">L<span>&</span>D</a>
+        <button class="mobile-toggle" aria-label="Toggle menu">
+            <i class="ri-menu-3-line"></i>
+        </button>
+        <ul class="nav-links">
+            <li><a href="./index.php">Accueil</a></li>
+            <li><a href="./artists.php" class="active">Artistes</a></li>
+        </ul>
+    </nav>
+
+    <main class="container page-container">
+        <div class="page-header">
+            <h1 class="fade-in">Nos <span class="gold-text">Artistes</span></h1>
+            <p class="subtitle fade-in">Les talents qui façonnent le son de demain.</p>
+            
+            <div class="filters fade-in">
                 <button class="filter-btn active">Tous</button>
                 <button class="filter-btn">Pop</button>
                 <button class="filter-btn">Rap</button>
+                <button class="filter-btn">Electro</button>
             </div>
         </div>
         
-        <div class="artists-grid animate-on-scroll">
+        <div class="artists-grid">
             {$artistsHtml}
         </div>
-        
     </main>
 HTML;
+
+
 
 
 echo (new HTMLPage(title: "Lowify & Darill | Artistes"))

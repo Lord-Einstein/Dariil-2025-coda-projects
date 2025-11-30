@@ -1,73 +1,153 @@
+/* =========================================
+   ARTISTS PAGE STYLES
+   ========================================= */
+
+/* 1. Background Spécial "Gold Explosion" */
+/* On ajoute une lueur massive en haut pour cette page */
+.page-container {
+    position: relative;
+    padding-top: 120px; /* Espace pour la navbar */
+}
+
+.page-container::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 600px;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(5, 5, 5, 0) 70%);
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(60px);
+}
+
+/* 2. Header & Filtres */
 .page-header {
-    margin-bottom: 3rem;
     text-align: center;
+    margin-bottom: 60px;
 }
 
 .page-header h1 {
-    font-size: 3rem;
-    margin-bottom: 1.5rem;
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 40px;
 }
 
 .filters {
-    display: inline-flex;
-    gap: 1rem;
-    background: var(--glass-bg);
-    padding: 5px;
-    border-radius: 50px;
-    border: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 .filter-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    padding: 8px 20px;
-    cursor: pointer;
+    padding: 10px 25px;
     border-radius: 30px;
-    transition: 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
 }
 
-.filter-btn.active,
-.filter-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+.filter-btn:hover, .filter-btn.active {
+    background: var(--gold-main);
+    color: #000;
+    border-color: var(--gold-main);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    font-weight: 600;
 }
 
+/* 3. Grille Artistes */
 .artists-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 40px;
+    padding-bottom: 80px;
 }
 
+/* 4. Carte Artiste Premium */
 .artist-card {
-    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    color: white;
-    transition: 0.3s;
-    display: block;
+    /*group;  Pour gérer les effets au survol du parent */
 }
 
-.artist-card:hover {
-    transform: translateY(-5px);
-}
-
-.artist-img {
-    width: 100%;
-    aspect-ratio: 1/1;
+/* Image circulaire avec effet néon */
+.artist-img-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
+    padding: 5px; /* Espace pour la bordure double */
+    background: linear-gradient(145deg, rgba(255,255,255,0.1), transparent);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    margin-bottom: 20px;
+    transition: all 0.5s ease;
     overflow: hidden;
-    margin-bottom: 1rem;
-    border: 2px solid transparent;
-    transition: 0.3s;
 }
 
-.artist-card:hover .artist-img {
-    border-color: var(--gold-main);
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
-}
-
-.artist-img img {
+.artist-img-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
+    filter: grayscale(20%); /* Un peu sombre par défaut */
+    transition: all 0.5s ease;
+}
+
+/* Lueur interne au survol */
+.artist-card:hover .artist-img-wrapper {
+    transform: scale(1.05);
+    border-color: var(--gold-main);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+}
+
+.artist-card:hover img {
+    filter: grayscale(0%);
+}
+
+.artist-info h3 {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+    transition: color 0.3s;
+}
+
+.artist-card:hover .artist-info h3 {
+    color: var(--gold-main);
+}
+
+.view-profile {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.artist-card:hover .view-profile {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-header h1 { font-size: 2.5rem; }
+    .page-container::before { width: 100%; top: -10%; }
 }
