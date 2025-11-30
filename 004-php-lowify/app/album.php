@@ -132,6 +132,7 @@ if(isset($_GET["id"])){
 
     $trackNum = 1;
     foreach($songs as $song){
+        $songID = $song["id"];
         $songName = $song["name"];
         $duration = $song["duration"];
         $notes = $song["note"];
@@ -139,11 +140,11 @@ if(isset($_GET["id"])){
         $durationFormat = formatDuration($duration);
 
         $songsHtml .= <<<HTML
-            <div class="track-row">
+            <div class="track-row" id="$songID">
                 <span class="track-num">$trackNum</span>
                 <div class="track-info">
                     <span class="title">$songName</span>
-                    <span class="artist-sub">$notes</span>
+                    <span class="artist-sub">$notes ⭐</span>
                 </div>
                 <span class="duration">$durationFormat</span>
             </div>

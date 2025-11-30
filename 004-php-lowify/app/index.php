@@ -1,6 +1,5 @@
 <?php
 
-
 require_once './inc/page.inc.php';
 require_once './inc/database.inc.php';
 
@@ -201,7 +200,7 @@ $html = <<<HTML
         <div class="hero-content animate-on-scroll">
             <h1>Feel the <span class="gold-text">Vibe</span>.</h1>
             <p>Découvrez les pépites musicales du moment.</p>
-           <form action="./search.php" method="post">
+           <form action="./search.php" method="GET">
                 <div class="search-wrapper glass-panel">
                     <input type="text" name="query" id="query" placeholder="Rechercher un artiste, un titre...">
                     <button class="btn-gold" type="submit" name="submit">Go</button>
@@ -239,9 +238,9 @@ HTML;
 
 
 echo (new HTMLPage(title: "Acceuil"))
-    ->addContent($html)
-    ->addHead($htmlHead)
-    ->addStylesheet("./others/global.css")
-    ->addStylesheet("./others/index.css")
-    ->addScript("./others/global.js")
-    ->render();
+->addContent($html)
+->addHead($htmlHead)
+->addStylesheet("./others/global.css")
+->addStylesheet("./others/index.css")
+->addScript("./others/global.js")
+->render();
