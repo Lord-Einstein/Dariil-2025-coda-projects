@@ -47,7 +47,7 @@ function formatDuration(int $seconds): string
     $minutes = floor($seconds / 60);
     $remainingSeconds = $seconds % 60;
 
-    //faut aussi mettre mes secondes sur deux car... merci str_pad ;)
+    //faut aussi mettre mes secondes sur deux caractères... merci str_pad ;)
     $formattedSeconds = str_pad($remainingSeconds, 2, "0", STR_PAD_LEFT);
     return $minutes . " m : " . $formattedSeconds . " s";
 }
@@ -156,17 +156,19 @@ if(isset($_GET["id"])){
 
     try {
         $albums = $db -> executeQuery( <<<SQL
-            SELECT album.name, album.cover, YEAR(album.release_date) AS year
+            SELECT album.id, album.name, album.cover, YEAR(album.release_date) AS year
             FROM album
             INNER JOIN artist
             ON artist.id = album.artist_id
-            WHERE artist.id = {$id};
+            WHERE artist.id = {$id}
+            ORDER BY album.release_date DESC;
         SQL);
     } catch (PDOException $e) {
         echo "ERREUR DE QUERY" . $e->getMessage();
     }
 
     foreach($albums as $album){
+        $albumId = $album["id"];
         $name = $album["name"];
         $cover = $album["cover"];
         $year = $album["year"];
@@ -174,7 +176,7 @@ if(isset($_GET["id"])){
         $duration_formatted = formatDuration($duration);
 
         $albumHtml .= <<<HTML
-            <a href="./album.php?id={$id}" class="card-mini">
+            <a href="./album.php?id={$albumId}" class="card-mini">
                     <img src="$cover" alt="Album">
                     <span>$name</span>
                     <span>$year</span>
