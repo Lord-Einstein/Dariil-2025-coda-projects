@@ -41,7 +41,7 @@ class DatabaseInitializer
     private function stepCreateSchema(): string
     {
         try {
-            $this->dbm->executeUpdate(file_get_contents(__DIR__ . '/db.sql'));
+            $this->dbm->executeUpdate(file_get_contents(__DIR__ . '/odb.sql'));
             return self::SUCCESS_MESSAGE;
         } catch (PDOException $e) {
             return self::ERROR_MESSAGE . ' : ' . $e->getMessage();
