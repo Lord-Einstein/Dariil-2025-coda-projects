@@ -1,12 +1,6 @@
 <?php
 
-require_once './inc/page.inc.php';
-require_once './inc/database.inc.php';
-
-$host = "mysql";
-$dbname = "lowify";
-$username = "lowify";
-$password = "lowifypassword";
+require_once './inc/reusable.inc.php';
 
 $db = null;
 
@@ -19,36 +13,7 @@ $outersHtml = "";
 $albums = [];
 $albumsHtml = "";
 
-function formatCompact(int $number): string {
-    if ($number >= 1_000_000_000) {
-        $formatted = $number / 1_000_000_000;
-        $suffix = ' B';
-    } elseif ($number >= 1_000_000) {
-        $formatted = $number / 1_000_000;
-        $suffix = ' M';
-    } elseif ($number >= 1_000) {
-        $formatted = $number / 1_000;
-        $suffix = ' k';
-    } else {
-        return (string)$number;
-    }
-
-    if ($formatted == floor($formatted)) {
-        return floor($formatted) . $suffix;
-    } else {
-        return number_format($formatted, 1) . $suffix;
-    }
-}
-
-try{
-    $db = new DatabaseManager(
-        dsn: "mysql:host=$host; dbname=$dbname; charset=utf8mb4",
-        username : $username,
-        password: $password
-    );
-}catch (PDOException $e){
-    echo "ERREUR DE CONNEXION BDD" . $e->getMessage();
-}
+$db = connectDatabase();
 
 // Top artists
 try{
@@ -59,7 +24,7 @@ try{
         LIMIT 5;
     SQL);
 }catch(PDOException $e){
-    echo "ERREUR DE QUERY" . $e->getMessage();
+    generateQuerryError($e);
 }
 
 foreach($trends as $trend){

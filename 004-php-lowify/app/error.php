@@ -58,7 +58,7 @@ $html = <<<HTML
 HTML;
 
 
-echo (new HTMLPage(title: "Page Introuvable | Lowify"))
+echo (new HTMLPage(title: "Page Introuvable | Lowify & Darill"))
 ->addContent($html)
 ->addHead($htmlHead)
 ->addStylesheet("./others/global.css")

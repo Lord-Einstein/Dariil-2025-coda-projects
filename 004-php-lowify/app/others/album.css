@@ -4,57 +4,29 @@
 
 /* 1. Global & Background */
 body {
-    /* Fond radial Gold profond et centré */
     background: radial-gradient(circle at 30% 20%, #261f06 0%, #0a0a0a 50%, #000000 100%);
     background-attachment: fixed;
 }
 
-/* 2. Navigation "Glass Blur" Flottante */
-.glass-nav {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    padding: 10px 25px;
-    background: rgba(10, 10, 10, 0.6); /* Sombre semi-transparent */
-    backdrop-filter: blur(12px); /* L'effet de flou puissant */
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 50px;
-    z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    transition: 0.3s;
-}
-
-.glass-nav:hover {
-    background: rgba(20, 20, 20, 0.8);
-    border-color: var(--gold-main);
-}
-
-/* =========================================
-   FIX STICKY SIDEBAR
-   ========================================= */
-
-/* 3. Layout Grid (Split Screen) */
+/* FIX STICKY SIDEBAR */
 .album-layout {
     display: grid;
-    grid-template-columns: 350px 1fr; /* Sidebar fixe 350px | Reste fluide */
+    grid-template-columns: 350px 1fr;
     gap: 60px;
-    padding-top: 90px; /* On descend un peu plus pour laisser passer la nav */
+    padding-top: 120px;
     padding-bottom: 80px;
     min-height: 100vh;
     position: relative;
-    /* C'EST ICI LA CLÉ : */
-    align-items: start; /* Empêche la sidebar de s'étirer jusqu'en bas */
+    align-items: start; /* Important pour le sticky */
 }
 
 /* 4. Sidebar (Album Info) - FIXE */
 .album-sidebar {
-    position: sticky; /* L'élément devient collant */
-    top: 10px; /* Il se colle à 120px du haut de l'écran (sous la nav) */
-    height: fit-content; /* Prend juste la hauteur de son contenu */
+    position: sticky;
+    top: 120px;
+    height: fit-content;
     text-align: center;
-    z-index: 10; /* Reste au dessus si besoin */
-
-    /* Petit effet d'entrée fluide */
+    z-index: 10;
     animation: fadeSidebar 0.8s ease-out forwards;
 }
 
@@ -63,9 +35,6 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ... le reste du CSS pour .album-cover, etc. reste identique ... */
-
-
 /* Pochette Vinyle Glow */
 .album-art-wrapper {
     position: relative;
@@ -73,7 +42,7 @@ body {
     aspect-ratio: 1/1;
     border-radius: 12px;
     margin-bottom: 30px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5); /* Ombre profonde */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     transition: transform 0.4s ease;
 }
 
@@ -83,7 +52,6 @@ body {
     border-radius: 12px;
 }
 
-/* Lueur dorée derrière la pochette */
 .vinyl-glow {
     position: absolute;
     inset: 0;
@@ -93,16 +61,12 @@ body {
     transition: 0.4s;
 }
 
-.album-sidebar:hover .album-art-wrapper {
-    transform: scale(1.02);
-}
-.album-sidebar:hover .vinyl-glow {
-    box-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
-}
+.album-sidebar:hover .album-art-wrapper { transform: scale(1.02); }
+.album-sidebar:hover .vinyl-glow { box-shadow: 0 0 60px rgba(212, 175, 55, 0.3); }
 
 /* Typography Sidebar */
 .album-details h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: 15px;
     line-height: 1.2;
@@ -113,123 +77,78 @@ body {
 }
 
 .album-meta {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 25px;
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+    gap: 10px; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 25px;
 }
 
 .artist-pill {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: white;
-    font-weight: 600;
-    transition: 0.3s;
+    display: flex; align-items: center; gap: 8px;
+    color: white; font-weight: 600; transition: 0.3s;
 }
 .artist-pill:hover { color: var(--gold-main); }
+.artist-pill img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+.dot { color: var(--gold-dim); }
 
-.artist-pill img {
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.dot { color: var(--gold-bright); }
-
-/* Actions Buttons */
-.album-actions {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
+/* BOUTONS SIDEBAR */
+.album-actions { display: flex; justify-content: center; gap: 20px; }
 
 .icon-only {
-    padding: 0;
-    width: 45px; height: 45px;
+    padding: 0; width: 55px; height: 55px;
     display: flex; align-items: center; justify-content: center;
-    border-radius: 50%;
-    font-size: 1.2rem;
+    border-radius: 50%; font-size: 1.6rem;
 }
+
+.btn-gold.play-all {
+    padding: 0 40px; height: 55px;
+    font-size: 1rem; display: flex; align-items: center; gap: 10px;
+}
+.btn-gold.play-all i { font-size: 1.6rem; }
 
 /* 5. Tracks Section */
-.album-tracks {
-    padding-bottom: 80px;
-}
-
 .tracks-header {
-    display: grid;
-    grid-template-columns: 40px 1fr 60px;
-    padding: 0 20px 15px 20px;
+    display: grid; grid-template-columns: 50px 1fr 100px;
+    padding: 0 40px 15px 30px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
+    color: var(--text-secondary); text-transform: uppercase;
+    font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px;
 }
 
 .tracks-header .align-right { text-align: right; }
 
-
-
-
-
-/* 6. Track Row (Avec Ligne Lumineuse) */
+/* 6. Track Row */
 .track-row {
-    display: grid;
-    grid-template-columns: 40px 1fr 60px;
+    display: grid; grid-template-columns: 50px 1fr 100px;
     align-items: center;
-    padding: 15px 20px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    position: relative;
-    /* Ligne séparatrice fine de base */
+    padding: 20px 40px 20px 30px;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    position: relative;
+    cursor: pointer;
 }
 
-/* Ligne lumineuse animée (Light Beam) */
+/* Ligne lumineuse animée */
 .track-row::after {
-    content: '';
-    position: absolute;
-    bottom: -1px; left: 0;
-    width: 0%; /* Commence à 0 */
-    height: 1px;
-    background: var(--gold-main);
-    box-shadow: 0 0 15px var(--gold-main); /* Effet néon */
+    content: ''; position: absolute; bottom: -1px; left: 0;
+    width: 0%; height: 1px; background: var(--gold-main);
+    box-shadow: 0 0 15px var(--gold-main);
     transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     z-index: 1;
 }
 
-.track-row:hover {
-    background: rgba(255, 255, 255, 0.03);
-}
+.track-row:hover { background: rgba(255, 255, 255, 0.03); }
+.track-row:hover::after { width: 100%; }
 
-.track-row:hover::after {
-    width: 100%; /* S'étend sur toute la largeur au survol */
-}
-
-/* Colonne Gauche (Numéro & Play) */
-.track-left {
-    position: relative;
-    display: flex; align-items: center;
-}
-
-.track-num {
-    color: var(--text-secondary);
-    font-variant-numeric: tabular-nums;
-}
+/* Colonne Gauche */
+.track-left { position: relative; display: flex; align-items: center; }
+.track-num { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
 
 .mini-play {
-    position: absolute; left: -10px;
+    position: absolute; left: -15px;
     background: transparent; border: none;
-    color: var(--gold-main); font-size: 1.2rem;
+    color: var(--gold-main); font-size: 1.8rem;
     opacity: 0; transform: scale(0.5);
-    transition: 0.2s; cursor: pointer;
+    transition: 0.3s; cursor: pointer;
 }
 
 .track-row:hover .track-num { opacity: 0; }
@@ -237,143 +156,60 @@ body {
 
 /* Colonne Info */
 .track-info { display: flex; flex-direction: column; justify-content: center; padding-right: 20px; }
+.track-info .title { font-size: 1rem; color: #fff; font-weight: 500; margin-bottom: 4px; }
+.track-row:hover .title { color: var(--gold-main); }
 
-.track-info .title {
-    font-size: 1rem;
-    color: #fff;
-    font-weight: 500;
-    margin-bottom: 4px;
-}
-
-.track-row:hover .title { color: var(--gold-main); } /* Titre devient or au survol */
-
-.track-sub {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    display: flex; gap: 10px; align-items: center;
-}
-
-/* Etoile & Note */
+.track-sub { font-size: 0.85rem; color: var(--text-secondary); display: flex; gap: 10px; align-items: center; }
 .rating { display: flex; align-items: center; gap: 4px; font-size: 0.8rem; }
-.star-shine { font-size: 0.9rem; } /* Utilise l'anim globale */
+.star-shine { font-size: 0.9rem; }
 
-/* Colonne Droite */
+/* Colonne Droite (Coeur + Durée) */
 .track-right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 15px;
+    display: flex; align-items: center; justify-content: flex-end;
+    gap: 25px;
 }
 
+/* === MODIFICATION ICI POUR LE COEUR === */
 .like-btn {
     background: none; border: none;
-    color: var(--text-secondary); opacity: 0;
+    color: var(--text-secondary); /* Gris par défaut */
+    opacity: 1; /* TOUJOURS VISIBLE (C'était 0 avant) */
     transition: 0.2s; cursor: pointer;
+    font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
 }
 
-.track-row:hover .like-btn { opacity: 1; }
-.like-btn:hover { color: var(--gold-main); transform: scale(1.2); }
+/* Au survol du bouton lui-même, il devient blanc (avant d'être liké) */
+.like-btn:hover {
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* Si liké (classe .liked gérée par le PHP/CSS global), il sera Gold */
+.like-btn.liked {
+    color: var(--gold-main);
+    opacity: 1;
+}
+/* ======================================= */
+
 
 .duration {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+    font-size: 0.9rem; color: var(--text-secondary);
     font-variant-numeric: tabular-nums;
 }
 
-
-/* ... (Le début ne change pas) ... */
-
-/* 5. Tracks Section - Grille plus aérée */
-.tracks-header {
-    /* 1. On donne plus de place à la fin (100px au lieu de 60px) */
-    display: grid;
-    grid-template-columns: 50px 1fr 100px;
-    padding: 0 40px 15px 30px; /* Padding latéral augmenté */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-}
-
-/* 6. Track Row - Icones plus grosses & Espace */
-.track-row {
-    display: grid;
-    grid-template-columns: 50px 1fr 100px; /* Même grille que le header */
-    align-items: center;
-    padding: 20px 40px 20px 30px; /* Plus d'espace intérieur (breathing room) */
-    border-radius: 12px; /* Arrondi plus doux */
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    position: relative;
-    cursor: pointer;
-}
-
-/* ... (L'effet ::after de ligne lumineuse reste le même) ... */
-
-/* ICONES PLUS GROSSES DANS LA LISTE */
-.mini-play {
-    position: absolute; left: -15px; /* Ajusté */
-    background: transparent; border: none;
-    color: var(--gold-main);
-    font-size: 1.8rem; /* BEAUCOUP plus visible */
-    opacity: 0; transform: scale(0.5);
-    transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    cursor: pointer;
-}
-
-.like-btn {
-    background: none; border: none;
-    color: var(--text-secondary); opacity: 0;
-    transition: 0.2s; cursor: pointer;
-    font-size: 1.5rem; /* Coeur plus gros */
-}
-
-/* BOUTONS SIDEBAR PLUS IMPOSANTS */
-.album-actions {
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* Plus d'écart entre les boutons */
-}
-
-.icon-only {
-    padding: 0;
-    width: 55px; height: 55px; /* Plus grand */
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 50%;
-    font-size: 1.6rem; /* Icône intérieure plus grande */
-}
-
-/* Bouton Lecture Principal */
-.btn-gold.play-all {
-    padding: 0 40px;
-    height: 55px;
-    font-size: 1rem;
-    display: flex; align-items: center; gap: 10px;
-}
-.btn-gold.play-all i { font-size: 1.6rem; }
-
-/* Correction Durée : Alignée à droite mais pas collée */
-.track-right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end; /* Pousse vers la droite */
-    gap: 25px; /* Espace entre le coeur et la durée */
-}
-
-/* Responsive - À la fin du fichier album.css */
+/* Responsive */
 @media (max-width: 900px) {
     .album-layout {
-        grid-template-columns: 1fr; /* Une seule colonne */
+        grid-template-columns: 1fr;
         gap: 40px;
-        align-items: stretch; /* On remet le comportement standard */
+        align-items: stretch;
     }
     .album-sidebar {
-        position: relative; /* Plus de sticky sur mobile */
+        position: relative;
         top: 0;
         max-width: 400px;
         margin: 0 auto;
+        animation: none;
     }
-    .glass-nav { top: 10px; left: 10px; padding: 8px 15px; }
 }

@@ -1,12 +1,6 @@
 <?php
 
-require_once './inc/page.inc.php';
-require_once './inc/database.inc.php';
-
-$host = "mysql";
-$dbname = "lowify";
-$username = "lowify";
-$password = "lowifypassword";
+require_once './inc/reusable.inc.php';
 
 $db = null;
 
@@ -17,54 +11,11 @@ $songs = [];
 $songsHtml = "";
 
 
-
-function formatCompact(int $number): string {
-    if ($number >= 1_000_000_000) {
-        $formatted = $number / 1_000_000_000;
-        $suffix = ' B';
-    } elseif ($number >= 1_000_000) {
-        $formatted = $number / 1_000_000;
-        $suffix = ' M';
-    } elseif ($number >= 1_000) {
-        $formatted = $number / 1_000;
-        $suffix = ' k';
-    } else {
-        return (string)$number;
-    }
-
-    //Si ma décimale est pas propre, je remets une virgule
-    if ($formatted == floor($formatted)) {
-        return "+ " . floor($formatted) . $suffix;
-    } else {
-        return "+ " . number_format($formatted, 1) . $suffix;
-    }
-}
-function formatDuration(int $seconds): string
-{
-    $minutes = floor($seconds / 60);
-    $remainingSeconds = $seconds % 60;
-
-    //faut aussi mettre mes secondes sur deux caractères... merci str_pad ;)
-    $formattedSeconds = str_pad($remainingSeconds, 2, "0", STR_PAD_LEFT);
-    return $minutes . " m : " . $formattedSeconds . " s";
-}
-
-
-
 if(isset($_GET["id"])){
 
     $id = $_GET["id"];
 
-    try{
-        $db = new DatabaseManager(
-            dsn: "mysql:host=$host; dbname=$dbname; charset=utf8mb4",
-            username : $username,
-            password: $password
-        );
-
-    }catch (PDOException $e){
-        echo "ERREUR DE CONNEXION BDD" . $e->getMessage();
-    }
+   $db = connectDatabase();
 
     try{
         $albums = $db -> executequery( <<<SQL
@@ -80,7 +31,7 @@ if(isset($_GET["id"])){
         GROUP BY album.id;
         SQL);
     }catch (PDOException $e){
-        echo "ERREUR DE QUERY" . $e->getMessage();
+        generateQuerryError($e);
     }
 
     if($albums){
@@ -90,7 +41,6 @@ if(isset($_GET["id"])){
         $artistCover = $album["artist_cover"];
         $albumName = $album["name"];
         $cover = $album["cover"];
-//        $releaseDate = $album["release_date"];
         $releaseYear = $album["release_year"];
         $releaseMonth = $album["release_month"];
         $totalSong = $album["total_songs"];
@@ -132,6 +82,7 @@ if(isset($_GET["id"])){
 
     } else {
         header("Location: ./error.php?message=\"Cet album n'existe pas\" !");
+        exit;
     }
 
     try{
@@ -142,7 +93,7 @@ if(isset($_GET["id"])){
             ORDER BY song.id DESC;
         SQL);
     }catch (PDOException $e){
-        echo "ERREUR DE QUERY" . $e->getMessage();
+        generateQuerryError($e);
     }
 
     $trackNum = 1;
@@ -151,6 +102,11 @@ if(isset($_GET["id"])){
         $songName = $song["name"];
         $duration = $song["duration"];
         $notes = $song["note"];
+
+        //j'implémente le liked...
+        $isLiked = $song['is_liked'] == 1;
+        $heartIcon = $isLiked ? 'ri-heart-fill' : 'ri-heart-line';
+        $activeClass = $isLiked ? 'liked' : '';
 
         $durationFormat = formatDuration($duration);
 
@@ -168,10 +124,11 @@ if(isset($_GET["id"])){
                         <span class="rating"><i class="ri-star-fill star-shine"></i> {$notes}</span>
                     </div>
                 </div>
-                
                 <div class="track-right">
-                    <button class="like-btn"><i class="ri-heart-line"></i></button>
-                    <span class="duration">{$durationFormat}</span>
+                     <a href="./like_song.php?id={$songID}" class="like-btn $activeClass">
+                        <i class="$heartIcon"></i>
+                     </a>
+                     <span class="duration">$durationFormat</span>
                 </div>
             </div>
         HTML;
@@ -181,11 +138,8 @@ if(isset($_GET["id"])){
 
 } else {
     header("Location: ./error.php?message=\"Cet album n'existe pas\" !");
+    exit;
 }
-
-
-
-
 
 
 $htmlHead = <<<HTML

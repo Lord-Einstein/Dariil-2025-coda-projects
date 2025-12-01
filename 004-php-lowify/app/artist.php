@@ -1,12 +1,7 @@
 <?php
 
-require_once './inc/page.inc.php';
-require_once './inc/database.inc.php';
-
-$host = "mysql";
-$dbname = "lowify";
-$username = "lowify";
-$password = "lowifypassword";
+require_once './inc/reusable.inc.php';
+//les deux autres fichiers sont compris dans reusable.inc car inclus.
 
 $db = null;
 
@@ -21,51 +16,10 @@ $albumHtml = "";
 
 
 
-function formatCompact(int $number): string {
-    if ($number >= 1_000_000_000) {
-        $formatted = $number / 1_000_000_000;
-        $suffix = ' B';
-    } elseif ($number >= 1_000_000) {
-        $formatted = $number / 1_000_000;
-        $suffix = ' M';
-    } elseif ($number >= 1_000) {
-        $formatted = $number / 1_000;
-        $suffix = ' k';
-    } else {
-        return (string)$number;
-    }
-
-    //Si ma décimale est pas propre, je remets une virgule
-    if ($formatted == floor($formatted)) {
-        return "+ " . floor($formatted) . $suffix;
-    } else {
-        return "+ " . number_format($formatted, 1) . $suffix;
-    }
-}
-function formatDuration(int $seconds): string
-{
-    $minutes = floor($seconds / 60);
-    $remainingSeconds = $seconds % 60;
-
-    //faut aussi mettre mes secondes sur deux caractères... merci str_pad ;)
-    $formattedSeconds = str_pad($remainingSeconds, 2, "0", STR_PAD_LEFT);
-    return $minutes . " m : " . $formattedSeconds . " s";
-}
-
-
 if(isset($_GET["id"])){
     $id = $_GET["id"];
 
-//Database connection
-    try {
-        $db = new DatabaseManager(
-            dsn: "mysql:host=$host; dbname=$dbname; charset=utf8mb4",
-            username : $username,
-            password: $password
-        );
-    } catch (PDOException $e) {
-        echo "ERREUR DE CONNEXION BDD" . $e->getMessage();
-    }
+    $db = connectDatabase();
 
 // Now I run the query
     try{
@@ -77,7 +31,8 @@ if(isset($_GET["id"])){
         SQL
     );
     } catch (PDOException $e) {
-        echo "ERREUR DE QUERY" . $e->getMessage();
+        //J'ai centralisé cette fonction dans reusable.inc.php car je l'utilise souvent.
+        generateQuerryError($e);
     }
 
 //And I generate the html
@@ -114,6 +69,7 @@ if(isset($_GET["id"])){
 
     } else {
         header("Location: ./error.php?message=\"Cet artiste n'existe pas\" !");
+        exit;
     }
 
 //the top song of artist
@@ -130,11 +86,12 @@ if(isset($_GET["id"])){
             LIMIT 5;
         SQL);
     } catch (PDOException $e) {
-        echo "ERREUR DE QUERY" . $e->getMessage();
+        generateQuerryError($e);
     }
 
     $rang = 1;
     foreach($songs as $song){
+        $songID = $song["id"];
         $name = $song["name"];
         $duration = $song["duration"];
         $note = $song["note"];
@@ -142,8 +99,13 @@ if(isset($_GET["id"])){
 
         $duration_formatted = formatDuration($duration);
 
+        //j'implémente le liked...
+        $isLiked = $song['is_liked'] == 1;
+        $heartIcon = $isLiked ? 'ri-heart-fill' : 'ri-heart-line';
+        $activeClass = $isLiked ? 'liked' : '';
+
         $songHtml .= <<<HTML
-            <div class="track-row fade-in">
+            <div class="track-row fade-in" id="{$songID}">
                 <span class="track-num">{$rang}</span>
                 <div class="track-img-wrapper">
                     <img src="$cover" alt="cover">
@@ -156,7 +118,9 @@ if(isset($_GET["id"])){
                     </span>
                 </div>
                 <div class="track-actions">
-                    <button class="like-btn"><i class="ri-heart-add-line"></i></button>
+                     <a href="./like_song.php?id={$songID}" class="like-btn $activeClass">
+                        <i class="$heartIcon"></i>
+                     </a>
                     <span class="duration">{$duration_formatted}</span>
                 </div>
             </div>
@@ -178,7 +142,7 @@ if(isset($_GET["id"])){
             ORDER BY album.release_date DESC;
         SQL);
     } catch (PDOException $e) {
-        echo "ERREUR DE QUERY" . $e->getMessage();
+        generateQuerryError($e);
     }
 
     foreach($albums as $album){
@@ -202,12 +166,10 @@ if(isset($_GET["id"])){
         HTML;
     }
 
-
-
 } else {
     header("Location: ./error.php?message=\"Cet artiste n'existe pas\" !");
+    exit;
 }
-
 
 $htmlHead = <<<HTML
     <meta charset="UTF-8">

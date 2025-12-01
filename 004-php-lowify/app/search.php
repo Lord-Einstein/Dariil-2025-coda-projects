@@ -1,12 +1,6 @@
 <?php
 
-require_once './inc/page.inc.php';
-require_once './inc/database.inc.php';
-
-$host = "mysql";
-$dbname = "lowify";
-$username = "lowify";
-$password = "lowifypassword";
+require_once './inc/reusable.inc.php';
 
 $db = null;
 
@@ -31,47 +25,7 @@ $emptyStateHtml = <<<HTML
     </div>
 HTML;
 
-function formatCompact(int $number): string {
-    if ($number >= 1_000_000_000) {
-        $formatted = $number / 1_000_000_000;
-        $suffix = ' B';
-    } elseif ($number >= 1_000_000) {
-        $formatted = $number / 1_000_000;
-        $suffix = ' M';
-    } elseif ($number >= 1_000) {
-        $formatted = $number / 1_000;
-        $suffix = ' k';
-    } else {
-        return (string)$number;
-    }
-
-    //Si ma décimale est pas propre, je remets une virgule
-    if ($formatted == floor($formatted)) {
-        return "+ " . floor($formatted) . $suffix;
-    } else {
-        return "+ " . number_format($formatted, 1) . $suffix;
-    }
-}
-function formatDuration(int $seconds): string
-{
-    $minutes = floor($seconds / 60);
-    $remainingSeconds = $seconds % 60;
-
-    //faut aussi mettre mes secondes sur deux caractères... merci str_pad ;)
-    $formattedSeconds = str_pad($remainingSeconds, 2, "0", STR_PAD_LEFT);
-    return $minutes . " m : " . $formattedSeconds . " s";
-}
-
-try{
-    $db = new DatabaseManager(
-        dsn: "mysql:host=$host; dbname=$dbname; charset=utf8mb4",
-        username : $username,
-        password: $password
-    );
-
-}catch (PDOException $e){
-    echo "ERREUR DE CONNEXION BDD" . $e->getMessage();
-}
+$db = connectDatabase();
 
 if(isset($_GET["submit"])){
 
@@ -98,7 +52,7 @@ if(isset($_GET["submit"])){
 
             );
         }catch(PDOException $e){
-            echo "ERREUR DE QUERY" . $e->getMessage();
+            generateQuerryError($e);
         }
 
         if($artists) {
@@ -143,7 +97,7 @@ if(isset($_GET["submit"])){
 
             );
         }catch(PDOException $e){
-            echo "ERREUR DE QUERY" . $e->getMessage();
+            generateQuerryError($e);
         }
 
         if($albums) {
@@ -195,7 +149,7 @@ if(isset($_GET["submit"])){
 
             );
         }catch(PDOException $e){
-            echo "ERREUR DE QUERY" . $e->getMessage();
+            generateQuerryError($e);
         }
 
         if($songs) {
@@ -211,8 +165,13 @@ if(isset($_GET["submit"])){
 
                 $formatDuration = formatDuration($duration);
 
+                //j'implémente le liked...
+                $isLiked = $song['is_liked'] == 1;
+                $heartIcon = $isLiked ? 'ri-heart-fill' : 'ri-heart-line';
+                $activeClass = $isLiked ? 'liked' : '';
+
                 $songsHtml .= <<<HTML
-                    <div class="search-track-row fade-in">
+                    <div class="search-track-row fade-in" id="{$id}">
                         <div class="track-left">
                             <img src="$cover" alt="cover">
                             <div class="track-meta">
@@ -220,8 +179,11 @@ if(isset($_GET["submit"])){
                                 <span class="track-artist">$artistName | Album : $albumName</span>
                             </div>
                         </div>
+
                         <div class="track-right">
-                             <button class="icon-btn"><i class="ri-heart-line"></i></button>
+                             <a href="./like_song.php?id={$id}" class="like-btn $activeClass">
+                                <i class="$heartIcon"></i>
+                             </a>
                              <span class="duration">$note ⭐</span>
                              <span class="duration">$formatDuration</span>
                         </div>

@@ -1,31 +1,14 @@
 <?php
 
-require_once './inc/page.inc.php';
-require_once './inc/database.inc.php';
-
-$host = "mysql";
-$dbname = "lowify";
-$username = "lowify";
-$password = "lowifypassword";
+require_once './inc/reusable.inc.php';
 
 $db = null;
 
 $artists = [];
 $artistsHtml = "";
 
-
-
-
 //Database connection
-try {
-    $db = new DatabaseManager(
-        dsn: "mysql:host=$host; dbname=$dbname; charset=utf8mb4",
-        username : $username,
-        password: $password
-    );
-} catch (PDOException $e) {
-    echo "ERREUR DE CONNEXION BDD" . $e->getMessage();
-}
+$db = connectDatabase();
 
 // Now i run the query
 try{
@@ -36,7 +19,7 @@ try{
         SQL
     );
 } catch (PDOException $e) {
-    echo "ERREUR DE QUERY" . $e->getMessage();
+    generateQuerryError($e);
 }
 
 //And i generate the html
@@ -58,11 +41,7 @@ foreach ($artists as $artist) {
             </div>
         </a>
     HTML;
-
 }
-
-
-
 
 $htmlHead = <<<HTML
     <meta charset="UTF-8">
