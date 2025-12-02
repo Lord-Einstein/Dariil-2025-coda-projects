@@ -1,574 +1,349 @@
--- MySQL dump 10.13  Distrib 8.4.7, for Linux (x86_64)
---
--- Host: localhost    Database: lowify
--- ------------------------------------------------------
--- Server version	8.4.7
+SET FOREIGN_KEY_CHECKS = 0;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+-- --------------------------------------------------------
+-- 1. NETTOYAGE COMPLET DES TABLES
+-- --------------------------------------------------------
+TRUNCATE TABLE `song`;
+TRUNCATE TABLE `album`;
+TRUNCATE TABLE `artist`;
 
---
--- Table structure for table `artist`
---
+-- --------------------------------------------------------
+-- 2. INSERTION ARTISTES (40 Artistes Réels)
+-- Images via Picsum Seed (Format Db d'origine)
+-- --------------------------------------------------------
+INSERT INTO `artist` (`id`, `name`, `biography`, `cover`, `monthly_listeners`) VALUES
+   (1, 'The Weeknd', 'Star mondiale du R&B et de la Pop sombre.', 'https://picsum.photos/seed/weeknd/800/800', 110000000),
+   (2, 'Daft Punk', 'Légendes de la French Touch.', 'https://picsum.photos/seed/daftpunk/800/800', 25000000),
+   (3, 'Damso', 'Rappeur à la plume sombre et technique.', 'https://picsum.photos/seed/damso/800/800', 8000000),
+   (4, 'PNL', 'Le duo des Tarterêts qui a changé le rap.', 'https://picsum.photos/seed/pnl/800/800', 5500000),
+   (5, 'Lana Del Rey', 'La reine du vintage et de la mélancolie.', 'https://picsum.photos/seed/lana/800/800', 56000000),
+   (6, 'Travis Scott', 'Energie pure et ambiance psychédélique.', 'https://picsum.photos/seed/travis/800/800', 72000000),
+   (7, 'Drake', 'Le rappeur canadien numéro 1.', 'https://picsum.photos/seed/drake/800/800', 85000000),
+   (8, 'Rihanna', 'Icône de la mode et de la pop.', 'https://picsum.photos/seed/rihanna/800/800', 90000000),
+   (9, 'Ninho', 'Le recordman des certifications.', 'https://picsum.photos/seed/ninho/800/800', 6000000),
+   (10, 'Hans Zimmer', 'Le compositeur de musiques de films.', 'https://picsum.photos/seed/hans/800/800', 12000000),
+   (11, 'Kanye West', 'Producteur visionnaire.', 'https://picsum.photos/seed/kanye/800/800', 65000000),
+   (12, 'Orelsan', 'Le rappeur normand simple et basique.', 'https://picsum.photos/seed/orel/800/800', 4500000),
+   (13, 'Angèle', 'La star belge de la pop.', 'https://picsum.photos/seed/angele/800/800', 6000000),
+   (14, 'Arctic Monkeys', 'Rock britannique.', 'https://picsum.photos/seed/arctic/800/800', 45000000),
+   (15, 'Dua Lipa', 'Pop disco moderne.', 'https://picsum.photos/seed/dua/800/800', 78000000),
+   (16, 'Eminem', 'Le Rap God de Detroit.', 'https://picsum.photos/seed/eminem/800/800', 62000000),
+   (17, 'Adele', 'La voix de Londres qui brise les coeurs.', 'https://picsum.photos/seed/adele/800/800', 50000000),
+   (18, 'Coldplay', 'Le groupe de pop-rock qui remplit les stades.', 'https://picsum.photos/seed/coldplay/800/800', 80000000),
+   (19, 'Booba', 'Le Duc de Boulogne.', 'https://picsum.photos/seed/booba/800/800', 4000000),
+   (20, 'Stromae', 'Le maestro belge.', 'https://picsum.photos/seed/stromae/800/800', 9000000),
+   (21, 'Billie Eilish', 'La voix chuchotée d\'une génération.', 'https://picsum.photos/seed/billie/800/800', 70000000),
+   (22, 'Kendrick Lamar', 'Le poète du hip-hop, prix Pulitzer.', 'https://picsum.photos/seed/kendrick/800/800', 55000000),
+   (23, 'Taylor Swift', 'L\'industrie musicale à elle seule.', 'https://picsum.photos/seed/taylor/800/800', 100000000),
+   (24, 'Jul', 'L\'ovni marseillais le plus productif.', 'https://picsum.photos/seed/jul/800/800', 7000000),
+   (25, 'SCH', 'Le S, Mathafack.', 'https://picsum.photos/seed/sch/800/800', 4500000),
+   (26, 'Gazo', 'Le chef de la Drill FR.', 'https://picsum.photos/seed/gazo/800/800', 6500000),
+   (27, 'Imagine Dragons', 'Pop rock énergique.', 'https://picsum.photos/seed/imaginedragons/800/800', 60000000),
+   (28, 'Queen', 'Freddie Mercury et sa légende.', 'https://picsum.photos/seed/queen/800/800', 48000000),
+   (29, 'Michael Jackson', 'Le Roi de la Pop.', 'https://picsum.photos/seed/mj/800/800', 35000000),
+   (30, 'Bruno Mars', 'Le funk et la pop dans le sang.', 'https://picsum.photos/seed/bruno/800/800', 68000000),
+   (31, 'Beyoncé', 'Queen B, icône absolue.', 'https://picsum.photos/seed/beyonce/800/800', 85000000),
+   (32, 'Post Malone', 'Le rockstar du rap mélodique.', 'https://picsum.photos/seed/posty/800/800', 65000000),
+   (33, 'Ed Sheeran', 'L\'homme à la guitare et aux hits.', 'https://picsum.photos/seed/edsheeran/800/800', 95000000),
+   (34, 'Lady Gaga', 'L\'artiste complète et excentrique.', 'https://picsum.photos/seed/gaga/800/800', 55000000),
+   (35, 'Justin Bieber', 'La pop star canadienne.', 'https://picsum.photos/seed/bieber/800/800', 82000000),
+   (36, 'Ariana Grande', 'La voix de sifflet et la queue de cheval.', 'https://picsum.photos/seed/ariana/800/800', 88000000),
+   (37, 'Harry Styles', 'L\'icône de la mode et de la pop british.', 'https://picsum.photos/seed/harry/800/800', 75000000),
+   (38, 'SZA', 'La reine du R&B alternatif actuel.', 'https://picsum.photos/seed/sza/800/800', 68000000),
+   (39, 'Frank Ocean', 'Le mystère et l\'émotion pure.', 'https://picsum.photos/seed/frank/800/800', 25000000),
+   (40, 'Tyler, The Creator', 'Le créateur visionnaire et coloré.', 'https://picsum.photos/seed/tyler/800/800', 30000000);
 
-DROP TABLE IF EXISTS `artist`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `artist` (
-                          `id` int NOT NULL AUTO_INCREMENT,
-                          `name` varchar(255) NOT NULL,
-                          `biography` mediumtext,
-                          `cover` mediumtext,
-                          `monthly_listeners` int DEFAULT '0',
-                          PRIMARY KEY (`id`),
-                          UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- --------------------------------------------------------
+-- 3. INSERTION ALBUMS (80 Albums Réels)
+-- Images Picsum uniques via Seed
+-- --------------------------------------------------------
+INSERT INTO `album` (`id`, `name`, `artist_id`, `cover`, `release_date`) VALUES
+-- The Weeknd
+(1, 'After Hours', 1, 'https://picsum.photos/seed/afterhours/800/800', '2020-03-20'),
+(2, 'Starboy', 1, 'https://picsum.photos/seed/starboy/800/800', '2016-11-25'),
+-- Daft Punk
+(3, 'RAM', 2, 'https://picsum.photos/seed/ram/800/800', '2013-05-17'),
+(4, 'Discovery', 2, 'https://picsum.photos/seed/discovery/800/800', '2001-03-12'),
+-- Damso
+(5, 'Ipséité', 3, 'https://picsum.photos/seed/ipseite/800/800', '2017-04-28'),
+(6, 'Lithopédion', 3, 'https://picsum.photos/seed/litho/800/800', '2018-06-15'),
+-- PNL
+(7, 'Deux Frères', 4, 'https://picsum.photos/seed/deuxfreres/800/800', '2019-04-05'),
+(8, 'Dans la légende', 4, 'https://picsum.photos/seed/dll/800/800', '2016-09-16'),
+-- Lana
+(9, 'Born to Die', 5, 'https://picsum.photos/seed/btd/800/800', '2012-01-27'),
+(10, 'Ultraviolence', 5, 'https://picsum.photos/seed/ultra/800/800', '2014-06-13'),
+-- Travis
+(11, 'Astroworld', 6, 'https://picsum.photos/seed/astro/800/800', '2018-08-03'),
+(12, 'Utopia', 6, 'https://picsum.photos/seed/utopia/800/800', '2023-07-28'),
+-- Drake
+(13, 'Scorpion', 7, 'https://picsum.photos/seed/scorpion/800/800', '2018-06-29'),
+(14, 'Views', 7, 'https://picsum.photos/seed/views/800/800', '2016-04-29'),
+-- Rihanna
+(15, 'Anti', 8, 'https://picsum.photos/seed/anti/800/800', '2016-01-28'),
+(16, 'Loud', 8, 'https://picsum.photos/seed/loud/800/800', '2010-11-12'),
+-- Ninho
+(17, 'Destin', 9, 'https://picsum.photos/seed/destin/800/800', '2019-03-22'),
+(18, 'Jefe', 9, 'https://picsum.photos/seed/jefe/800/800', '2021-12-03'),
+-- Hans
+(19, 'Interstellar', 10, 'https://picsum.photos/seed/interstellar/800/800', '2014-11-17'),
+(20, 'Inception', 10, 'https://picsum.photos/seed/inception/800/800', '2010-07-13'),
+-- Kanye
+(21, 'Graduation', 11, 'https://picsum.photos/seed/graduation/800/800', '2007-09-11'),
+(22, 'Yeezus', 11, 'https://picsum.photos/seed/yeezus/800/800', '2013-06-18'),
+-- Orelsan
+(23, 'Civilisation', 12, 'https://picsum.photos/seed/civilisation/800/800', '2021-11-19'),
+(24, 'La fête est finie', 12, 'https://picsum.photos/seed/lafete/800/800', '2017-10-20'),
+-- Angèle
+(25, 'Brol', 13, 'https://picsum.photos/seed/brol/800/800', '2018-10-05'),
+(26, 'Nonante-Cinq', 13, 'https://picsum.photos/seed/nonante/800/800', '2021-12-03'),
+-- Arctic Monkeys
+(27, 'AM', 14, 'https://picsum.photos/seed/am/800/800', '2013-09-09'),
+(28, 'FWN', 14, 'https://picsum.photos/seed/fwn/800/800', '2007-04-23'),
+-- Dua Lipa
+(29, 'Future Nostalgia', 15, 'https://picsum.photos/seed/futurenostalgia/800/800', '2020-03-27'),
+(30, 'Dua Lipa', 15, 'https://picsum.photos/seed/dualipa/800/800', '2017-06-02'),
+-- Eminem
+(31, 'The Eminem Show', 16, 'https://picsum.photos/seed/eminemshow/800/800', '2002-05-26'),
+(32, 'Recovery', 16, 'https://picsum.photos/seed/recovery/800/800', '2010-06-18'),
+-- Adele
+(33, '21', 17, 'https://picsum.photos/seed/adele21/800/800', '2011-01-24'),
+(34, '30', 17, 'https://picsum.photos/seed/adele30/800/800', '2021-11-19'),
+-- Coldplay
+(35, 'Parachutes', 18, 'https://picsum.photos/seed/parachutes/800/800', '2000-07-10'),
+(36, 'A Rush of Blood', 18, 'https://picsum.photos/seed/arush/800/800', '2002-08-26'),
+-- Booba
+(37, 'Ultra', 19, 'https://picsum.photos/seed/boobaultra/800/800', '2021-03-05'),
+(38, 'Trône', 19, 'https://picsum.photos/seed/trone/800/800', '2017-12-01'),
+-- Stromae
+(39, 'Racine carrée', 20, 'https://picsum.photos/seed/racine/800/800', '2013-08-16'),
+(40, 'Multitude', 20, 'https://picsum.photos/seed/multitude/800/800', '2022-03-04'),
+-- Billie
+(41, 'Happier Than Ever', 21, 'https://picsum.photos/seed/happier/800/800', '2021-07-30'),
+(42, 'WWAFA', 21, 'https://picsum.photos/seed/wwafa/800/800', '2019-03-29'),
+-- Kendrick
+(43, 'DAMN.', 22, 'https://picsum.photos/seed/damn/800/800', '2017-04-14'),
+(44, 'GKMC', 22, 'https://picsum.photos/seed/gkmc/800/800', '2012-10-22'),
+-- Taylor
+(45, '1989', 23, 'https://picsum.photos/seed/1989/800/800', '2014-10-27'),
+(46, 'Midnights', 23, 'https://picsum.photos/seed/midnights/800/800', '2022-10-21'),
+-- Jul
+(47, 'My World', 24, 'https://picsum.photos/seed/myworld/800/800', '2015-12-04'),
+(48, 'L\'Ovni', 24, 'https://picsum.photos/seed/lovni/800/800', '2016-12-02'),
+-- SCH
+(49, 'JVLIVS', 25, 'https://picsum.photos/seed/jvlvis/800/800', '2018-10-19'),
+(50, 'JVLIVS II', 25, 'https://picsum.photos/seed/jvlvis2/800/800', '2021-03-19'),
+-- Gazo
+(51, 'KMT', 26, 'https://picsum.photos/seed/kmt/800/800', '2022-07-01'),
+(52, 'Drill FR', 26, 'https://picsum.photos/seed/drillfr/800/800', '2021-02-26'),
+-- Imagine Dragons
+(53, 'Night Visions', 27, 'https://picsum.photos/seed/nightvisions/800/800', '2012-09-04'),
+(54, 'Evolve', 27, 'https://picsum.photos/seed/evolve/800/800', '2017-06-23'),
+-- Queen
+(55, 'A Night at the Opera', 28, 'https://picsum.photos/seed/anight/800/800', '1975-11-21'),
+(56, 'News of the World', 28, 'https://picsum.photos/seed/news/800/800', '1977-10-28'),
+-- MJ
+(57, 'Thriller', 29, 'https://picsum.photos/seed/thriller/800/800', '1982-11-30'),
+(58, 'Bad', 29, 'https://picsum.photos/seed/bad/800/800', '1987-08-31'),
+-- Bruno Mars
+(59, '24K Magic', 30, 'https://picsum.photos/seed/24k/800/800', '2016-11-18'),
+(60, 'Doo-Wops', 30, 'https://picsum.photos/seed/doowops/800/800', '2010-10-04'),
+-- Beyonce
+(61, 'Renaissance', 31, 'https://picsum.photos/seed/beyonce/800/800', '2022-07-29'),
+(62, 'Lemonade', 31, 'https://picsum.photos/seed/lemonade/800/800', '2016-04-23'),
+-- Post Malone
+(63, 'Beerbongs', 32, 'https://picsum.photos/seed/beerbongs/800/800', '2018-04-27'),
+(64, 'Hollywood', 32, 'https://picsum.photos/seed/hollywood/800/800', '2019-09-06'),
+-- Ed Sheeran
+(65, 'Divide', 33, 'https://picsum.photos/seed/divide/800/800', '2017-03-03'),
+(66, 'Multiply', 33, 'https://picsum.photos/seed/multiply/800/800', '2014-06-20'),
+-- Lady Gaga
+(67, 'Chromatica', 34, 'https://picsum.photos/seed/chromatica/800/800', '2020-05-29'),
+(68, 'The Fame', 34, 'https://picsum.photos/seed/thefame/800/800', '2008-08-19'),
+-- Justin Bieber
+(69, 'Justice', 35, 'https://picsum.photos/seed/justice/800/800', '2021-03-19'),
+(70, 'Purpose', 35, 'https://picsum.photos/seed/purpose/800/800', '2015-11-13'),
+-- Ariana
+(71, 'Thank U Next', 36, 'https://picsum.photos/seed/thanku/800/800', '2019-02-08'),
+(72, 'Sweetener', 36, 'https://picsum.photos/seed/sweetener/800/800', '2018-08-17'),
+-- Harry Styles
+(73, 'Harrys House', 37, 'https://picsum.photos/seed/harryhouse/800/800', '2022-05-20'),
+(74, 'Fine Line', 37, 'https://picsum.photos/seed/fineline/800/800', '2019-12-13'),
+-- SZA
+(75, 'SOS', 38, 'https://picsum.photos/seed/sos/800/800', '2022-12-09'),
+(76, 'Ctrl', 38, 'https://picsum.photos/seed/ctrl/800/800', '2017-06-09'),
+-- Frank Ocean
+(77, 'Blonde', 39, 'https://picsum.photos/seed/blonde/800/800', '2016-08-20'),
+(78, 'Channel Orange', 39, 'https://picsum.photos/seed/channel/800/800', '2012-07-10'),
+-- Tyler
+(79, 'IGOR', 40, 'https://picsum.photos/seed/igor/800/800', '2019-05-17'),
+(80, 'Flower Boy', 40, 'https://picsum.photos/seed/flower/800/800', '2017-07-21');
 
-ALTER TABLE `artist` ADD FULLTEXT (name);
+-- --------------------------------------------------------
+-- 4. CHANSONS (3 par album = 240 Chansons Réelles)
+-- --------------------------------------------------------
+INSERT INTO `song` (`id`, `name`, `artist_id`, `album_id`, `duration`, `note`) VALUES
+-- Weeknd - After Hours
+(1, 'Blinding Lights', 1, 1, 200, 5.0), (2, 'In Your Eyes', 1, 1, 237, 4.6), (3, 'Save Your Tears', 1, 1, 215, 4.8),
+-- Weeknd - Starboy
+(4, 'Starboy', 1, 2, 230, 4.9), (5, 'I Feel It Coming', 1, 2, 269, 4.7), (6, 'Party Monster', 1, 2, 249, 4.2),
+-- Daft Punk - RAM
+(7, 'Get Lucky', 2, 3, 369, 5.0), (8, 'Instant Crush', 2, 3, 337, 4.9), (9, 'Lose Yourself to Dance', 2, 3, 353, 4.5),
+-- Daft Punk - Discovery
+(10, 'One More Time', 2, 4, 320, 5.0), (11, 'Aerodynamic', 2, 4, 207, 4.7), (12, 'Digital Love', 2, 4, 298, 4.8),
+-- Damso - Ipséité
+(13, 'Macarena', 3, 5, 208, 4.4), (14, 'Signaler', 3, 5, 202, 4.2), (15, 'Kietu', 3, 5, 230, 4.1),
+-- Damso - Lithopédion
+(16, 'Feu de bois', 3, 6, 203, 4.7), (17, 'Smog', 3, 6, 180, 4.3), (18, 'Dix Leurres', 3, 6, 195, 4.0),
+-- PNL - Deux Frères
+(19, 'Au DD', 4, 7, 240, 5.0), (20, 'Deux Frères', 4, 7, 250, 4.6), (21, 'Blanka', 4, 7, 195, 4.3),
+-- PNL - DLL
+(22, 'DA', 4, 8, 210, 4.8), (23, 'Naha', 4, 8, 235, 4.7), (24, 'Onizuka', 4, 8, 245, 4.9),
+-- Lana - BTD
+(25, 'Video Games', 5, 9, 282, 4.9), (26, 'Born to Die', 5, 9, 286, 4.8), (27, 'Blue Jeans', 5, 9, 210, 4.6),
+-- Lana - Ultra
+(28, 'West Coast', 5, 10, 256, 4.5), (29, 'Brooklyn Baby', 5, 10, 351, 4.4), (30, 'Ultraviolence', 5, 10, 251, 4.3),
+-- Travis - Astro
+(31, 'Sicko Mode', 6, 11, 312, 4.9), (32, 'Stargazing', 6, 11, 271, 4.6), (33, 'Butterfly Effect', 6, 11, 205, 4.5),
+-- Travis - Utopia
+(34, 'Meltdown', 6, 12, 246, 4.4), (35, 'Fe!n', 6, 12, 191, 4.7), (36, 'I Know ?', 6, 12, 211, 4.5),
+-- Drake - Scorpion
+(37, 'God\'s Plan', 7, 13, 198, 4.8), (38, 'Nice For What', 7, 13, 210, 4.5), (39, 'In My Feelings', 7, 13, 217, 4.3),
+-- Drake - Views
+(40, 'Hotline Bling', 7, 14, 267, 4.7), (41, 'One Dance', 7, 14, 173, 4.9), (42, 'Controlla', 7, 14, 245, 4.2),
+-- Rihanna - Anti
+(43, 'Work', 8, 15, 219, 4.6), (44, 'Needed Me', 8, 15, 191, 4.5), (45, 'Kiss It Better', 8, 15, 253, 4.4),
+-- Rihanna - Loud
+(46, 'Only Girl', 8, 16, 235, 4.8), (47, 'What\'s My Name?', 8, 16, 263, 4.5), (48, 'S&M', 8, 16, 243, 4.3),
+-- Ninho - Destin
+(49, 'Goutte d\'eau', 9, 17, 188, 4.6), (50, 'Maman ne le sait pas', 9, 17, 205, 4.7), (51, 'La vie qu\'on mène', 9, 17, 220, 4.9),
+-- Ninho - Jefe
+(52, 'Jefe', 9, 18, 185, 4.5), (53, 'VVS', 9, 18, 195, 4.4), (54, 'Vérité', 9, 18, 205, 4.2),
+-- Hans - Interstellar
+(55, 'Cornfield Chase', 10, 19, 126, 5.0), (56, 'No Time for Caution', 10, 19, 246, 4.9), (57, 'Stay', 10, 19, 383, 4.8),
+-- Hans - Inception
+(58, 'Time', 10, 20, 275, 5.0), (59, 'Dream Is Collapsing', 10, 20, 143, 4.7), (60, 'Mombasa', 10, 20, 294, 4.5),
+-- Kanye - Graduation
+(61, 'Stronger', 11, 21, 311, 4.9), (62, 'Good Life', 11, 21, 207, 4.6), (63, 'Flashing Lights', 11, 21, 237, 5.0),
+-- Kanye - Yeezus
+(64, 'Black Skinhead', 11, 22, 188, 4.7), (65, 'Bound 2', 11, 22, 229, 4.5), (66, 'New Slaves', 11, 22, 256, 4.6),
+-- Orelsan - Civilisation
+(67, 'L\'odeur de l\'essence', 12, 23, 282, 4.9), (68, 'Jour meilleur', 12, 23, 215, 4.7), (69, 'La Quête', 12, 23, 243, 4.8),
+-- Orelsan - La fête
+(70, 'Basique', 12, 24, 196, 4.8), (71, 'San', 12, 24, 242, 4.5), (72, 'Défaite de famille', 12, 24, 223, 4.6),
+-- Angèle - Brol
+(73, 'Balance ton quoi', 13, 25, 189, 4.7), (74, 'Tout oublier', 13, 25, 202, 4.8), (75, 'Ta reine', 13, 25, 210, 4.6),
+-- Angèle - Nonante
+(76, 'Bruxelles je t\'aime', 13, 26, 235, 4.6), (77, 'Libre', 13, 26, 200, 4.5), (78, 'Démons', 13, 26, 215, 4.7),
+-- Arctic - AM
+(79, 'Do I Wanna Know?', 14, 27, 272, 4.9), (80, 'R U Mine?', 14, 27, 201, 4.7), (81, 'Arabella', 14, 27, 207, 4.6),
+-- Arctic - FWN
+(82, 'Fluorescent Adolescent', 14, 28, 177, 4.8), (83, '505', 14, 28, 253, 5.0), (84, 'Teddy Picker', 14, 28, 163, 4.5),
+-- Dua Lipa - FN
+(85, 'Don\'t Start Now', 15, 29, 183, 4.8), (86, 'Levitating', 15, 29, 203, 4.7), (87, 'Physical', 15, 29, 193, 4.5),
+-- Dua Lipa - DL
+(88, 'New Rules', 15, 30, 209, 4.8), (89, 'IDGAF', 15, 30, 217, 4.6), (90, 'Be The One', 15, 30, 202, 4.5),
+-- Eminem - TES
+(91, 'Without Me', 16, 31, 290, 4.9), (92, 'Sing For The Moment', 16, 31, 339, 4.8), (93, 'Superman', 16, 31, 350, 4.6),
+-- Eminem - Recovery
+(94, 'Not Afraid', 16, 32, 248, 4.7), (95, 'Love The Way You Lie', 16, 32, 263, 4.6), (96, 'Space Bound', 16, 32, 278, 4.5),
+-- Adele - 21
+(97, 'Rolling in the Deep', 17, 33, 228, 5.0), (98, 'Someone Like You', 17, 33, 285, 4.9), (99, 'Set Fire to the Rain', 17, 33, 242, 4.8),
+-- Adele - 30
+(100, 'Easy On Me', 17, 34, 224, 4.8), (101, 'Oh My God', 17, 34, 225, 4.6), (102, 'I Drink Wine', 17, 34, 376, 4.7),
+-- Coldplay - Parachutes
+(103, 'Yellow', 18, 35, 269, 4.8), (104, 'Shiver', 18, 35, 304, 4.5), (105, 'Trouble', 18, 35, 270, 4.6),
+-- Coldplay - AROBTTH
+(106, 'The Scientist', 18, 36, 309, 5.0), (107, 'Clocks', 18, 36, 307, 4.9), (108, 'In My Place', 18, 36, 228, 4.7),
+-- Booba - Ultra
+(109, 'Mona Lisa', 19, 37, 190, 4.6), (110, '5G', 19, 37, 200, 4.3), (111, 'GP', 19, 37, 180, 4.4),
+-- Booba - Trone
+(112, 'Petite Fille', 19, 38, 210, 4.7), (113, 'Trône', 19, 38, 195, 4.6), (114, 'Friday', 19, 38, 205, 4.5),
+-- Stromae - Racine
+(115, 'Papaoutai', 20, 39, 231, 4.9), (116, 'Formidable', 20, 39, 213, 4.8), (117, 'Tous les mêmes', 20, 39, 213, 4.7),
+-- Stromae - Multitude
+(118, 'Santé', 20, 40, 190, 4.5), (119, 'L\'enfer', 20, 40, 189, 4.7), (120, 'Fils de joie', 20, 40, 200, 4.6),
+-- Billie - Happier
+(121, 'Happier Than Ever', 21, 41, 298, 4.9), (122, 'Oxytocin', 21, 41, 210, 4.6), (123, 'NDA', 21, 41, 195, 4.5),
+-- Billie - WWAFA
+(124, 'Bad Guy', 21, 42, 194, 4.8), (125, 'Bury a Friend', 21, 42, 193, 4.7), (126, 'When the Party\'s Over', 21, 42, 196, 4.9),
+-- Kendrick - DAMN
+(127, 'HUMBLE.', 22, 43, 177, 4.9), (128, 'DNA.', 22, 43, 185, 4.8), (129, 'ELEMENT.', 22, 43, 208, 4.7),
+-- Kendrick - GKMC
+(130, 'Bitch, Don\'t Kill My Vibe', 22, 44, 310, 4.8), (131, 'Money Trees', 22, 44, 386, 5.0), (132, 'Swimming Pools', 22, 44, 313, 4.9),
+-- Taylor - 1989
+(133, 'Blank Space', 23, 45, 231, 4.8), (134, 'Style', 23, 45, 231, 4.7), (135, 'Shake It Off', 23, 45, 219, 4.6),
+-- Taylor - Midnights
+(136, 'Anti-Hero', 23, 46, 200, 4.9), (137, 'Lavender Haze', 23, 46, 191, 4.6), (138, 'Karma', 23, 46, 204, 4.7),
+-- Jul - My World
+(139, 'Wesh alors', 24, 47, 200, 4.8), (140, 'Amnésia', 24, 47, 210, 4.7), (141, 'En Y', 24, 47, 205, 4.6),
+-- Jul - Ovni
+(142, 'Tchikita', 24, 48, 195, 4.9), (143, 'On m\'appelle l\'ovni', 24, 48, 190, 4.8), (144, 'C\'est le son de la gratte', 24, 48, 180, 4.7),
+-- SCH - JVLIVS
+(145, 'Otto', 25, 49, 185, 4.7), (146, 'Pharmacie', 25, 49, 210, 4.6), (147, 'Le code', 25, 49, 200, 4.5),
+-- SCH - JVLIVS 2
+(148, 'Mannschaft', 25, 50, 230, 4.8), (149, 'Mode Akimbo', 25, 50, 215, 4.7), (150, 'Crack', 25, 50, 190, 4.6),
+-- Gazo - KMT
+(151, 'DIE', 26, 51, 200, 4.8), (152, 'Fleurs', 26, 51, 195, 4.7), (153, 'Rappel', 26, 51, 210, 4.6),
+-- Gazo - Drill FR
+(154, 'Haine&Sex', 26, 52, 205, 4.9), (155, 'Tchin 2x', 26, 52, 215, 4.8), (156, 'Kassav', 26, 52, 200, 4.7),
+-- Imagine - NV
+(157, 'Radioactive', 27, 53, 186, 4.8), (158, 'Demons', 27, 53, 177, 4.9), (159, 'It\'s Time', 27, 53, 240, 4.7),
+-- Imagine - Evolve
+(160, 'Believer', 27, 54, 204, 4.8), (161, 'Thunder', 27, 54, 187, 4.6), (162, 'Whatever It Takes', 27, 54, 201, 4.7),
+-- Queen - Opera
+(163, 'Bohemian Rhapsody', 28, 55, 354, 5.0), (164, 'Love of My Life', 28, 55, 217, 4.9), (165, 'You\'re My Best Friend', 28, 55, 172, 4.8),
+-- Queen - News
+(166, 'We Will Rock You', 28, 56, 121, 5.0), (167, 'We Are The Champions', 28, 56, 179, 5.0), (168, 'Spread Your Wings', 28, 56, 272, 4.7),
+-- MJ - Thriller
+(169, 'Billie Jean', 29, 57, 294, 5.0), (170, 'Beat It', 29, 57, 258, 4.9), (171, 'Thriller', 29, 57, 357, 5.0),
+-- MJ - Bad
+(172, 'Smooth Criminal', 29, 58, 257, 5.0), (173, 'Bad', 29, 58, 247, 4.9), (174, 'The Way You Make Me Feel', 29, 58, 298, 4.8),
+-- Bruno - 24K
+(175, '24K Magic', 30, 59, 226, 4.8), (176, 'That\'s What I Like', 30, 59, 206, 4.7), (177, 'Versace on the Floor', 30, 59, 261, 4.6),
+-- Bruno - DooWops
+(178, 'Grenade', 30, 60, 222, 4.8), (179, 'Just the Way You Are', 30, 60, 220, 4.9), (180, 'The Lazy Song', 30, 60, 195, 4.7),
+-- Beyonce - Renaissance
+(181, 'Break My Soul', 31, 61, 278, 4.8), (182, 'Alien Superstar', 31, 61, 215, 4.7), (183, 'Cuff It', 31, 61, 225, 4.9),
+-- Beyonce - Lemonade
+(184, 'Formation', 31, 62, 206, 4.9), (185, 'Hold Up', 31, 62, 221, 4.7), (186, 'Sorry', 31, 62, 232, 4.8),
+-- Post Malone - Beer
+(187, 'Rockstar', 32, 63, 218, 4.8), (188, 'Psycho', 32, 63, 221, 4.7), (189, 'Better Now', 32, 63, 231, 4.6),
+-- Post - Hollywood
+(190, 'Circles', 32, 64, 215, 4.9), (191, 'Sunflower', 32, 64, 158, 5.0), (192, 'Wow.', 32, 64, 149, 4.5),
+-- Ed - Divide
+(193, 'Shape of You', 33, 65, 233, 4.9), (194, 'Perfect', 33, 65, 263, 4.8), (195, 'Castle on the Hill', 33, 65, 261, 4.7),
+-- Ed - Multiply
+(196, 'Thinking Out Loud', 33, 66, 281, 4.9), (197, 'Photograph', 33, 66, 258, 4.8), (198, 'Don\'t', 33, 66, 219, 4.6),
+-- Gaga - Chromatica
+(199, 'Rain On Me', 34, 67, 182, 4.8), (200, 'Stupid Love', 34, 67, 193, 4.5), (201, '911', 34, 67, 172, 4.4),
+-- Gaga - Fame
+(202, 'Just Dance', 34, 68, 241, 4.9), (203, 'Poker Face', 34, 68, 237, 5.0), (204, 'Paparazzi', 34, 68, 208, 4.8),
+-- Bieber - Justice
+(205, 'Peaches', 35, 69, 198, 4.7), (206, 'Hold On', 35, 69, 170, 4.6), (207, 'Ghost', 35, 69, 153, 4.8),
+-- Bieber - Purpose
+(208, 'Sorry', 35, 70, 200, 4.9), (209, 'Love Yourself', 35, 70, 233, 4.8), (210, 'What Do You Mean?', 35, 70, 205, 4.7),
+-- Ariana - Thank U
+(211, 'Thank U, Next', 36, 71, 207, 4.9), (212, '7 Rings', 36, 71, 178, 4.8), (213, 'Break Up With Your GF', 36, 71, 200, 4.6),
+-- Ariana - Sweetener
+(214, 'No Tears Left to Cry', 36, 72, 205, 4.8), (215, 'God Is A Woman', 36, 72, 197, 4.7), (216, 'Breathin', 36, 72, 198, 4.6),
+-- Harry - House
+(217, 'As It Was', 37, 73, 167, 5.0), (218, 'Late Night Talking', 37, 73, 177, 4.7), (219, 'Matilda', 37, 73, 245, 4.8),
+-- Harry - Fine Line
+(220, 'Watermelon Sugar', 37, 74, 174, 4.9), (221, 'Adore You', 37, 74, 207, 4.8), (222, 'Falling', 37, 74, 240, 4.7),
+-- SZA - SOS
+(223, 'Kill Bill', 38, 75, 153, 4.9), (224, 'Snooze', 38, 75, 201, 4.8), (225, 'Nobody Gets Me', 38, 75, 180, 4.6),
+-- SZA - Ctrl
+(226, 'The Weekend', 38, 76, 272, 4.8), (227, 'Love Galore', 38, 76, 275, 4.7), (228, 'Broken Clocks', 38, 76, 231, 4.6),
+-- Frank - Blonde
+(229, 'Nikes', 39, 77, 314, 4.8), (230, 'Ivy', 39, 77, 249, 4.9), (231, 'Pink + White', 39, 77, 184, 5.0),
+-- Frank - Channel
+(232, 'Thinkin Bout You', 39, 78, 200, 4.9), (233, 'Pyramids', 39, 78, 592, 5.0), (234, 'Lost', 39, 78, 234, 4.8),
+-- Tyler - IGOR
+(235, 'Earfquake', 40, 79, 190, 4.9), (236, 'Gone, Gone', 40, 79, 375, 4.8), (237, 'New Magic Wand', 40, 79, 195, 4.7),
+-- Tyler - Flower Boy
+(238, 'See You Again', 40, 80, 180, 4.9), (239, '911 / Mr. Lonely', 40, 80, 255, 4.8), (240, 'Boredom', 40, 80, 320, 4.7);
 
---
--- Dumping data for table `artist`
---
-
-LOCK TABLES `artist` WRITE;
-/*!40000 ALTER TABLE `artist` DISABLE KEYS */;
-INSERT INTO `artist` VALUES
-                         (1,'The Weeknd','Star canadienne du R&B et de la Pop.','https://upload.wikimedia.org/wikipedia/commons/e/e0/The_Weeknd_at_Cannes_2023.png',105000000),
-                         (2,'Dadju','Le Prince Dadj, chanteur de pop urbaine et R&B.','https://upload.wikimedia.org/wikipedia/commons/c/c8/Dadju_NRJ_Music_Awards_2018.jpg',5200000),
-                         (3,'Gims','Rappeur et chanteur à la voix puissante, ex-Sexion d\'Assaut.','https://upload.wikimedia.org/wikipedia/commons/5/53/Ma%C3%AEtre_Gims_Cannes_2016.jpg',6800000),
-                         (4,'Justin Bieber','Icône de la pop mondiale découverte sur YouTube.','https://upload.wikimedia.org/wikipedia/commons/d/d1/Justin_Bieber_in_2015.jpg',85000000),
-                         (5,'Drake','Le rappeur de Toronto qui domine les charts mondiaux.','https://upload.wikimedia.org/wikipedia/commons/2/28/Drake_July_2016.jpg',78000000),
-                         (6,'Taylor Swift','La reine de la pop et de la country américaine.','https://upload.wikimedia.org/wikipedia/commons/b/b5/191125_Taylor_Swift_at_the_2019_American_Music_Awards_(cropped).png',100000000),
-                         (7,'Bad Bunny','L\'artiste portoricain qui a globalisé le reggaeton.','https://upload.wikimedia.org/wikipedia/commons/8/80/Bad_Bunny_2019_by_Glenn_Francis_(cropped).jpg',65000000),
-                         (8,'Rosalía','La Motomami qui réinvente le flamenco pop.','https://upload.wikimedia.org/wikipedia/commons/4/4d/Rosal%C3%ADa_Lollapalooza_2023_03_(cropped).jpg',35000000),
-                         (9,'Stromae','Le maestro belge aux textes poignants.','https://upload.wikimedia.org/wikipedia/commons/c/c9/Stromae_2023.jpg',12000000),
-                         (10,'Dua Lipa','La nouvelle reine de la disco-pop britannique.','https://upload.wikimedia.org/wikipedia/commons/1/1c/Dua_Lipa_for_YSL_Libre_September_2020.png',72000000),
-                         (11,'Eminem','Le Rap God de Détroit.','https://upload.wikimedia.org/wikipedia/commons/4/4a/Eminem_-_Concert_for_Valor_in_Washington%2C_D.C._Nov._11%2C_2014_(2)_(Cropped).jpg',62000000),
-                         (12,'Billie Eilish','La voix sombre et mélancolique de la Gen Z.','https://upload.wikimedia.org/wikipedia/commons/3/36/Billie_Eilish_at_the_2024_Golden_Globes.png',68000000),
-                         (13,'Angèle','La pop star belge incontournable.','https://upload.wikimedia.org/wikipedia/commons/d/d0/Ang%C3%A8le_Cannes_2024.jpg',8000000),
-                         (14,'Ninho','Le recordman des certifications en France.','https://upload.wikimedia.org/wikipedia/commons/e/e3/Ninho_2023.jpg',9000000),
-                         (15,'Beyoncé','Queen B, icône culturelle absolue.','https://upload.wikimedia.org/wikipedia/commons/1/17/Beyonc%C3%A9_at_The_Lion_King_European_Premiere_2019.png',55000000),
-                         (16,'Ed Sheeran','L\'homme à la guitare et aux tubes planétaires.','https://upload.wikimedia.org/wikipedia/commons/c/c1/Ed_Sheeran-6886_(cropped).jpg',82000000),
-                         (17,'Rihanna','La star de la Barbade et femme d\'affaires.','https://upload.wikimedia.org/wikipedia/commons/c/c2/Rihanna_Fenty_2019_c.jpg',78000000),
-                         (18,'Jul','Le rappeur marseillais le plus productif de l\'histoire.','https://upload.wikimedia.org/wikipedia/commons/2/23/Jul_2013_2.jpg',7500000),
-                         (19,'PNL','Le duo des Tarterêts, légendes du rap planant.','https://upload.wikimedia.org/wikipedia/commons/8/81/PNL_Duo.jpg',6000000),
-                         (20,'Coldplay','Le groupe de pop-rock qui remplit les stades.','https://upload.wikimedia.org/wikipedia/commons/2/2e/ColdplayBBC071221_(cropped).jpg',70000000),
-                         (21,'Damso','Le rappeur belge au flow sombre et technique.','https://upload.wikimedia.org/wikipedia/commons/5/50/Damso_Cannes_2018.jpg',7000000),
-                         (22,'Orelsan','Le rappeur normand, conteur d\'histoires.','https://upload.wikimedia.org/wikipedia/commons/4/48/Orelsan_2018.jpg',5000000),
-                         (23,'Aya Nakamura','La chanteuse francophone la plus écoutée au monde.','https://upload.wikimedia.org/wikipedia/commons/2/2d/Aya_Nakamura_Cannes_2022.jpg',9000000),
-                         (24,'SDM','La nouvelle tête d\'affiche du 92i.','https://upload.wikimedia.org/wikipedia/commons/6/62/SDM_2022.jpg',4000000);
-/*!40000 ALTER TABLE `artist` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `album`
---
-
-DROP TABLE IF EXISTS `album`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `album` (
-                         `id` int NOT NULL AUTO_INCREMENT,
-                         `name` varchar(255) NOT NULL,
-                         `artist_id` int NOT NULL,
-                         `cover` mediumtext,
-                         `release_date` datetime DEFAULT NULL,
-                         PRIMARY KEY (`id`),
-                         UNIQUE KEY `id` (`id`),
-                         KEY `artist_id` (`artist_id`),
-                         CONSTRAINT `album_ibfk_1` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-ALTER TABLE `album` ADD FULLTEXT (name);
-
---
--- Dumping data for table `album`
---
-
-LOCK TABLES `album` WRITE;
-/*!40000 ALTER TABLE `album` DISABLE KEYS */;
-INSERT INTO `album` VALUES
-                        (1,'After Hours',1,'https://upload.wikimedia.org/wikipedia/en/c/c1/The_Weeknd_-_After_Hours.png','2020-03-20 00:00:00'),
-                        (2,'Starboy',1,'https://upload.wikimedia.org/wikipedia/en/3/39/The_Weeknd_-_Starboy.png','2016-11-25 00:00:00'),
-                        (3,'Gentleman 2.0',2,'https://upload.wikimedia.org/wikipedia/en/8/8d/Dadju_-_Gentleman_2.0.jpg','2017-11-24 00:00:00'),
-                        (4,'Poison ou Antidote',2,'https://upload.wikimedia.org/wikipedia/en/0/05/Dadju_-_Poison_ou_Antidote.jpg','2019-11-15 00:00:00'),
-                        (5,'Ceinture Noire',3,'https://upload.wikimedia.org/wikipedia/en/8/84/Maitre_Gims_-_Ceinture_Noire.jpg','2018-03-23 00:00:00'),
-                        (6,'Le Fléau',3,'https://upload.wikimedia.org/wikipedia/en/9/9b/Gims_-_Le_Fl%C3%A9au.jpg','2020-12-04 00:00:00'),
-                        (7,'Justice',4,'https://upload.wikimedia.org/wikipedia/en/0/08/Justin_Bieber_-_Justice.png','2021-03-19 00:00:00'),
-                        (8,'Purpose',4,'https://upload.wikimedia.org/wikipedia/en/2/27/Justin_Bieber_-_Purpose_(Official_Album_Cover).png','2015-11-13 00:00:00'),
-                        (9,'Scorpion',5,'https://upload.wikimedia.org/wikipedia/en/9/90/Scorpion_by_Drake.jpg','2018-06-29 00:00:00'),
-                        (10,'Certified Lover Boy',5,'https://upload.wikimedia.org/wikipedia/en/7/79/Drake_-_Certified_Lover_Boy.png','2021-09-03 00:00:00'),
-                        (11,'1989 (Taylor''s Version)',6,'https://upload.wikimedia.org/wikipedia/en/d/d5/Taylor_Swift_-_1989_(Taylor%27s_Version).png','2023-10-27 00:00:00'),
-                        (12,'Midnights',6,'https://upload.wikimedia.org/wikipedia/en/9/9f/Midnights_-_Taylor_Swift.png','2022-10-21 00:00:00'),
-                        (13,'Un Verano Sin Ti',7,'https://upload.wikimedia.org/wikipedia/en/6/60/Bad_Bunny_-_Un_Verano_Sin_Ti.png','2022-05-06 00:00:00'),
-                        (14,'Motomami',8,'https://upload.wikimedia.org/wikipedia/en/2/2e/Rosal%C3%ADa_-_Motomami.png','2022-03-18 00:00:00'),
-                        (15,'Racine Carrée',9,'https://upload.wikimedia.org/wikipedia/en/a/a2/Stromae_-_Racine_carr%C3%A9e.png','2013-08-16 00:00:00'),
-                        (16,'Multitude',9,'https://upload.wikimedia.org/wikipedia/en/0/01/Stromae_-_Multitude.png','2022-03-04 00:00:00'),
-                        (17,'Future Nostalgia',10,'https://upload.wikimedia.org/wikipedia/en/f/f5/Dua_Lipa_-_Future_Nostalgia_(Official_Album_Cover).png','2020-03-27 00:00:00'),
-                        (18,'The Eminem Show',11,'https://upload.wikimedia.org/wikipedia/en/3/35/The_Eminem_Show.jpg','2002-05-26 00:00:00'),
-                        (19,'Happier Than Ever',12,'https://upload.wikimedia.org/wikipedia/en/4/45/Billie_Eilish_-_Happier_Than_Ever.png','2021-07-30 00:00:00'),
-                        (20,'Brol',13,'https://upload.wikimedia.org/wikipedia/en/9/91/Ang%C3%A8le_-_Brol.png','2018-10-05 00:00:00'),
-                        (21,'Nonante-Cinq',13,'https://upload.wikimedia.org/wikipedia/en/c/c5/Ang%C3%A8le_-_Nonante-Cinq.png','2021-12-03 00:00:00'),
-                        (22,'Jefe',14,'https://upload.wikimedia.org/wikipedia/en/2/23/Ninho_-_Jefe.jpg','2021-12-03 00:00:00'),
-                        (23,'Destin',14,'https://upload.wikimedia.org/wikipedia/en/7/75/Ninho_-_Destin.jpg','2019-03-22 00:00:00'),
-                        (24,'Renaissance',15,'https://upload.wikimedia.org/wikipedia/en/2/2e/Beyonc%C3%A9_-_Renaissance.png','2022-07-29 00:00:00'),
-                        (25,'Divide',16,'https://upload.wikimedia.org/wikipedia/en/4/45/Divide_cover.png','2017-03-03 00:00:00'),
-                        (26,'Anti',17,'https://upload.wikimedia.org/wikipedia/en/3/32/Rihanna_-_Anti.png','2016-01-28 00:00:00'),
-                        (27,'L''Ovni',18,'https://upload.wikimedia.org/wikipedia/en/3/3d/Jul_-_L%27ovni.jpg','2016-12-02 00:00:00'),
-                        (28,'Rien 100 Rien',18,'https://upload.wikimedia.org/wikipedia/en/d/d4/Jul_-_Rien_100_Rien.jpg','2019-06-14 00:00:00'),
-                        (29,'Dans la légende',19,'https://upload.wikimedia.org/wikipedia/en/3/33/PNL_-_Dans_la_l%C3%A9gende.png','2016-09-16 00:00:00'),
-                        (30,'Deux frères',19,'https://upload.wikimedia.org/wikipedia/en/8/87/PNL_-_Deux_fr%C3%A8res.jpg','2019-04-05 00:00:00'),
-                        (31,'A Head Full of Dreams',20,'https://upload.wikimedia.org/wikipedia/en/3/3d/Coldplay_-_A_Head_Full_of_Dreams.png','2015-12-04 00:00:00'),
-                        (32,'Ipséité',21,'https://upload.wikimedia.org/wikipedia/en/9/9c/Damso_-_Ips%C3%A9it%C3%A9.jpg','2017-04-28 00:00:00'),
-                        (33,'Lithopédion',21,'https://upload.wikimedia.org/wikipedia/en/3/3a/Damso_-_Lithop%C3%A9dion.jpg','2018-06-15 00:00:00'),
-                        (34,'La fête est finie',22,'https://upload.wikimedia.org/wikipedia/en/0/07/Orelsan_-_La_f%C3%AAte_est_finie.png','2017-10-20 00:00:00'),
-                        (35,'Civilisation',22,'https://upload.wikimedia.org/wikipedia/en/6/69/Orelsan_-_Civilisation.png','2021-11-19 00:00:00'),
-                        (36,'Nakamura',23,'https://upload.wikimedia.org/wikipedia/en/7/74/Aya_Nakamura_-_Nakamura.png','2018-11-02 00:00:00'),
-                        (37,'DNK',23,'https://upload.wikimedia.org/wikipedia/en/c/c5/Aya_Nakamura_-_DNK.png','2023-01-27 00:00:00'),
-                        (38,'Liens du 100',24,'https://upload.wikimedia.org/wikipedia/en/1/1a/SDM_-_Liens_du_100.jpg','2022-12-02 00:00:00'),
-                        (39,'Ocho',24,'https://upload.wikimedia.org/wikipedia/en/4/4e/SDM_-_Ocho.jpg','2021-04-09 00:00:00'),
-                        (40,'Dawn FM',1,'https://upload.wikimedia.org/wikipedia/en/b/b9/The_Weeknd_-_Dawn_FM.png','2022-01-07 00:00:00'),
-                        (41,'My World 2.0',4,'https://upload.wikimedia.org/wikipedia/en/b/b9/Justin_Bieber_-_My_World_2.0.jpg','2010-03-19 00:00:00'),
-                        (42,'Views',5,'https://upload.wikimedia.org/wikipedia/en/a/af/Drake_-_Views_cover.jpg','2016-04-29 00:00:00');
-/*!40000 ALTER TABLE `album` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `song`
---
-
-DROP TABLE IF EXISTS `song`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `song` (
-                        `id` int NOT NULL AUTO_INCREMENT,
-                        `name` varchar(255) NOT NULL,
-                        `artist_id` int NOT NULL,
-                        `album_id` int NOT NULL,
-                        `duration` int NOT NULL,
-                        `note` double NOT NULL DEFAULT '0',
-                        PRIMARY KEY (`id`),
-                        UNIQUE KEY `id` (`id`),
-                        KEY `album_id` (`album_id`),
-                        KEY `artist_id` (`artist_id`),
-                        CONSTRAINT `song_ibfk_1` FOREIGN KEY (`album_id`) REFERENCES `album` (`id`),
-                        CONSTRAINT `song_ibfk_2` FOREIGN KEY (`artist_id`) REFERENCES `artist` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=385 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-ALTER TABLE `song` ADD FULLTEXT (name);
-
---
--- Dumping data for table `song`
---
-
-LOCK TABLES `song` WRITE;
-/*!40000 ALTER TABLE `song` DISABLE KEYS */;
-INSERT INTO `song` VALUES
-                       (1,'Blinding Lights',1,1,200,4.9),
-                       (2,'Save Your Tears',1,1,215,4.7),
-                       (3,'In Your Eyes',1,1,237,4.5),
-                       (4,'Heartless',1,1,200,4.4),
-                       (5,'Alone Again',1,1,250,4.2),
-                       (6,'Too Late',1,1,239,4.1),
-                       (7,'Hardest To Love',1,1,211,4.3),
-                       (8,'Scared To Live',1,1,191,4.0),
-                       (9,'Snowchild',1,1,247,4.1),
-                       (10,'Escape From LA',1,1,355,4.2),
-                       (11,'Starboy',1,2,230,4.8),
-                       (12,'I Feel It Coming',1,2,269,4.7),
-                       (13,'Party Monster',1,2,249,4.4),
-                       (14,'False Alarm',1,2,220,4.1),
-                       (15,'Reminder',1,2,218,4.6),
-                       (16,'Rockin\'',1,2,232,4.2),
-                       (17,'Secrets',1,2,265,4.3),
-                       (18,'True Colors',1,2,206,4.0),
-                       (19,'Die For You',1,2,260,4.9),
-                       (20,'Six Feet Under',1,2,237,4.0),
-                       (21,'Reine',2,3,196,4.8),
-                       (22,'Bob Marley',2,3,215,4.2),
-                       (23,'Jaloux',2,3,201,4.4),
-                       (24,'Lionne',2,3,220,4.3),
-                       (25,'Déjà trouvé',2,3,200,4.1),
-                       (26,'Oublie-le',2,3,210,4.0),
-                       (27,'Trouvez-la',2,3,225,4.2),
-                       (28,'Ma fierté',2,3,215,4.5),
-                       (29,'Django',2,3,230,4.3),
-                       (30,'Intuition',2,3,195,4.1),
-                       (31,'Compliqué',2,4,213,4.6),
-                       (32,'Ma vie',2,4,205,4.4),
-                       (33,'Confessions',2,4,222,4.2),
-                       (34,'Tout ou rien',2,4,218,4.3),
-                       (35,'Bobo au coeur',2,4,209,4.1),
-                       (36,'Danger',2,4,200,4.0),
-                       (37,'Grand bain',2,4,215,4.7),
-                       (38,'TPB',2,4,210,4.5),
-                       (39,'Perdu',2,4,220,4.1),
-                       (40,'Je ne t\'aime plus',2,4,205,4.2),
-                       (41,'La même',3,5,199,4.8),
-                       (42,'Caméléon',3,5,238,4.6),
-                       (43,'Corazon',3,5,186,4.3),
-                       (44,'Loup Garou',3,5,220,4.2),
-                       (45,'Entre nous c\'est mort',3,5,210,4.1),
-                       (46,'Laissez-moi tranquille',3,5,215,4.0),
-                       (47,'Mi Gna',3,5,225,4.7),
-                       (48,'Tu ne le vois pas',3,5,200,4.2),
-                       (49,'Bella Ciao',3,5,212,4.5),
-                       (50,'Bonita',3,5,218,4.1),
-                       (51,'Jusqu\'ici tout va bien',3,6,230,4.5),
-                       (52,'Immortel',3,6,200,4.4),
-                       (53,'Côté noir',3,6,215,4.3),
-                       (54,'Oats',3,6,210,4.1),
-                       (55,'Pendejo',3,6,205,4.0),
-                       (56,'Origami',3,6,222,4.2),
-                       (57,'Yolo',3,6,208,4.1),
-                       (58,'Thomas Shelby',3,6,216,4.3),
-                       (59,'Belle',3,6,225,4.6),
-                       (60,'Grosse bleta',3,6,211,4.0),
-                       (61,'Peaches',4,7,198,4.5),
-                       (62,'Ghost',4,7,153,4.7),
-                       (63,'Holy',4,7,212,4.1),
-                       (64,'2 Much',4,7,152,4.0),
-                       (65,'Deserve You',4,7,187,4.2),
-                       (66,'As I Am',4,7,174,4.1),
-                       (67,'Off My Face',4,7,156,4.3),
-                       (68,'Unstable',4,7,158,4.0),
-                       (69,'Die For You',4,7,198,4.4),
-                       (70,'Hold On',4,7,170,4.5),
-                       (71,'Sorry',4,8,200,4.8),
-                       (72,'Love Yourself',4,8,233,4.9),
-                       (73,'What Do You Mean?',4,8,205,4.7),
-                       (74,'Company',4,8,208,4.3),
-                       (75,'No Pressure',4,8,286,4.1),
-                       (76,'No Sense',4,8,275,4.0),
-                       (77,'The Feeling',4,8,244,4.2),
-                       (78,'Life Is Worth Living',4,8,234,4.1),
-                       (79,'Where Are Ü Now',4,8,250,4.6),
-                       (80,'Children',4,8,223,4.0),
-                       (81,'God\'s Plan',5,9,198,4.9),
-                       (82,'Nice For What',5,9,210,4.6),
-                       (83,'In My Feelings',5,9,217,4.8),
-                       (84,'Nonstop',5,9,238,4.5),
-                       (85,'Elevate',5,9,184,4.2),
-                       (86,'Emotionless',5,9,302,4.3),
-                       (87,'I\'m Upset',5,9,214,4.1),
-                       (88,'Mob Ties',5,9,205,4.2),
-                       (89,'Sandra\'s Rose',5,9,216,4.0),
-                       (90,'Don\'t Matter To Me',5,9,245,4.4),
-                       (91,'Champagne Poetry',5,10,336,4.5),
-                       (92,'Papi\'s Home',5,10,178,4.1),
-                       (93,'Girls Want Girls',5,10,221,4.6),
-                       (94,'In The Bible',5,10,296,4.0),
-                       (95,'Love All',5,10,228,4.3),
-                       (96,'Fair Trade',5,10,291,4.7),
-                       (97,'Way 2 Sexy',5,10,257,4.8),
-                       (98,'TSU',5,10,308,4.2),
-                       (99,'N 2 Deep',5,10,273,4.1),
-                       (100,'Knife Talk',5,10,242,4.5),
-                       (101,'Style',6,11,231,4.7),
-                       (102,'Blank Space',6,11,231,4.8),
-                       (103,'Shake It Off',6,11,219,4.6),
-                       (104,'Bad Blood',6,11,211,4.5),
-                       (105,'Wildest Dreams',6,11,220,4.7),
-                       (106,'Out Of The Woods',6,11,235,4.3),
-                       (107,'All You Had To Do Was Stay',6,11,193,4.1),
-                       (108,'I Wish You Would',6,11,207,4.0),
-                       (109,'How You Get The Girl',6,11,247,4.2),
-                       (110,'This Love',6,11,250,4.1),
-                       (111,'Lavender Haze',6,12,202,4.6),
-                       (112,'Maroon',6,12,218,4.4),
-                       (113,'Anti-Hero',6,12,200,4.8),
-                       (114,'Snow On The Beach',6,12,256,4.5),
-                       (115,'You\'re On Your Own, Kid',6,12,194,4.3),
-                       (116,'Midnight Rain',6,12,174,4.2),
-                       (117,'Question...?',6,12,210,4.0),
-                       (118,'Vigilante Shit',6,12,164,4.1),
-                       (119,'Bejeweled',6,12,194,4.4),
-                       (120,'Karma',6,12,204,4.7),
-                       (121,'Tití Me Preguntó',7,13,243,4.9),
-                       (122,'Me Porto Bonito',7,13,178,4.8),
-                       (123,'Moscow Mule',7,13,245,4.5),
-                       (124,'Después de la Playa',7,13,230,4.2),
-                       (125,'Tarot',7,13,237,4.3),
-                       (126,'Neverita',7,13,173,4.1),
-                       (127,'Yo No Soy Celoso',7,13,230,4.0),
-                       (128,'Efecto',7,13,213,4.6),
-                       (129,'Party',7,13,227,4.2),
-                       (130,'Aguacero',7,13,210,4.1),
-                       (131,'Saoko',8,14,137,4.4),
-                       (132,'La Fama',8,14,188,4.3),
-                       (133,'Chicken Teriyaki',8,14,122,4.0),
-                       (134,'Hentai',8,14,162,4.1),
-                       (135,'Bizcochito',8,14,109,4.2),
-                       (136,'G3 N15',8,14,252,4.0),
-                       (137,'Motomami',8,14,61,4.1),
-                       (138,'Diablo',8,14,165,4.3),
-                       (139,'Delirio de Grandeza',8,14,175,4.0),
-                       (140,'Cuuuuuuuuuute',8,14,150,4.2),
-                       (141,'Papaoutai',9,15,232,4.9),
-                       (142,'Formidable',9,15,213,4.9),
-                       (143,'Tous les mêmes',9,15,213,4.6),
-                       (144,'Ave Cesaria',9,15,249,4.3),
-                       (145,'Quand c\'est ?',9,15,180,4.4),
-                       (146,'Carmen',9,15,189,4.5),
-                       (147,'Humain à l\'eau',9,15,230,4.1),
-                       (148,'Bâtard',9,15,208,4.2),
-                       (149,'Ta fête',9,15,176,4.3),
-                       (150,'Moules frites',9,15,158,4.0),
-                       (151,'Santé',9,16,191,4.7),
-                       (152,'L\'enfer',9,16,189,4.8),
-                       (153,'Fils de joie',9,16,195,4.5),
-                       (154,'Invaincu',9,16,125,4.1),
-                       (155,'La solassitude',9,16,182,4.0),
-                       (156,'Mon amour',9,16,172,4.2),
-                       (157,'Déclaration',9,16,180,4.1),
-                       (158,'Bonne journée',9,16,190,4.0),
-                       (159,'Pas vraiment',9,16,160,4.1),
-                       (160,'Mauvaise journée',9,16,185,4.3),
-                       (161,'Levitating',10,17,203,4.8),
-                       (162,'Don\'t Start Now',10,17,183,4.7),
-                       (163,'Physical',10,17,193,4.5),
-                       (164,'Break My Heart',10,17,221,4.6),
-                       (165,'Cool',10,17,209,4.2),
-                       (166,'Hallucinate',10,17,208,4.1),
-                       (167,'Love Again',10,17,258,4.4),
-                       (168,'Pretty Please',10,17,194,4.0),
-                       (169,'Good In Bed',10,17,218,4.1),
-                       (170,'Boys Will Be Boys',10,17,166,4.0),
-                       (171,'Without Me',11,18,290,4.9),
-                       (172,'Sing for the Moment',11,18,339,4.7),
-                       (173,'Superman',11,18,350,4.2),
-                       (174,'White America',11,18,324,4.4),
-                       (175,'Business',11,18,251,4.3),
-                       (176,'Cleanin\' Out My Closet',11,18,297,4.6),
-                       (177,'Square Dance',11,18,323,4.1),
-                       (178,'Soldier',11,18,226,4.2),
-                       (179,'Say Goodbye Hollywood',11,18,272,4.0),
-                       (180,'Drips',11,18,285,4.1),
-                       (181,'Happier Than Ever',12,19,298,4.9),
-                       (182,'Oxytocin',12,19,210,4.5),
-                       (183,'NDA',12,19,195,4.1),
-                       (184,'Getting Older',12,19,244,4.3),
-                       (185,'I Didn\'t Change My Number',12,19,158,4.0),
-                       (186,'Billie Bossa Nova',12,19,196,4.2),
-                       (187,'My Future',12,19,210,4.6),
-                       (188,'Goldwing',12,19,151,4.0),
-                       (189,'Lost Cause',12,19,212,4.1),
-                       (190,'Halley\'s Comet',12,19,234,4.3),
-                       (191,'Balance ton quoi',13,20,189,4.8),
-                       (192,'Tout oublier',13,20,202,4.7),
-                       (193,'Ta reine',13,20,213,4.5),
-                       (194,'La thune',13,20,201,4.4),
-                       (195,'La loi de Murphy',13,20,195,4.3),
-                       (196,'Jalousie',13,20,225,4.2),
-                       (197,'Flou',13,20,197,4.1),
-                       (198,'Victime des réseaux',13,20,200,4.0),
-                       (199,'Les matins',13,20,190,4.1),
-                       (200,'Nombreux',13,20,185,4.2),
-                       (201,'Bruxelles je t\'aime',13,21,229,4.7),
-                       (202,'Libre',13,21,164,4.6),
-                       (203,'On s\'habitue',13,21,158,4.3),
-                       (204,'Solo',13,21,195,4.2),
-                       (205,'Pensées positives',13,21,190,4.1),
-                       (206,'Taxi',13,21,180,4.0),
-                       (207,'Démons',13,21,251,4.8),
-                       (208,'Plus de sens',13,21,198,4.1),
-                       (209,'Tempête',13,21,205,4.2),
-                       (210,'Mauvais rêves',13,21,215,4.0),
-                       (211,'Jefe',14,22,176,4.8),
-                       (212,'VVS',14,22,185,4.6),
-                       (213,'Vérité',14,22,195,4.5),
-                       (214,'Sky Priority',14,22,180,4.3),
-                       (215,'Arme de poing',14,22,205,4.2),
-                       (216,'Aïcha',14,22,210,4.1),
-                       (217,'Mood',14,22,175,4.0),
-                       (218,'Athena',14,22,188,4.2),
-                       (219,'YSL',14,22,192,4.1),
-                       (220,'Outro',14,22,160,4.0),
-                       (221,'Goutte d\'eau',14,23,170,4.7),
-                       (222,'Maman ne le sait pas',14,23,205,4.6),
-                       (223,'La vie qu\'on mène',14,23,215,4.8),
-                       (224,'Paris c\'est magique',14,23,190,4.3),
-                       (225,'Jeune Lossa',14,23,195,4.2),
-                       (226,'Jamais',14,23,200,4.1),
-                       (227,'Putana',14,23,185,4.5),
-                       (228,'L\'ancien',14,23,210,4.0),
-                       (229,'Big Pac',14,23,175,4.1),
-                       (230,'Money',14,23,180,4.2),
-                       (231,'Break My Soul',15,24,278,4.7),
-                       (232,'Cuff It',15,24,225,4.8),
-                       (233,'Alien Superstar',15,24,215,4.6),
-                       (234,'I\'m That Girl',15,24,208,4.3),
-                       (235,'Cozy',15,24,210,4.2),
-                       (236,'Energy',15,24,116,4.1),
-                       (237,'Church Girl',15,24,224,4.0),
-                       (238,'Plastic Off The Sofa',15,24,254,4.4),
-                       (239,'Virgo\'s Groove',15,24,368,4.5),
-                       (240,'Move',15,24,199,4.1),
-                       (241,'Shape of You',16,25,233,4.8),
-                       (242,'Perfect',16,25,263,4.9),
-                       (243,'Castle on the Hill',16,25,261,4.5),
-                       (244,'Eraser',16,25,227,4.1),
-                       (245,'Dive',16,25,238,4.3),
-                       (246,'Galway Girl',16,25,170,4.6),
-                       (247,'Happier',16,25,207,4.2),
-                       (248,'New Man',16,25,189,4.0),
-                       (249,'Hearts Don\'t Break Around Here',16,25,248,4.1),
-                       (250,'What Do I Know?',16,25,237,4.0),
-                       (251,'Work',17,26,219,4.6),
-                       (252,'Needed Me',17,26,191,4.5),
-                       (253,'Love on the Brain',17,26,224,4.9),
-                       (254,'Consideration',17,26,161,4.2),
-                       (255,'James Joint',17,26,72,4.0),
-                       (256,'Kiss It Better',17,26,253,4.4),
-                       (257,'Desperado',17,26,186,4.3),
-                       (258,'Woo',17,26,235,4.0),
-                       (259,'Same Ol\' Mistakes',17,26,397,4.1),
-                       (260,'Never Ending',17,26,202,4.0),
-                       (261,'Tchikita',18,27,193,4.7),
-                       (262,'On m\'appelle l\'ovni',18,27,178,4.6),
-                       (263,'C\'est le son de la gratte',18,27,175,4.3),
-                       (264,'Je dis rien, je vois tout, j\'entends',18,27,215,4.2),
-                       (265,'E.T.',18,27,190,4.1),
-                       (266,'Je fais le sourd',18,27,205,4.0),
-                       (267,'Elle et l\'autre',18,27,210,4.1),
-                       (268,'Y\'a pas de stress',18,27,195,4.2),
-                       (269,'J\'ai dit...',18,27,185,4.0),
-                       (270,'Ah c\'est comme ça !',18,27,180,4.1),
-                       (271,'JCVD',18,28,185,4.5),
-                       (272,'La bandite',18,28,190,4.4),
-                       (273,'Salvatrucha',18,28,200,4.2),
-                       (274,'Tokyo',18,28,195,4.3),
-                       (275,'Sous la lune',18,28,180,4.1),
-                       (276,'Tel Me',18,28,210,4.6),
-                       (277,'BDG',18,28,205,4.0),
-                       (278,'Pas de love',18,28,192,4.1),
-                       (279,'Je parle pas chinois',18,28,188,4.2),
-                       (280,'Hey',18,28,195,4.0),
-                       (281,'DA',19,29,215,4.8),
-                       (282,'Naha',19,29,245,4.9),
-                       (283,'Dans la légende',19,29,230,4.6),
-                       (284,'Mira',19,29,220,4.3),
-                       (285,'J\'suis QLF',19,29,240,4.7),
-                       (286,'La vie est belle',19,29,235,4.2),
-                       (287,'Kratos',19,29,225,4.1),
-                       (288,'Luz de Luna',19,29,232,4.4),
-                       (289,'Uranus',19,29,242,4.0),
-                       (290,'Onizuka',19,29,250,4.9),
-                       (291,'Au DD',19,30,240,5.0),
-                       (292,'Autre monde',19,30,235,4.6),
-                       (293,'Chang',19,30,225,4.4),
-                       (294,'Blanka',19,30,215,4.3),
-                       (295,'91\'s',19,30,230,4.7),
-                       (296,'A l\'ammoniaque',19,30,250,4.8),
-                       (297,'Celsius',19,30,242,4.2),
-                       (298,'Deux frères',19,30,245,4.5),
-                       (299,'Hasta la vista',19,30,220,4.1),
-                       (300,'Cœurs',19,30,238,4.2),
-                       (301,'Hymn for the Weekend',20,31,258,4.7),
-                       (302,'Adventure of a Lifetime',20,31,263,4.6),
-                       (303,'Up&Up',20,31,381,4.5),
-                       (304,'Everglow',20,31,282,4.4),
-                       (305,'Birds',20,31,229,4.1),
-                       (306,'Fun',20,31,267,4.0),
-                       (307,'Kaleidoscope',20,31,111,3.9),
-                       (308,'Army Of One',20,31,376,4.2),
-                       (309,'Amazing Day',20,31,271,4.1),
-                       (310,'Colour Spectrum',20,31,60,3.8),
-                       (311,'Macarena',21,32,205,4.8),
-                       (312,'Signaler',21,32,198,4.6),
-                       (313,'Nwaar Is The New Black',21,32,125,4.4),
-                       (314,'#QuedusaalVie',21,32,195,4.3),
-                       (315,'Mosaïque solitaire',21,32,240,4.7),
-                       (316,'Dieu ne ment jamais',21,32,215,4.2),
-                       (317,'Kietu',21,32,200,4.1),
-                       (318,'Gova',21,32,190,4.0),
-                       (319,'J Respect R',21,32,212,4.2),
-                       (320,'Peur d\'être père',21,32,220,4.5),
-                       (321,'Feu de bois',21,33,185,4.7),
-                       (322,'Smog',21,33,180,4.5),
-                       (323,'Julien',21,33,210,4.3),
-                       (324,'Introduction',21,33,120,4.1),
-                       (325,'Festival de rêves',21,33,200,4.2),
-                       (326,'Baltringue',21,33,195,4.0),
-                       (327,'Silence',21,33,215,4.6),
-                       (328,'Même issue',21,33,198,4.2),
-                       (329,'60 années',21,33,185,4.1),
-                       (330,'Aux paradis',21,33,225,4.3),
-                       (331,'Basique',22,34,163,4.9),
-                       (332,'Tout va bien',22,34,149,4.7),
-                       (333,'San',22,34,242,4.6),
-                       (334,'Défaite de famille',22,34,223,4.5),
-                       (335,'La pluie',22,34,175,4.8),
-                       (336,'Paradis',22,34,208,4.4),
-                       (337,'Christophe',22,34,168,4.1),
-                       (338,'Zone',22,34,240,4.2),
-                       (339,'Dans ma ville, on traîne',22,34,245,4.0),
-                       (340,'Notes pour trop tard',22,34,453,4.9),
-                       (341,'L\'odeur de l\'essence',22,35,282,4.9),
-                       (342,'Jour meilleur',22,35,182,4.7),
-                       (343,'La Quête',22,35,244,4.8),
-                       (344,'Shonen',22,35,190,4.3),
-                       (345,'Seul avec du monde autour',22,35,205,4.2),
-                       (346,'Du propre',22,35,220,4.5),
-                       (347,'Bébéboa',22,35,185,4.0),
-                       (348,'Rêve mieux',22,35,224,4.4),
-                       (349,'Athéna',22,35,175,4.1),
-                       (350,'Civilisation',22,35,240,4.3),
-                       (351,'Djadja',23,36,171,4.9),
-                       (352,'Pookie',23,36,179,4.8),
-                       (353,'La dot',23,36,201,4.6),
-                       (354,'Copines',23,36,171,4.7),
-                       (355,'Sucette',23,36,168,4.3),
-                       (356,'Whine Up',23,36,195,4.1),
-                       (357,'Gangster',23,36,185,4.0),
-                       (358,'Dans ma bulle',23,36,175,4.2),
-                       (359,'Oula',23,36,180,4.1),
-                       (360,'Faya',23,36,188,4.0),
-                       (361,'Baby',23,37,165,4.8),
-                       (362,'Daddy',23,37,195,4.6),
-                       (363,'SMS',23,37,170,4.5),
-                       (364,'Corazon',23,37,185,4.2),
-                       (365,'T\'as peur',23,37,190,4.4),
-                       (366,'Beleck',23,37,175,4.1),
-                       (367,'Cadeau',23,37,180,4.0),
-                       (368,'J\'ai mal',23,37,168,4.2),
-                       (369,'Coller',23,37,172,4.1),
-                       (370,'Le goût',23,37,165,4.0),
-                       (371,'Bolide allemand',24,38,185,4.9),
-                       (372,'Mr. Ocho',24,38,195,4.7),
-                       (373,'Ragnar',24,38,180,4.5),
-                       (374,'Hier encore',24,38,200,4.3),
-                       (375,'Franklin Saint',24,38,190,4.2),
-                       (376,'Jacuzzi',24,38,198,4.1),
-                       (377,'Nwar sur nwar',24,38,185,4.0),
-                       (378,'Redemption',24,38,210,4.4),
-                       (379,'Sang4Sang',24,38,205,4.2),
-                       (380,'Cette année-là',24,38,195,4.1),
-                       (381,'Van Damme',24,39,185,4.6),
-                       (382,'Appel manqué',24,39,195,4.4),
-                       (383,'Daddy',24,39,205,4.5),
-                       (384,'La vie de rêve',24,39,190,4.2);
-/*!40000 ALTER TABLE `song` ENABLE KEYS */;
-UNLOCK TABLES;
-
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2025-11-30 12:00:00
+SET FOREIGN_KEY_CHECKS = 1;

@@ -62,20 +62,20 @@ foreach ($songs as $song) {
     //éditer les songs d'une playlist
     $songsHtml .= <<<HTML
         <div class="track-row fade-in" style="grid-template-columns: 250px 1fr 60px;">
-            <div class="track-left">
+            <a class="track-left" href="./artist.php?id={$song["artist_id"]}">
                 <span class="track-num">$count</span>
                 <img src="{$songCover}" alt="cover" style="width:40px; height:40px; border-radius:4px; margin: 0 15px;">
                 <div class="track-info">
                     <span class="title">{$songName}</span>
                     <span class="track-sub">{$artistName} • {$songNote} <i class="ri-star-fill star-shine"></i></span>
                 </div>
-            </div>
+            </a>
             <div class="track-right">
                 <a href="./like_song.php?id={$songId}" class="like-btn $activeClass">
                         <i class="$heartIcon"></i>
                 </a>
                 <span class="duration" style="margin-right: 20px;">$durationFormat</span>
-                <a href="remove_from_playlist.php?song_id={$songId}&playlist_id={$playlistId}" class="like-btn" style="color: #ff4d4d;" title="Retirer">
+                <a href="remove_from_playlist.php?song_id={$songId}&playlist_id={$playlistId}" class="like-btn" style="color: #ff4d4d;" title="Retirer" onclick="return confirm('Souhaitez vous supprimer ce son de cette playlist ?');">
                     <i class="ri-close-circle-line"></i>
                 </a>
             </div>
