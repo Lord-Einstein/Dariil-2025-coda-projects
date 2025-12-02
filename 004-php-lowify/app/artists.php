@@ -63,6 +63,7 @@ $html = <<<HTML
             <li><a href="./index.php">Accueil</a></li>
             <li><a href="./artists.php" class="active">Artistes</a></li>
             <li><a href="./playlists.php">Playlists</a></li>
+            <li><a href="./search.php?query=&submit="><i class="ri-search-line"></i></a></li>
         </ul>
     </nav>
 

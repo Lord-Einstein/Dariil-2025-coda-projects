@@ -4,6 +4,7 @@ require_once './inc/reusable.inc.php';
 
 $db = null;
 
+
 if (!isset($_GET['id'])) {
     header("Location: index.php");
     exit;

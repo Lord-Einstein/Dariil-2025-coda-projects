@@ -63,6 +63,7 @@ $html = <<<HTML
             <li><a href="./index.php">Accueil</a></li>
             <li><a href="./artists.php">Artistes</a></li>
             <li><a href="./playlists.php" class="active">Playlists</a></li>
+            <li><a href="./search.php?query=&submit="><i class="ri-search-line"></i></a></li>
         </ul>
     </nav>
 
@@ -82,7 +83,7 @@ $html = <<<HTML
     </main>
 HTML;
 
-echo (new HTMLPage(title: "Mes Playlists | Lowify"))
+echo (new HTMLPage(title: "Mes Playlists | Lowify & Darill"))
 ->addContent($html)
 ->addHead($htmlHead)
 ->addStylesheet("./others/global.css")

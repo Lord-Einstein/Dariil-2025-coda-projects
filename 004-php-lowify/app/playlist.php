@@ -122,7 +122,7 @@ $html = <<<HTML
     </main>
 HTML;
 
-echo (new HTMLPage(title: "{$playlist['name']} | Lowify"))
+echo (new HTMLPage(title: "{$playlist['name']} | Lowify & Darill"))
 ->addContent($html)
 ->addHead($htmlHead)
 ->addStylesheet("./others/global.css")

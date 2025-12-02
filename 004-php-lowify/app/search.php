@@ -225,8 +225,15 @@ HTML;
 
 $html = <<<HTML
         
-    <nav class="glass-nav">
+    <nav class="navbar">
         <a href="./index.php" class="logo">L<span>&</span>D</a>
+        
+         <ul class="nav-links">
+            <li><a href="./index.php">Accueil</a></li>
+            <li><a href="./artists.php">Artistes</a></li>
+            <li><a href="./playlists.php">Playlists</a></li>
+            <li><a href="./search.php?query=&submit=" class="active"><i class="ri-search-line"></i></a></li>
+        </ul>
     </nav>
 
     <main class="container search-page">
@@ -238,7 +245,7 @@ $html = <<<HTML
                     <i class="ri-search-line"></i>
                     <input type="text" name="query" value="$query" placeholder="Rechercher autre chose...">
                 </div>
-                <button type="submit" name="submit" class="hidden-submit"></button>
+                <button type="submit" name="submit" class="hidden-submit">Go</button>
             </form>
         </header>
     
