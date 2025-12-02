@@ -74,9 +74,9 @@ $html = <<<HTML
             
             <div class="filters fade-in">
                 <button class="filter-btn active">Tous</button>
-                <button class="filter-btn">Pop</button>
-                <button class="filter-btn">Rap</button>
-                <button class="filter-btn">Electro</button>
+<!-- Implémenter des filtres si j'ai du temps en plus  <button class="filter-btn">Pop</button>-->
+<!--                <button class="filter-btn">Rap</button>-->
+<!--                <button class="filter-btn">Electro</button>-->
             </div>
         </div>
         

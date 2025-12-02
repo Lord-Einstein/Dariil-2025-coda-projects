@@ -186,7 +186,7 @@ HTML;
 
 $html = <<<HTML
     <nav class="glass-nav">
-        <a href="./index.php" class="logo">L<span>&</span>D</a>
+        <a href="./artists.php" class="logo">L<span>&</span>D</a>
     </nav>
 
     <main class="artist-page-wrapper">

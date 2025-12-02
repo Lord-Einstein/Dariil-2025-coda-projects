@@ -32,6 +32,7 @@ if(isset($_GET["id"])){
         SQL);
     }catch (PDOException $e){
         generateQuerryError($e);
+        exit;
     }
 
     if($albums){
@@ -157,7 +158,7 @@ HTML;
 
 $html = <<<HTML
     <nav class="glass-nav">
-        <a href="./index.php" class="logo">L<span>&</span>D</a>
+        <a href="./artist.php?id={$albums[0]["artist_id"]}" class="logo">L<span>&</span>D</a>
     </nav>
 
     <main class="container album-layout">
@@ -173,7 +174,7 @@ $html = <<<HTML
             <div class="tracks-list">
                 {$songsHtml}
             </div>
-        </section>     
+        </section>
     </main>
 HTML;
 
