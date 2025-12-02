@@ -87,7 +87,7 @@ body {
 }
 .artist-pill:hover { color: var(--gold-main); }
 .artist-pill img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
-.dot { color: var(--gold-dim); }
+.dot { color: var(--gold-main); }
 
 /* BOUTONS SIDEBAR */
 .album-actions { display: flex; justify-content: center; gap: 20px; }
@@ -212,4 +212,29 @@ body {
         margin: 0 auto;
         animation: none;
     }
+}
+
+.track-row {
+    display: grid;
+
+    grid-template-columns: 10px 1fr 200px;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 40px;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    position: relative;
+    cursor: pointer;
+}
+
+/* ... (l'effet ::after reste pareil) ... */
+
+/* Colonne Droite (Actions + Durée) - Large et aérée */
+.track-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Pousse tout à droite */
+    gap: 25px; /* Espace large entre les boutons et la durée */
+    padding-right: 10px;
 }

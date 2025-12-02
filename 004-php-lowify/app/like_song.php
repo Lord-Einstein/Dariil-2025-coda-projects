@@ -14,9 +14,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
     try {
         $songs = $db->executeQuery(<<<SQL
-            SELECT id, is_liked 
-            FROM song 
-            WHERE id = $songId
+            SELECT id, is_liked
+            FROM song
+            WHERE id = $songId;
         SQL);
     } catch (PDOException $e) {
         header("Location: ./error.php?message=Cette piste est introuvable.");
@@ -32,9 +32,9 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
 
         try {
             $db->executeQuery(<<<SQL
-                UPDATE song 
-                SET is_liked = $newLike 
-                WHERE id = $songId
+                UPDATE song
+                SET is_liked = $newLike
+                WHERE id = $songId;
             SQL);
         } catch (PDOException $e) {
             header("Location: ./error.php?message=Votre like s'est fait la malle!.");

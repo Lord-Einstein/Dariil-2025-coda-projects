@@ -62,13 +62,14 @@ $html = <<<HTML
         <ul class="nav-links">
             <li><a href="./index.php">Accueil</a></li>
             <li><a href="./artists.php" class="active">Artistes</a></li>
+            <li><a href="./playlists.php">Playlists</a></li>
         </ul>
     </nav>
 
     <main class="container page-container">
         <div class="page-header">
             <h1 class="fade-in">Nos <span class="gold-text">Artistes</span></h1>
-            <p class="subtitle fade-in">Les talents qui façonnent le son de demain.</p>
+            <p class="subtitle fade-in">Nous sélectionnons le meilleur des talents musicaux pour vous.</p>
             
             <div class="filters fade-in">
                 <button class="filter-btn active">Tous</button>

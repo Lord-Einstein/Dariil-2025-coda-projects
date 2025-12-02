@@ -18,9 +18,9 @@ try {
 
     // Infos de ma playlist
     $playlistData = $db->executeQuery(<<<SQL
-        SELECT * 
-        FROM playlist 
-        WHERE id = {$playlistId}
+        SELECT *
+        FROM playlist
+        WHERE id = {$playlistId};
     SQL);
 
     if (!$playlistData) {
@@ -36,28 +36,46 @@ try {
         JOIN song s ON x.song_id = s.id
         JOIN album alb ON s.album_id = alb.id
         JOIN artist a ON s.artist_id = a.id
-        WHERE x.playlist_id = $plId
-        ORDER BY x.added_at DESC
+        WHERE x.playlist_id = $playlistId
+        ORDER BY x.id DESC;
     SQL);
 
-} catch (PDOException $e) { die("Erreur BDD"); }
+} catch (PDOException $e) {
+    generateQuerryError($e);
+    exit;
+}
 
 $count = 1;
 foreach ($songs as $song) {
-    $dur = formatDurationMmSs($song['duration']);
+    $songId = $song["id"];
+    $songName = $song["name"];
+    $songCover = $song["cover"];
+    $songNote = $song["note"];
+    $artistName = $song["artist_name"];
+    $durationFormat = formatDuration($song["duration"]);
+
+    //j'implémente le liked...
+    $isLiked = $song['is_liked'] == 1;
+    $heartIcon = $isLiked ? 'ri-heart-fill' : 'ri-heart-line';
+    $activeClass = $isLiked ? 'liked' : '';
+
+    //éditer les songs d'une playlist
     $songsHtml .= <<<HTML
-        <div class="track-row fade-in">
+        <div class="track-row fade-in" style="grid-template-columns: 250px 1fr 60px;">
             <div class="track-left">
                 <span class="track-num">$count</span>
-                <img src="{$song['cover']}" alt="cover" style="width:40px; height:40px; border-radius:4px; margin: 0 15px;">
+                <img src="{$songCover}" alt="cover" style="width:40px; height:40px; border-radius:4px; margin: 0 15px;">
                 <div class="track-info">
-                    <span class="title">{$song['name']}</span>
-                    <span class="track-sub">{$song['artist_name']} • {$song['note']} <i class="ri-star-fill star-shine"></i></span>
+                    <span class="title">{$songName}</span>
+                    <span class="track-sub">{$artistName} • {$songNote} <i class="ri-star-fill star-shine"></i></span>
                 </div>
             </div>
             <div class="track-right">
-                <span class="duration" style="margin-right: 20px;">$dur</span>
-                <a href="remove_from_playlist.php?song_id={$song['id']}&playlist_id={$plId}" class="like-btn" style="color: #ff4d4d;" title="Retirer">
+                <a href="./like_song.php?id={$songId}" class="like-btn $activeClass">
+                        <i class="$heartIcon"></i>
+                </a>
+                <span class="duration" style="margin-right: 20px;">$durationFormat</span>
+                <a href="remove_from_playlist.php?song_id={$songId}&playlist_id={$playlistId}" class="like-btn" style="color: #ff4d4d;" title="Retirer">
                     <i class="ri-close-circle-line"></i>
                 </a>
             </div>
@@ -65,8 +83,8 @@ foreach ($songs as $song) {
     HTML;
     $count++;
 }
-
-$totalDur = formatDurationHhMmSs($playlist['total_duration']);
+//formater la durée en H, m, s...
+$totalDuration = formatDurationHMS($playlist["duration"]);
 
 $htmlHead = <<<HTML
     <meta charset="UTF-8">
@@ -87,12 +105,12 @@ $html = <<<HTML
             </div>
             <h1 class="playlist-title-large">{$playlist['name']}</h1>
             <p style="color: var(--text-secondary);">
-                {$playlist['total_songs']} titres • Durée : <span class="gold-text">$totalDur</span>
+                {$playlist["nb_song"]} titres • Durée : <span class="gold-text">$totalDuration</span>
             </p>
             
             <div style="margin-top: 30px;">
                 <button class="btn-gold"><i class="ri-play-fill"></i> Lecture</button>
-                <a href="delete_playlist.php?id=$plId" class="btn-glass" style="margin-left: 10px; color: #ff4d4d; border-color: rgba(255,0,0,0.3);" onclick="return confirm('Supprimer définitivement ?');">
+                <a href="delete_playlist.php?id=$playlistId" class="btn-glass" style="margin-left: 10px; color: #ff4d4d; border-color: rgba(255,0,0,0.3);" onclick="return confirm('Souhaitez vous supprimer définitivement cette playlist ?');">
                     <i class="ri-delete-bin-line"></i> Supprimer
                 </a>
             </div>
@@ -105,10 +123,10 @@ $html = <<<HTML
 HTML;
 
 echo (new HTMLPage(title: "{$playlist['name']} | Lowify"))
-    ->addContent($html)
-    ->addHead($htmlHead)
-    ->addStylesheet("./others/global.css")
-    ->addStylesheet("./others/album.css")
-    ->addStylesheet("./others/playlists.css")
-    ->addScript("./others/global.js")
-    ->render();
+->addContent($html)
+->addHead($htmlHead)
+->addStylesheet("./others/global.css")
+->addStylesheet("./others/album.css")
+->addStylesheet("./others/playlists.css")
+->addScript("./others/global.js")
+->render();

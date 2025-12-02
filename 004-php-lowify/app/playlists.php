@@ -11,9 +11,9 @@ $db = connectDatabase();
 // récupérer les playlists
 try {
     $playlists = $db->executeQuery(<<<SQL
-        SELECT * 
-        FROM playlist 
-        ORDER BY id DESC
+        SELECT *
+        FROM playlist
+        ORDER BY id DESC;
     SQL);
 } catch (PDOException $e) {
     $playlists = [];
@@ -23,7 +23,7 @@ foreach ($playlists as $playlist) {
     $id = $playlist["id"];
     $name = $playlist["name"];
     $nb_song = $playlist["nb_song"];
-    $formatDuration = formatDurationHMS($playlist["total_duration"]);
+    $formatDuration = formatDurationHMS($playlist["duration"]);
 
     $playlistsHtml .= <<<HTML
         <div class="playlist-card fade-in">
@@ -54,8 +54,16 @@ $htmlHead = <<<HTML
 HTML;
 
 $html = <<<HTML
-    <nav class="glass-nav">
+    <nav class="navbar">
         <a href="./index.php" class="logo">L<span>&</span>D</a>
+        <button class="mobile-toggle" aria-label="Toggle menu">
+            <i class="ri-menu-3-line"></i>
+        </button>
+        <ul class="nav-links">
+            <li><a href="./index.php">Accueil</a></li>
+            <li><a href="./artists.php">Artistes</a></li>
+            <li><a href="./playlists.php" class="active">Playlists</a></li>
+        </ul>
     </nav>
 
     <main class="container" style="padding-top: 120px;">

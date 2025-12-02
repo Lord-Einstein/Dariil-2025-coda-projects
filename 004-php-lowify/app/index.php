@@ -136,6 +136,7 @@ $html = <<<HTML
         <ul class="nav-links">
             <li><a href="./index.php" class="active">Accueil</a></li>
             <li><a href="./artists.php">Artistes</a></li>
+            <li><a href="./playlists.php">Playlists</a></li>
 <!--            <li><a href="./search.php">Recherche</a></li>-->
         </ul>
     </nav>

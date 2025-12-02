@@ -181,6 +181,9 @@ if(isset($_GET["submit"])){
                         </div>
 
                         <div class="track-right">
+                            <a href="add_to_playlist.php?id={$id}" class="like-btn" title="Ajouter à une playlist">
+                                <i class="ri-add-box-line"></i>
+                            </a>
                              <a href="./like_song.php?id={$id}" class="like-btn $activeClass">
                                 <i class="$heartIcon"></i>
                              </a>

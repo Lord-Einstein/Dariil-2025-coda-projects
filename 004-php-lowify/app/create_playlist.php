@@ -3,7 +3,8 @@
 require_once './inc/reusable.inc.php';
 
 $db = null;
-
+$comeWithId = isset($_GET['song_id']) ? (int)$_GET['song_id'] : null;
+//pour gérer le cas où on veut créer une playlist pendant le process d'ajout d'une chanson dans cette même playlist(i'll be crazy :p).
 
 if (isset($_POST["name"]) && !empty($_POST["name"])) {
     try {
@@ -12,13 +13,15 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
 
         // phase d'insert dans ma db
         $db->executeQuery(<<<SQL
-            INSERT INTO playlist (name, duration, nb_song) 
-            VALUES (:name, 0, 0)
+            INSERT INTO playlist (name, duration, nb_song)
+            VALUES (:name, 0, 0);
         SQL,
             [
                 "name" => $name
             ]
         );
+
+
 
         header("Location: ./playlists.php");
         exit;

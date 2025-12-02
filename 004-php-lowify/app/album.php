@@ -125,6 +125,9 @@ if(isset($_GET["id"])){
                     </div>
                 </div>
                 <div class="track-right">
+                    <a href="add_to_playlist.php?id={$songID}" class="like-btn" title="Ajouter à une playlist">
+                         <i class="ri-add-box-line"></i>
+                    </a>
                      <a href="./like_song.php?id={$songID}" class="like-btn $activeClass">
                         <i class="$heartIcon"></i>
                      </a>
