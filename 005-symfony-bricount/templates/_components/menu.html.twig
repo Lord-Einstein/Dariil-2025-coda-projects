@@ -1,0 +1,39 @@
+{% set current_route = app.request.attributes.get('_route') %}
+<nav class="navigation">
+    <div class="nav-header">
+        <i class="ph-fill ph-hexagon logo-icon"></i>
+    </div>
+
+    <ul class="nav-list">
+        <li class="nav-item {{ current_route == 'home' ? 'active' : '' }}">
+            <a href="{{ path('home') }}" class="nav-link">
+                <span class="icon"><i class="ph-bold ph-house"></i></span>
+                <span class="title">Accueil.</span>
+            </a>
+        </li>
+        <li class="nav-item {{ current_route in ['wallets_show'] ? 'active' : '' }}">
+            <a href="{{ path('wallets_list') }}" class="nav-link">
+                <span class="icon"><i class="ph-bold ph-wallet"></i></span>
+                <span class="title">Wallets.</span>
+            </a>
+        </li>
+        <li class="nav-item {{ current_route == 'settings' ? 'active' : '' }}">
+            <a href="{{ path('settings') }}" class="nav-link">
+                <span class="icon"><i class="ph-bold ph-gear"></i></span>
+                <span class="title">Paramètres.</span>
+            </a>
+        </li>
+        <li class="nav-item {{ current_route == 'home' ? 'active' : '' }}">
+            <a href="{{ path('home') }}" class="nav-link">
+                <span class="icon"><i class="ph-bold ph-sign-out"></i></span>
+                <span class="title">Déconnexion.</span>
+            </a>
+        </li>
+    </ul>
+
+    <div class="nav-footer">
+        <button class="theme-toggle" id="themeToggle">
+            <i class="ph-fill ph-moon"></i>
+        </button>
+    </div>
+</nav>
