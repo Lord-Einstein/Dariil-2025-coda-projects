@@ -1,585 +1,526 @@
 :root {
-    --primary: #ff6b00;
-    --primary-dark: #e55f00;
-    --primary-light: #ff8533;
-    --bg-body: #0a0a0f;
-    --bg-nav: #1a1a24;
-    --bg-card: #1e1e2e;
-    --text-main: #ffffff;
-    --text-muted: #8b8b9a;
-    --border: rgba(255, 255, 255, 0.06);
-    --shadow: rgba(0, 0, 0, 0.4);
-    --green: #10b981;
-    --red: #ef4444;
-    --nav-width: 90px;
-    --nav-item-size: 56px;
-}
-
-[data-theme="light"] {
-    --bg-body: #f5f7fa;
-    --bg-nav: #ffffff;
-    --bg-card: #ffffff;
-    --text-main: #1a1a1a;
-    --text-muted: #6b7280;
-    --border: rgba(0, 0, 0, 0.06);
-    --shadow: rgba(0, 0, 0, 0.08);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    --main-color: #ff5722; /* Orange */
+    --main-dark: #e64a19;
+    --text-dark: #333;
+    --glass-bg: rgba(255, 255, 255, 0.7); /* Plus opaque pour lisibilité */
+    --glass-border: rgba(255, 255, 255, 0.5);
+    /* Courbe de Bézier pour l'effet "Blop" élastique */
+    --elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --header-height: 60px;
+    --header-bg: rgba(255, 255, 255, 0.85); /* Un peu plus opaque que le verre du menu */
 }
 
 body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg-body);
-    color: var(--text-main);
-    min-height: 100vh;
-    transition: background 0.3s ease;
-    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    height: 100vh;
+    background-color: #f0f2f5;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
 }
 
-/* NAVIGATION SIDEBAR - Style Modern avec Active Diamond */
-.navigation {
+/* --- Header Global --- */
+.app-header {
     position: fixed;
-    left: 0;
     top: 0;
-    bottom: 0;
-    width: var(--nav-width);
-    background: var(--bg-nav);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 24px 0;
-    z-index: 100;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.nav-header {
-    width: var(--nav-item-size);
-    height: var(--nav-item-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 40px;
-    position: relative;
-}
-
-.logo-icon {
-    font-size: 32px;
-    color: var(--primary);
-    animation: pulse 3s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%,
-    100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-}
-
-.nav-list {
-    list-style: none;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    left: 0;
     width: 100%;
-    padding: 0 17px;
-}
-
-.nav-item {
-    position: relative;
-    width: var(--nav-item-size);
-    height: var(--nav-item-size);
-}
-
-.nav-link {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: var(--text-muted);
-    border-radius: 16px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.nav-link::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--bg-card);
-    border-radius: 16px;
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.nav-link:hover::before {
-    opacity: 1;
-}
-
-.nav-link .icon {
-    font-size: 24px;
-    position: relative;
-    z-index: 1;
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.nav-link:hover .icon {
-    transform: scale(1.15);
-}
-
-/* Active State - Diamond Button Style */
-.nav-item.active .nav-link {
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    border-radius: 16px;
-    transform: rotate(-45deg);
-    box-shadow: 0 8px 20px rgba(255, 107, 0, 0.4);
-}
-
-.nav-item.active .nav-link .icon {
-    color: white;
-    transform: rotate(45deg) scale(1.1);
-}
-
-.nav-link .title {
-    display: none;
-}
-
-/* Indicator Line */
-.nav-item.active::after {
-    content: "";
-    position: absolute;
-    left: -17px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 24px;
-    background: var(--primary);
-    border-radius: 0 4px 4px 0;
-    animation: slideIn 0.3s ease;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateY(-50%) translateX(-10px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(-50%) translateX(0);
-        opacity: 1;
-    }
-}
-
-.nav-footer {
-    width: var(--nav-item-size);
-    padding: 20px 0;
-    border-top: 1px solid var(--border);
-}
-
-.theme-toggle {
-    width: var(--nav-item-size);
-    height: var(--nav-item-size);
-    border: none;
-    background: var(--bg-card);
-    color: var(--text-main);
-    border-radius: 16px;
-    cursor: pointer;
-    font-size: 22px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.theme-toggle:hover {
-    background: var(--primary);
-    color: white;
-    transform: rotate(180deg) scale(1.1);
-}
-
-/* DASHBOARD */
-.dashboard {
-    margin-left: var(--nav-width);
-    padding: 40px;
-    min-height: 100vh;
-}
-
-.top-bar {
+    height: var(--header-height);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
-    animation: fadeInDown 0.6s ease;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background: var(--header-bg);
+    backdrop-filter: blur(10px);
+    z-index: 80;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
 }
 
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
+/* --- Logo Animé --- */
+.header-left .logo-wrapper {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-svg {
+    width: 45px;
+    height: 45px;
+    animation: spin-pause 5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #333;
+    margin-left: 5px;
+    letter-spacing: -0.5px;
+}
+
+@keyframes spin-pause {
+    0%, 20% {
+        transform: rotate(0deg);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    40%, 100% {
+        transform: rotate(360deg);
     }
 }
 
-.greeting h1 {
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 4px;
-    letter-spacing: -1px;
-    background: linear-gradient(135deg, var(--text-main), var(--primary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+/* --- BOUTONS AUTH (Design demandé) --- */
+.header-right {
+    display: flex;
+    gap: 30px;
 }
 
-.greeting p {
-    color: var(--text-muted);
-    font-size: 15px;
-}
-
-.user-profile {
+.btn-auth {
     position: relative;
-}
-
-.user-profile img {
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    border: 2px solid var(--primary);
-    object-fit: cover;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.user-profile img:hover {
-    transform: scale(1.05) rotate(5deg);
-    box-shadow: 0 8px 20px rgba(255, 107, 0, 0.3);
-}
-
-/* GRID */
-.content-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-}
-
-.card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 28px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--primary-light));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-}
-
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px var(--shadow);
-    border-color: rgba(255, 107, 0, 0.3);
-}
-
-.card:hover::before {
-    transform: scaleX(1);
-}
-
-.card-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 28px;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-}
-
-.card:hover .card-icon {
-    transform: scale(1.1) rotate(5deg);
-}
-
-.card-icon.orange {
-    background: rgba(255, 107, 0, 0.15);
-    color: var(--primary);
-}
-
-.card-icon.purple {
-    background: rgba(139, 92, 246, 0.15);
-    color: #8b5cf6;
-}
-
-.card h3 {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.card h2 {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    letter-spacing: -1px;
-}
-
-.tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 14px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 600;
-    animation: bounceIn 0.6s ease;
-}
-
-@keyframes bounceIn {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-.tag.positive {
-    background: rgba(16, 185, 129, 0.15);
-    color: var(--green);
-}
-
-.tag.negative {
-    background: rgba(239, 68, 68, 0.15);
-    color: var(--red);
-}
-
-.wide {
-    grid-column: 1 / -1;
-}
-
-.chart-placeholder {
-    height: 220px;
-    background: linear-gradient(
-        135deg,
-        rgba(255, 107, 0, 0.08),
-        rgba(139, 92, 246, 0.08)
-    );
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
+    height: 35px;
+    padding: 0 20px;
+    border-radius: 18px;
+    text-decoration: none;
     font-size: 14px;
-    margin-top: 20px;
+    font-weight: 700;
+    overflow: hidden; /* Important pour contenir le cercle qui gonfle */
+    transition: all 0.3s ease;
+}
+
+/* Conteneur texte+icone pour gérer le z-index au dessus du fond */
+.btn-content {
     position: relative;
-    overflow: hidden;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
 }
 
-.chart-placeholder::before {
-    content: "";
+.btn-content i {
+    display: inline-block;
+    transition: all 0.3s ease;
+    width: 1rem;
+}
+
+/* --- Animation Survol Commune (Cercle qui grandit) --- */
+.btn-auth::before {
+    content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        45deg,
-        transparent,
-        rgba(255, 107, 0, 0.1),
-        transparent
-    );
-    animation: shimmer 3s infinite;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%); /* Caché en bas */
+    width: 150%;
+    padding-top: 150%; /* Crée un grand cercle */
+    border-radius: 50%;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
 }
 
-@keyframes shimmer {
-    0% {
-        transform: translateX(-100%) translateY(-100%) rotate(45deg);
-    }
-    100% {
-        transform: translateX(100%) translateY(100%) rotate(45deg);
-    }
+.btn-auth:hover::before {
+    transform: translate(-50%, 10%) scale(1.5); /* Remonte et remplit */
 }
 
-/* ANIMATIONS */
-.card {
-    animation: fadeInUp 0.6s ease forwards;
-    opacity: 0;
+
+/* --- 1. BOUTON SE CONNECTER (Orange Outline -> Orange Fill + Glow) --- */
+.btn-login {
+    color: var(--main-color);
+    border: 2px solid var(--main-color);
+    background: transparent;
 }
 
-.card:nth-child(1) {
-    animation-delay: 0.1s;
+/* Le rond qui monte est orange */
+.btn-login::before {
+    background: var(--main-color);
 }
 
-.card:nth-child(2) {
-    animation-delay: 0.2s;
+.btn-login:hover {
+    color: white; /* Texte devient blanc */
+    border-color: var(--main-color);
+    /* Glow léger qui déborde */
+    box-shadow: 0 8px 20px rgba(255, 87, 34, 0.5);
 }
 
-.card:nth-child(3) {
-    animation-delay: 0.3s;
+/* --- 2. BOUTON S'INSCRIRE (Orange Fill -> White Fill) --- */
+.btn-signup {
+    color: white;
+    background: var(--main-color);
+    border: 2px solid var(--main-color); /* Bordure invisible mais présente pour la taille */
 }
 
-.card:nth-child(4) {
-    animation-delay: 0.4s;
+/* Le rond qui monte est blanc */
+.btn-signup::before {
+    background: white;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.btn-signup:hover {
+    color: var(--main-color); /* Texte devient orange */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* RESPONSIVE MOBILE - Bottom Navigation Floating */
-@media (max-width: 768px) {
-    .navigation {
-        top: auto;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: calc(100% - 40px);
-        max-width: 420px;
-        height: 72px;
-        border: 1px solid var(--border);
-        border-radius: 24px;
-        flex-direction: row;
-        padding: 0 12px;
-        backdrop-filter: blur(20px);
-        background: rgba(26, 26, 36, 0.95);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    [data-theme="light"] .navigation {
-        background: rgba(255, 255, 255, 0.95);
-    }
-
-    .nav-header,
-    .nav-footer {
-        display: none;
-    }
-
-    .nav-list {
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        width: 100%;
-        padding: 0;
-        gap: 0;
-    }
-
-    .nav-item {
-        width: 60px;
+/* --- RESPONSIVE MOBILE (<= 480px) --- */
+@media (max-width: 480px) {
+    .app-header {
+        padding: 0 15px;
         height: 60px;
     }
 
-    .nav-link {
-        flex-direction: column;
-        gap: 4px;
+    .logo-svg {
+        width: 35px;
+        height: 35px;
     }
 
-    /* Mobile Active - Floating Bubble Effect */
-    .nav-item.active .nav-link {
-        transform: translateY(-28px) rotate(0deg);
+    .app-title {
+        font-size: 20px;
+    }
+
+    .header-right {
+        gap: 10px;
+    }
+
+    .btn-auth {
+        padding: 0;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        width: 56px;
-        height: 56px;
-        margin: 0 auto;
     }
 
-    .nav-item.active .nav-link .icon {
-        transform: rotate(0deg) scale(1.1);
+    /* Sur mobile, on cache le texte "Se connecter" mais on force l'affichage de l'icône */
+    .btn-content {
+        font-size: 0;
+        gap: 0;
     }
 
-    .nav-item.active::after {
+    .btn-content i {
+        width: auto;
+        opacity: 1;
+        transform: none;
+        font-size: 16px;
+    }
+
+    /* Sur mobile : Login reste outline, Signup reste plein */
+    .btn-login {
+        border-width: 1px;
+    }
+
+    .btn-login:hover {
+        box-shadow: none;
+        color: var(--main-color);
+    }
+
+    .btn-login:hover::before {
         display: none;
     }
 
-    /* Bottom indicator bar */
-    .nav-item.active::before {
-        content: "";
-        position: absolute;
-        bottom: 4px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 32px;
-        height: 4px;
-        background: var(--primary);
-        border-radius: 2px;
-        animation: expandWidth 0.3s ease;
+    /* Pas d'anim complexe sur touch */
+    .btn-signup:hover {
+        color: white;
     }
 
-    @keyframes expandWidth {
-        from {
-            width: 0;
-        }
-        to {
-            width: 32px;
-        }
-    }
-
-    .dashboard {
-        margin-left: 0;
-        padding: 24px 20px 120px;
-    }
-
-    .top-bar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-
-    .greeting h1 {
-        font-size: 28px;
-    }
-
-    .content-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+    .btn-signup:hover::before {
+        display: none;
     }
 }
 
-/* Micro-interactions */
-.card-icon i,
-.nav-link .icon i {
-    display: block;
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+/* --- Profil Utilisateur (In-App) --- */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    cursor: pointer; /* Indique qu'on peut cliquer pour un menu déroulant */
+    padding: 25px;
+    border-radius: 50px;
+    transition: background 0.3s ease;
 }
 
-.card:hover .card-icon i {
-    transform: rotateY(180deg);
+
+/* --- Le Nom Stylisé --- */
+.user-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark); /* #333 */
+    margin: 0;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Les Initiales (Orange + Grand) */
+.user-name .initial {
+    color: var(--main-color); /* Orange #ff5722 */
+    font-size: 1.4em; /* 40% plus grand que le reste */
+    vertical-align: -2px; /* Léger alignement optique */
+
+}
+
+.user-name .initial:nth-child(2) {
+    margin-left: 20px;
+}
+
+/* --- L'Avatar 3D --- */
+.avatar-wrapper {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    /* Cercle blanc derrière pour faire ressortir la 3D */
+    background: #f0f2f5;
+    border-radius: 50%;
+    /* Ombre portée douce pour l'effet flottant */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* S'assure que l'image remplit bien */
+    border-radius: 50%;
+}
+
+/* Animation au survol de la div parent */
+.user-profile:hover .avatar-wrapper {
+    transform: scale(1.1) rotate(5deg); /* Petit pop 3D sympa */
+    box-shadow: 0 6px 15px rgba(255, 87, 34, 0.2);
+}
+
+/* La petite pastille verte (Status en ligne) */
+.status-dot {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 12px;
+    height: 12px;
+    background: #4caf50;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* --- RESPONSIVE (Mobile < 480px) --- */
+@media (max-width: 480px) {
+    /* On cache le nom pour gagner de la place */
+    .user-name {
+        display: none;
+    }
+
+    /* On réduit un peu l'espacement du conteneur */
+    .user-profile {
+        gap: 0;
+        padding: 0;
+    }
+
+    /* L'avatar reste bien visible */
+    .avatar-wrapper {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+
+/* --- Overlay --- */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 90;
+    backdrop-filter: blur(2px);
+}
+
+.menu-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- Wrapper Principal --- */
+.fab-wrapper {
+    position: fixed;
+    top: 50%; /* Centré verticalement */
+    left: 20px; /* Flotte à gauche */
+    z-index: 100;
+    /* On ne transforme pas ici pour éviter les conflits de contexte d'empilement */
+}
+
+/* --- Bouton Principal (Orange) --- */
+.fab-main-btn {
+    width: 70px;
+    height: 70px;
+    background: var(--main-color);
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 8px 20px rgba(255, 87, 34, 0.4);
+    cursor: pointer;
+    position: relative;
+    top: 25px;
+    z-index: 102;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Centrage propre par rapport au wrapper */
+    transform: translateY(-50%);
+    transition: transform 0.5s var(--elastic), background 0.3s;
+}
+
+.fab-main-btn i {
+    font-size: 26px;
+    color: white;
+    transition: opacity 0.3s;
+}
+
+/* --- Liste en Arc de Cercle --- */
+.fab-list {
+    position: absolute;
+    top: 50%; /* On part du centre exact du bouton principal */
+    left: 0;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    width: 0;
+    height: 0;
+    z-index: 99;
+}
+
+.fab-list li {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Le secret est ici : on prépare le terrain mais on ne bouge pas encore */
+    transform: rotate(0deg) translateX(0) rotate(0deg);
+    transition: transform 0.5s var(--elastic), opacity 0.3s;
+    opacity: 0;
+    pointer-events: none;
+    /* On force la taille du li à 0 pour ne pas gêner */
+    width: 0;
+    height: 0;
+}
+
+/* État OUVERT : La magie opère ici */
+.fab-wrapper.open .fab-list li {
+    opacity: 1;
+    pointer-events: auto;
+
+    /* EXPLICATION DU CORRECTIF :
+       1. rotate(...) : On tourne l'axe vers la direction voulue.
+       2. translateX(110px) : On pousse le bouton au bon endroit.
+       3. rotate(...) INVRESE : On fait une contre-rotation immédiate du LI.
+
+       Résultat : Le LI est placé sur le cercle, mais il est "droit".
+       Donc quand l'enfant (le lien A) s'agrandit, il le fait à l'horizontale !
+    */
+    transform: rotate(calc(var(--i) * 35deg)) translateX(150px) rotate(calc(var(--i) * -35deg));
+}
+
+/* --- Les Liens (Bulles) --- */
+.fab-list li a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+
+    /* Dimensions fixes au départ */
+    width: 50px;
+    height: 50px;
+
+    /* Centrage absolu du lien par rapport au point du LI */
+    margin-top: -25px; /* Moitié de la hauteur */
+    margin-left: -25px; /* Moitié de la largeur */
+
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    color: var(--text-dark);
+
+    overflow: hidden;
+    /* Transition fluide */
+    transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background 0.3s;
+
+    /* PLUS DE ROTATION ICI ! Le parent LI a déjà tout remis droit */
+    transform: none;
+}
+
+/* L'icone dans le lien */
+.fab-list li a i {
+    /* On fige la largeur de l'icône pour qu'elle ne soit pas écrasée pendant l'anim */
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+    line-height: 50px; /* Centrage vertical du texte de l'icone */
+    text-align: center;
+    font-size: 18px;
+    z-index: 2;
+}
+
+/* Le Texte (Label) */
+.fab-list li a .label {
+    opacity: 0;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 600;
+    padding-right: 20px;
+    /* Animation d'apparition du texte */
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+}
+
+/* Interaction Hover */
+.fab-list li a:hover {
+    width: 140px; /* S'étend vers la droite horizontalement maintenant */
+    background: #fff;
+    /* On assure que l'élément survolé passe au dessus des voisins si besoin */
+    z-index: 10;
+}
+
+.fab-list li a:hover .label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* CLASSE ACTIVE */
+.fab-list li a.active {
+    background: var(--main-color);
+    color: white;
+    box-shadow: 0 0 0 4px rgba(255, 87, 34, 0.2);
+    cursor: default;
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 480px) {
+    .fab-wrapper {
+        left: 15px;
+    }
+
+    .fab-wrapper.open .fab-list li {
+        /* Version Mobile : rayon plus court (90px) */
+        transform: rotate(calc(var(--i) * 35deg)) translateX(110px) rotate(calc(var(--i) * -35deg));
+    }
+
+    .fab-main-btn {
+        width: 60px;
+        height: 60px;
+        top: 20px;
+    }
+
+    /* Ajustement top */
+    .fab-list li a {
+        width: 45px;
+        height: 45px;
+        margin-top: -22.5px;
+        margin-left: -22.5px; /* Recentrage précis */
+    }
+
+    .fab-list li a i {
+        width: 45px;
+        min-width: 45px;
+        height: 45px;
+        line-height: 45px;
+    }
+
+    .fab-list li a:not(.active):hover {
+        width: 130px;
+    }
 }

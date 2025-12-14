@@ -1,39 +1,47 @@
-{% set current_route = app.request.attributes.get('_route') %}
-<nav class="navigation">
-    <div class="nav-header">
-        <i class="ph-fill ph-hexagon logo-icon"></i>
-    </div>
+{% set currentRoute = app.request.attributes.get('_route') %}
 
-    <ul class="nav-list">
-        <li class="nav-item {{ current_route == 'home' ? 'active' : '' }}">
-            <a href="{{ path('home') }}" class="nav-link">
-                <span class="icon"><i class="ph-bold ph-house"></i></span>
-                <span class="title">Accueil.</span>
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<nav class="fab-wrapper" id="fabWrapper">
+    <button class="fab-main-btn" id="fabTrigger">
+        <i class="fa-solid fa-arrow-left" id="mainIcon"></i>
+    </button>
+
+    <ul class="fab-list">
+        <li style="--i:-1.5;">
+            <a
+                href="{{ path('wallets_list') }}"
+                class="{{ currentRoute == 'wallets_list' ? "active" : "" }}"
+                data-title="Wallets">
+
+                <i class="fa-solid fa-wallet"></i>
+                <span class="label">Wallets</span>
             </a>
         </li>
-        <li class="nav-item {{ current_route in ['wallets_show'] ? 'active' : '' }}">
-            <a href="{{ path('wallets_list') }}" class="nav-link">
-                <span class="icon"><i class="ph-bold ph-wallet"></i></span>
-                <span class="title">Wallets.</span>
+
+        <li style="--i:-0.5;">
+            <a
+                href="{{ path('settings') }}"
+                class="{{ currentRoute == 'settings' ? "active" : "" }}"
+                data-title="Settings">
+                <i class="fa-solid fa-gear"></i>
+                <span class="label">Settings</span>
             </a>
         </li>
-        <li class="nav-item {{ current_route == 'settings' ? 'active' : '' }}">
-            <a href="{{ path('settings') }}" class="nav-link">
-                <span class="icon"><i class="ph-bold ph-gear"></i></span>
-                <span class="title">Paramètres.</span>
+
+
+        <li style="--i:0.5;">
+            <a href="#" data-title="Mode Sombre">
+                <i class="fa-solid fa-moon"></i>
+                <span class="label">Sombre</span>
             </a>
         </li>
-        <li class="nav-item {{ current_route == 'home' ? 'active' : '' }}">
-            <a href="{{ path('home') }}" class="nav-link">
-                <span class="icon"><i class="ph-bold ph-sign-out"></i></span>
-                <span class="title">Déconnexion.</span>
+
+        <li style="--i:1.5;">
+            <a href="#" data-title="Déconnexion">
+                <i class="fa-solid fa-power-off"></i>
+                <span class="label">Logout</span>
             </a>
         </li>
     </ul>
-
-    <div class="nav-footer">
-        <button class="theme-toggle" id="themeToggle">
-            <i class="ph-fill ph-moon"></i>
-        </button>
-    </div>
 </nav>

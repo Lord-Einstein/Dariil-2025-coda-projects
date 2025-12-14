@@ -1,11 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ include('_components/menu.html.twig') }}
-    <div class="container">
-        <h1>Template In App</h1>
-        {# menu #}
 
-        {# container #}
-    </div>
+    {% block header %}
+
+        {% embed '_components/header.html.twig' %}
+            {% block header_right %}
+                <div class="user-profile">
+
+                    <p class="user-name">
+                        <span class="initial">D</span>aryll
+                        <span class="initial">K</span>ing
+                    </p>
+
+                    <div class="avatar-wrapper">
+                        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-6299539-5187871.png"
+                             alt="Avatar 3D"
+                             class="avatar-img">
+                        <span class="status-dot"></span>
+                    </div>
+                </div>
+            {% endblock %}
+        {% endembed %}
+
+    {% endblock %}
+
+    <h1>Template In App</h1>
+
+    {# menu #}
+    {{ include('_components/menu.html.twig') }}
+
+    {# container #}
+
 {% endblock %}

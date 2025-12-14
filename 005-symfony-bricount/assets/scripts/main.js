@@ -1,78 +1,57 @@
-// Navigation active state with smooth transitions
-const navItems = document.querySelectorAll('.nav-item');
+document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.getElementById('fabWrapper');
+    const trigger = document.getElementById('fabTrigger');
+    const mainIcon = document.getElementById('mainIcon');
+    const overlay = document.getElementById('menuOverlay');
 
-navItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-        // Remove active from all
-        // navItems.forEach(i => i.classList.remove('active'));
+    // --- 1. INITIALISATION DE L'ICÔNE PRINCIPALE ---
+    // On cherche s'il y a un lien avec la classe "active" (générée par PHP)
+    const activeLink = document.querySelector('.fab-list li a.active');
 
-        // Add active to clicked
-        item.classList.add('active');
+    if (activeLink) {
+        // On récupère la classe de l'icône de l'élément actif
+        const activeIconClass = activeLink.querySelector('i').className;
 
-        // Add ripple effect
-        const ripple = document.createElement('span');
-        ripple.style.cssText = `
-                    position: absolute;
-                    border-radius: 50%;
-                    background: rgba(255, 107, 0, 0.3);
-                    width: 100%;
-                    height: 100%;
-                    animation: ripple 0.6s ease-out;
-                    pointer-events: none;
-                `;
-        item.querySelector('.nav-link').appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
-    });
-});
+        // On remplace l'icône outils par celle de la page active
+        mainIcon.className = activeIconClass;
+    }
+    // Sinon, l'icône par défaut (outils) reste en place (définie dans le HTML)
 
-// Add ripple animation
-const style = document.createElement('style');
-style.textContent = `
-            @keyframes ripple {
-                from {
-                    transform: scale(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: scale(2);
-                    opacity: 0;
-                }
-            }
-        `;
-document.head.appendChild(style);
 
-// Theme toggle with smooth transition
-const themeToggle = document.getElementById('themeToggle');
-const html = document.documentElement;
-const icon = themeToggle.querySelector('i');
+    // --- 2. GESTION OUVERTURE / FERMETURE ---
+    function toggleMenu() {
+        const isOpen = wrapper.classList.contains('open');
 
-themeToggle.addEventListener('click', () => {
-    const currentTheme = html.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        if (isOpen) {
+            // FERMETURE
+            wrapper.classList.remove('open');
+            overlay.classList.remove('visible');
 
-    // Add transition effect
-    document.body.style.transition = 'none';
-    setTimeout(() => {
-        document.body.style.transition = '';
-    }, 10);
+            // Retour simple à la position initiale
+            trigger.style.transform = "translateY(-50%) rotate(0deg)";
+        } else {
+            // OUVERTURE
+            wrapper.classList.add('open');
+            overlay.classList.add('visible');
 
-    html.setAttribute('data-theme', newTheme);
-    icon.className = newTheme === 'dark' ? 'ph-fill ph-moon' : 'ph-fill ph-sun';
+            // ANIMATION "WHEEL" RÉALISTE
+            // 1. Rotation rapide qui dépasse un peu (overshoot) pour l'effet mécanique
+            trigger.style.transition = "transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+            trigger.style.transform = "translateY(-50%) rotate(400deg)";
 
-    localStorage.setItem('theme', newTheme);
-});
+            // 2. Petit retour en arrière pour "caler" le bouton à 360deg
+            setTimeout(() => {
+                trigger.style.transition = "transform 0.3s ease-out";
+                trigger.style.transform = "translateY(-50%) rotate(360deg)";
+            }, 500); // Correspond à la durée de la première transition
+        }
+    }
 
-// Load saved theme
-const savedTheme = localStorage.getItem('theme') || 'dark';
-html.setAttribute('data-theme', savedTheme);
-icon.className = savedTheme === 'dark' ? 'ph-fill ph-moon' : 'ph-fill ph-sun';
+    // Événements
+    trigger.addEventListener('click', toggleMenu);
 
-// Add parallax effect on scroll
-window.addEventListener('scroll', () => {
-    const cards = document.querySelectorAll('.card');
-    cards.forEach((card, index) => {
-        const speed = 0.1 + (index * 0.05);
-        const yPos = -(window.pageYOffset * speed);
-        card.style.transform = `translateY(${yPos}px)`;
+    // Fermer si on clique sur l'overlay sombre
+    overlay.addEventListener('click', () => {
+        if (wrapper.classList.contains('open')) toggleMenu();
     });
 });

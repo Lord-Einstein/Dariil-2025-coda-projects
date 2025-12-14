@@ -1,0 +1,31 @@
+<header class="app-header">
+
+    <div class="header-left">
+        <a href="#" class="logo-wrapper">
+            <svg viewBox="0 0 100 100" class="logo-svg">
+                <polygon points="50 5, 95 27.5, 95 72.5, 50 95, 5 72.5, 5 27.5" fill="var(--main-color)"/>
+                <path d="M50 30 V70 M30 50 H70" stroke="white" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+            <span class="app-title">Count.</span>
+        </a>
+    </div>
+
+
+    {% block header_right %}
+        <nav class="header-right">
+
+            <a href="#" class="btn-auth btn-login">
+            <span class="btn-content">
+                Se connecter <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            </span>
+            </a>
+
+            <a href="#" class="btn-auth btn-signup">
+            <span class="btn-content">
+                S'inscrire <i class="fa-solid fa-user-plus"></i>
+            </span>
+            </a>
+        </nav>
+    {% endblock %}
+
+</header>

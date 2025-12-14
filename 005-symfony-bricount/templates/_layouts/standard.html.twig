@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% block header %}
+        {{ include('_components/header.html.twig') }}
+    {% endblock %}
     <div class="container">
         <h1>Template Standard</h1>
-        {% block content %}
 
+        {% block content %}
         {% endblock %}
+
     </div>
 {% endblock %}
