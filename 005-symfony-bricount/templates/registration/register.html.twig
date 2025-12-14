@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register | +Count{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/forms.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="auth-container">
+        <div class="glass-card">
+
+            {# GAUCHE : FORMULAIRE #}
+            <div class="auth-side-form">
+                <h1 class="auth-title">Join +Count</h1>
+
+                {{ form_start(registrationForm) }}
+
+                <div class="input-group-custom">
+                    {{ form_widget(registrationForm.email, {'attr': {'placeholder': ' '}}) }}
+                    {{ form_label(registrationForm.email, 'Your Email') }}
+                    <div style="font-size: 0.8rem; color: #d32f2f; margin-top: 5px;">
+                        {{ form_errors(registrationForm.email) }}
+                    </div>
+                </div>
+
+                <div class="input-group-custom password-wrapper">
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': ' '}}) }}
+                    {{ form_label(registrationForm.plainPassword, 'Password') }}
+                    <div class="password-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                    <div style="font-size: 0.8rem; color: #d32f2f; margin-top: 5px;">
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+                </div>
+
+                <div class="mb-3"
+                     style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 10px;">
+                    {{ form_widget(registrationForm.agreeTerms) }}
+                    <label for="{{ registrationForm.agreeTerms.vars.id }}" style="margin:0; cursor:pointer;">I agree to
+                        terms & conditions</label>
+                </div>
+
+                <button type="submit" class="btn-modern">Start Now</button>
+
+                {{ form_end(registrationForm) }}
+
+                <div class="auth-links">
+                    <p style="color: #888;">Already a member? <a href="{{ path('app_login') }}">Sign In</a></p>
+                </div>
+            </div>
+
+            {# DROITE : VISUEL #}
+            <div class="auth-side-visual">
+                <div class="auth-marketing-text">
+                    <h2>Group Finance</h2>
+                    <p>Simplify your shared expenses.</p>
+                </div>
+
+                <svg class="floating-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="150" cy="100" r="70" fill="#fff" stroke="#ffe0d6" stroke-width="2"/>
+                    <path d="M110 120 L150 90 L190 110" fill="none" stroke="#ff7e5f" stroke-width="4"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="150" cy="90" r="5" fill="#ff7e5f"/>
+                    <circle cx="190" cy="110" r="5" fill="#ff7e5f"/>
+                    <circle cx="110" cy="120" r="5" fill="#ff7e5f"/>
+                </svg>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('scripts/forms.js') }}"></script>
+{% endblock %}

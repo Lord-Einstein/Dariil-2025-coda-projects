@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log In | +Count{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/forms.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="auth-container">
+        <div class="glass-card">
+
+            {# GAUCHE : VISUEL #}
+            <div class="auth-side-visual">
+                <div class="mb-4">
+                    <svg class="animated-logo" width="60" height="60" viewBox="0 0 100 100"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="45" stroke="#ff7e5f" stroke-width="8" fill="none"
+                                stroke-dasharray="200" stroke-dashoffset="50">
+                            <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50"
+                                              dur="10s" repeatCount="indefinite"/>
+                        </circle>
+                        <text x="50" y="65" font-size="50" text-anchor="middle" fill="#ff7e5f" font-weight="bold">+
+                        </text>
+                    </svg>
+                </div>
+
+                <div class="auth-marketing-text">
+                    <h2>Welcome Back</h2>
+                    <p>Track expenses effortlessly.</p>
+                </div>
+
+                <svg class="floating-svg" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="50" y="40" width="200" height="120" rx="10" fill="#fff" stroke="#eee" stroke-width="2"/>
+                    <circle cx="150" cy="100" r="30" fill="#ff7e5f" opacity="0.2"/>
+                    <path d="M135 100 L145 110 L165 90" stroke="#ff7e5f" stroke-width="4" fill="none"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+
+            {# DROITE : FORMULAIRE #}
+            <div class="auth-side-form">
+                <h1 class="auth-title">Sign In</h1>
+
+                <form method="post">
+                    {% if error %}
+                        <div class="alert alert-danger"
+                             style="color: #d32f2f; background: #ffebee; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.9rem;">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+
+                    <div class="input-group-custom">
+                        <input type="email" value="{{ last_username }}" name="_username" id="username"
+                               autocomplete="email" placeholder=" " required autofocus>
+                        <label for="username">Email Address</label>
+                    </div>
+
+                    <div class="input-group-custom password-wrapper">
+                        <input type="password" name="_password" id="password" autocomplete="current-password"
+                               placeholder=" " required>
+                        <label for="password">Password</label>
+                        <div class="password-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <button class="btn-modern" type="submit">
+                        Access Dashboard
+                    </button>
+
+                    <div class="auth-links">
+                        <p style="color: #888;">No account? <a href="{{ path('app_register') }}">Create one</a></p>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('scripts/forms.js') }}"></script>
+{% endblock %}
