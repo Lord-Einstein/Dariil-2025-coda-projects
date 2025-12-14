@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page introuvable - Count{% endblock %}
+
+{# On masque le header et le menu habituels #}
+{% block header %}{% endblock %}
+{% block menu %}{% endblock %}
+
+{% block body %}
+    <style>
+        /* Conteneur qui prend tout l'écran */
+        .error-fullscreen {
+            position: relative;
+            width: 100vw;
+            height: 90vh;
+            overflow: hidden; /* Empêche le scroll si l'anim dépasse */
+            background-color: #f0f2f5; /* Couleur de fond de secours */
+        }
+
+        /* L'animation en arrière-plan */
+        .bg-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centrage parfait */
+            width: 100%;
+            height: 100%;
+            min-width: 100vw; /* S'assure de couvrir tout */
+            max-height: 90vh;
+            border: none;
+            z-index: 0; /* Tout au fond */
+            pointer-events: none; /* L'utilisateur clique "au travers" vers le bouton */
+            opacity: 0.6; /* Légère transparence pour que le texte reste lisible */
+        }
+
+        /* Le Code 404 dans l'angle HAUT GAUCHE */
+        .corner-code {
+            position: absolute;
+            top: 5%;
+            left: 3%;
+            z-index: 2;
+            font-size: 4rem; /* Très gros */
+            font-weight: 900;
+            color: var(--main-color, #ff5722);
+            line-height: 1;
+            text-shadow: 0 10px 40px rgba(255, 87, 34, 0.6);
+        }
+
+        /* Conteneur central pour le message et le bouton */
+        .content-overlay {
+            position: absolute;
+            top: 85%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2; /* Au dessus de l'anim */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .error-message {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #333;
+            margin: 0;
+            text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8);
+        }
+
+        /* --- LE BOUTON ANIMÉ (Toujours le même) --- */
+        .btn-home-animated {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 55px;
+            padding: 0 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
+            overflow: hidden;
+            background: var(--main-color, #ff5722);
+            color: white;
+            border: 2px solid var(--main-color, #ff5722);
+            box-shadow: 0 10px 25px rgba(255, 87, 34, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .btn-home-animated .btn-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .btn-home-animated::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 100%);
+            width: 250%;
+            padding-top: 250%;
+            border-radius: 50%;
+            background: white;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+
+        .btn-home-animated:hover::before {
+            transform: translate(-50%, 35%) scale(1.5);
+        }
+
+        .btn-home-animated:hover {
+            box-shadow: 0 15px 35px rgba(255, 87, 34, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-home-animated:hover .btn-content {
+            color: var(--main-color, #ff5722);
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .corner-code {
+                font-size: 4rem;
+                top: 20px;
+                left: 20px;
+            }
+
+            .error-message {
+                font-size: 1.5rem;
+            }
+
+            .content-overlay {
+                width: 80%;
+                padding: 20px;
+            }
+
+            /* Sur mobile, l'iframe doit bien prendre toute la hauteur */
+            .bg-animation {
+                height: 100vh;
+            }
+        }
+    </style>
+
+    <div class="error-fullscreen">
+
+        <div class="corner-code">???</div>
+
+        <iframe
+            src="https://lottie.host/embed/295a5f27-1523-4144-9e66-d2fa8aa20943/yWrWN6gdYU.lottie"
+            class="bg-animation"
+            title="Animation erreur"
+        ></iframe>
+
+        <div class="content-overlay">
+            <p class="error-message">
+                L'espace est vaste... vous pourriez vous perdre !
+            </p>
+
+            <a href="{{ path('home') }}" class="btn-home-animated">
+                <span class="btn-content">
+                    <i class="fa-solid fa-house"></i>Revenir sur Terre.
+                </span>
+            </a>
+        </div>
+
+    </div>
+{% endblock %}
