@@ -40,6 +40,7 @@ security:
         - { path: '^/$', roles: PUBLIC_ACCESS }
         - { path: '^/login', roles: PUBLIC_ACCESS }
         - { path: '^/register', roles: PUBLIC_ACCESS }
+        - { path: '^/_error', roles: PUBLIC_ACCESS }
 
         - { path: '^/', roles: IS_AUTHENTICATED_FULLY }
 
