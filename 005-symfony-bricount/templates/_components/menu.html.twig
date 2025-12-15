@@ -38,10 +38,29 @@
         </li>
 
         <li style="--i:1.5;">
-            <a href="{{ path('app_logout') }}" data-title="Déconnexion">
+            <a href="#" id="logoutTrigger" data-title="Déconnexion">
                 <i class="fa-solid fa-power-off"></i>
                 <span class="label">Logout</span>
             </a>
         </li>
     </ul>
 </nav>
+
+{# --- LE NOUVEAU MODAL DE DÉCONNEXION --- #}
+<div class="logout-modal-overlay" id="logoutModal">
+    <div class="logout-card">
+        <div class="logout-icon-box">
+            <i class="fa-solid fa-power-off"></i>
+        </div>
+        <h3>Déconnexion</h3>
+        <p>Voulez-vous vraiment quitter votre session ?</p>
+
+        <div class="logout-actions">
+            <button class="btn-cancel" id="cancelLogout">Annuler</button>
+            
+            <a href="{{ path('app_logout') }}" class="btn-confirm">
+                Me déconnecter
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,204 +1,227 @@
 :root {
-    --primary-color: #ff7e5f;
-    --primary-dark: #e86043;
-    --text-color: #333333;
-    --text-muted: #666666;
-    --glass-bg: rgba(255, 255, 255, 0.7); /* Beaucoup plus clair/blanc */
-    --glass-border: rgba(255, 255, 255, 0.8);
-    --input-bg: rgba(255, 255, 255, 0.5);
-    --input-border: #ddd;
-    --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.1);
+    --main-color: #ff5722;
+    --main-hover: #f4511e;
+    --text-dark: #2d3748;
+    --text-muted: #a0aec0;
+    --card-bg: rgba(255, 255, 255, 0.90); /* Un peu plus opaque pour la lisibilité */
+    --glass-border: rgba(255, 255, 255, 0.6);
+    --input-border: #e2e8f0;
 }
 
-/* Container qui prend tout l'écran, sans scroll inutile */
-.auth-container {
+body {
+    margin: 0;
     height: 100vh;
-    width: 100vw;
+    background-color: #f0f2f5;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden; /* Empêche le scroll global sur PC */
+}
+
+/* --- Container Principal --- */
+.auth-container {
+    width: 100%;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Un fond dégradé léger est nécessaire pour voir l'effet glass */
-    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
     position: relative;
-    overflow: hidden;
+    background: radial-gradient(circle at top left, #ffe0d6, #f0f2f5 60%);
+    z-index: 1;
 }
 
-/* Cercles décoratifs flous en arrière-plan pour accentuer le glass */
+/* Background Blobs animés */
 .auth-container::before, .auth-container::after {
     content: '';
     position: absolute;
     border-radius: 50%;
-    z-index: 0;
+    filter: blur(80px);
+    z-index: -1;
+    animation: pulseBlob 10s infinite alternate;
 }
 
 .auth-container::before {
-    width: 300px;
-    height: 300px;
-    background: #ff7e5f;
     top: -50px;
     left: -50px;
-    filter: blur(80px);
-    opacity: 0.4;
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 87, 34, 0.15);
 }
 
 .auth-container::after {
-    width: 250px;
-    height: 250px;
-    background: #feb47b;
     bottom: -50px;
     right: -50px;
-    filter: blur(60px);
-    opacity: 0.4;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 167, 38, 0.15);
 }
 
-/* La Carte Glass */
+@keyframes pulseBlob {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+/* --- La Carte Glass --- */
 .glass-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--shadow-soft);
-    border-radius: 24px;
     display: flex;
-    width: 90%;
-    max-width: 1000px;
-    /* Hauteur contrainte pour éviter le scroll */
+    width: 1000px;
+    max-width: 95%;
+    height: 650px;
     max-height: 90vh;
-    height: auto;
-    position: relative;
-    z-index: 1;
+    background: var(--card-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
-/* Grille */
-.auth-side-form, .auth-side-visual {
+/* --- Section Contenu (Formulaire) --- */
+.auth-side-form {
     flex: 1;
-    padding: 40px; /* Padding réduit */
+    padding: 40px 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
+    overflow-y: auto;
 }
 
-/* Côté Visuel (SVG) */
-.auth-side-visual {
-    background: rgba(255, 245, 240, 0.5); /* Fond très léger orange/blanc */
+/* Bouton Retour */
+.btn-back {
+    display: inline-flex;
     align-items: center;
-    text-align: center;
+    gap: 8px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    align-self: flex-start; /* Calé à gauche */
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
-/* Titres & Textes */
+.btn-back:hover {
+    color: var(--main-color);
+    transform: translateX(-5px);
+}
+
 .auth-title {
-    font-size: 1.8rem;
-    color: var(--text-color);
-    margin-bottom: 25px;
+    font-size: 2rem;
     font-weight: 800;
+    color: var(--text-dark);
+    margin: 0 0 10px 0;
+    line-height: 1.2;
+}
+
+.auth-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+}
+
+/* --- Section Visuelle (Iframe/Lottie) --- */
+.auth-side-visual {
+    flex: 1;
+    position: relative;
+    background: linear-gradient(135deg, #fff5f2 0%, #ffffff 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Texte en bas */
+    padding: 40px;
+    overflow: hidden; /* Important pour couper l'iframe si besoin */
+}
+
+/* L'iframe prend toute la place derrière */
+.visual-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    z-index: 1; /* Derrière le texte */
+    pointer-events: none; /* Laisse passer les clics si besoin */
+    object-fit: cover;
+}
+
+/* Texte marketing par dessus l'iframe */
+.auth-marketing-text {
+    position: relative;
+    z-index: 2; /* Devant l'iframe */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 20px 25px;
+    border-radius: 20px;
+    margin-top: auto;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
 .auth-marketing-text h2 {
-    font-size: 1.6rem;
-    color: var(--primary-color);
-    margin-bottom: 8px;
-    font-weight: 800;
+    margin: 0 0 5px 0;
+    color: var(--main-color);
+    font-size: 1.4rem;
 }
 
 .auth-marketing-text p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    line-height: 1.4;
+    margin: 0;
+    color: var(--text-dark);
+    font-size: 0.95rem;
 }
 
-/* --- INPUTS MODERNES & FLOATING LABELS --- */
+/* --- Inputs & Labels --- */
 .input-group-custom {
     position: relative;
-    margin-bottom: 20px; /* Espacement réduit */
+    margin-bottom: 25px;
 }
 
-.input-group-custom input {
+.form-input {
     width: 100%;
-    padding: 12px 15px; /* Taille réduite */
-    background: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: 8px;
-    color: var(--text-color);
-    font-size: 0.95rem;
+    padding: 15px 15px;
+    font-size: 15px;
+    color: var(--text-dark);
+    background: transparent;
+    border: 2px solid var(--input-border);
+    border-radius: 12px;
     outline: none;
     transition: all 0.3s ease;
-    height: 48px; /* Hauteur fixe raisonnable */
+    box-sizing: border-box;
 }
 
-.input-group-custom label {
+.form-label {
     position: absolute;
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: #888;
+    color: var(--text-muted);
+    font-size: 15px;
     pointer-events: none;
-    transition: 0.3s ease all;
-    background: transparent; /* Pas de fond moche */
-    font-size: 0.95rem;
+    transition: all 0.25s ease-out;
+    padding: 0 5px;
+    background: transparent;
+    z-index: 10;
 }
 
-/* Animation Input Focus */
-.input-group-custom input:focus,
-.input-group-custom input:not(:placeholder-shown) {
-    border-color: var(--primary-color);
-    background: #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+/* Focus State */
+.form-input:focus, .form-input:not(:placeholder-shown) {
+    border-color: var(--main-color);
 }
 
-/* Label qui monte */
-.input-group-custom input:focus ~ label,
-.input-group-custom input:not(:placeholder-shown) ~ label {
-    top: -10px; /* Monte au dessus de la bordure */
-    left: 10px;
-    transform: translateY(0) scale(0.85);
-    color: var(--primary-color);
+.form-input:focus ~ .form-label, .form-input:not(:placeholder-shown) ~ .form-label {
+    top: 0;
+    transform: translateY(-50%) scale(0.9);
+    color: var(--main-color);
     font-weight: 600;
-    /* Astuce : contour blanc pour lisibilité si ça chevauche la ligne */
-    text-shadow: 0 0 5px white, 0 0 10px white;
+    background: var(--card-bg);
+    height: auto;
+    line-height: 1;
 }
 
-/* --- BOUTON AVEC ANIMATION CERCLE --- */
-.btn-modern {
-    position: relative;
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    background: var(--primary-color);
-    color: white;
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    overflow: hidden; /* Important pour l'anim */
-    transition: color 0.4s ease;
-    z-index: 1;
-}
-
-/* L'élément cercle caché */
-.btn-modern::after {
-    content: '';
-    position: absolute;
-    bottom: -50%; /* Commence en bas */
-    left: 50%;
-    transform: translateX(-50%) scale(0); /* Centré et minuscule */
-    width: 200%; /* Assez grand pour couvrir tout */
-    padding-bottom: 200%; /* Ratio carré -> cercle */
-    background: var(--primary-dark);
-    border-radius: 50%;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: -1; /* Derrière le texte */
-}
-
-/* Animation au survol */
-.btn-modern:hover::after {
-    transform: translateX(-50%) scale(1); /* Grandit */
-}
-
-/* --- ICÔNE PASSWORD --- */
+/* Password Toggle Icon */
 .password-wrapper {
     position: relative;
 }
@@ -209,65 +232,127 @@
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #999;
-    z-index: 10;
-    display: flex;
-    align-items: center;
+    color: var(--text-muted);
+    background: var(--card-bg); /* Masque la ligne si besoin */
+    border: none;
+    font-size: 1.1rem;
+    padding: 5px;
+    transition: color 0.3s;
 }
 
 .password-toggle:hover {
-    color: var(--primary-color);
+    color: var(--main-color);
 }
 
-.password-toggle svg {
-    width: 20px;
-    height: 20px;
-}
-
-/* SVG FLOTTANT AJUSTÉ */
-.floating-svg {
+/* --- Bouton Submit (Animation Gradient Clean) --- */
+.btn-modern {
     width: 100%;
-    max-width: 280px; /* Plus petit */
-    height: auto;
-    filter: drop-shadow(0 10px 15px rgba(255, 126, 95, 0.2));
-    animation: float 6s ease-in-out infinite;
+    padding: 16px;
+    margin-top: 10px;
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    /* Gradient Animation Logic */
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, #ff5722 0%, #ff8a50 51%, #ff5722 100%);
+    transition: 0.5s;
+    box-shadow: 0 10px 20px rgba(255, 87, 34, 0.2);
 }
 
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+.btn-modern:hover {
+    background-position: right center; /* Change la direction du gradient */
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(255, 87, 34, 0.35);
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .auth-container {
-        padding: 10px;
-        height: auto;
-        min-height: 100vh;
-        overflow-y: auto; /* Scroll autorisé sur mobile */
-    }
+/* --- Links & Footer --- */
+.auth-links {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #888;
+}
 
+.auth-links a {
+    color: var(--main-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
+.alert-box {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    background: #ffebee;
+    color: #d52121;
+    border: 1px solid #ffcdd2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
     .glass-card {
         flex-direction: column;
+        width: 500px;
         height: auto;
-        max-height: none;
-        padding-bottom: 20px;
+        max-height: 95vh;
+        overflow-y: auto;
     }
 
     .auth-side-visual {
-        order: -1;
-        padding: 30px 20px 10px;
-    }
-
-    .auth-side-form {
+        flex: 0 0 200px; /* Hauteur fixe pour le visuel sur mobile */
+        order: -1 !important; /* Visuel toujours en premier */
         padding: 20px;
     }
 
-    .floating-svg {
-        max-width: 140px;
+    .auth-marketing-text {
+        display: none;
+    }
+
+    /* Cache le texte sur mobile pour laisser la place à l'animation */
+    .visual-frame {
+        height: 120%;
+        top: -10%;
+    }
+
+    /* Ajustement pour centrer l'animation verticalement */
+}
+
+@media (max-width: 480px) {
+    body {
+        overflow: auto;
+        height: auto;
+    }
+
+    .auth-container {
+        display: block;
+        padding: 20px 10px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .glass-card {
+        width: 100%;
+        border-radius: 20px;
+        max-height: none;
+    }
+
+    .auth-side-visual {
+        height: 160px;
     }
 }

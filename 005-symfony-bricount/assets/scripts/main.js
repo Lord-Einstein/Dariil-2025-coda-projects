@@ -55,3 +55,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if (wrapper.classList.contains('open')) toggleMenu();
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const logoutTrigger = document.getElementById('logoutTrigger');
+    const logoutModal = document.getElementById('logoutModal');
+    const cancelLogout = document.getElementById('cancelLogout');
+
+    // Ouvrir le modal
+    if (logoutTrigger) {
+        logoutTrigger.addEventListener('click', (e) => {
+            e.preventDefault(); // Empêche le lien de naviguer
+            logoutModal.classList.add('active');
+        });
+    }
+
+    // Fermer le modal (Bouton Annuler)
+    if (cancelLogout) {
+        cancelLogout.addEventListener('click', () => {
+            logoutModal.classList.remove('active');
+        });
+    }
+
+    // Fermer le modal si on clique en dehors de la carte (sur le fond sombre)
+    if (logoutModal) {
+        logoutModal.addEventListener('click', (e) => {
+            if (e.target === logoutModal) {
+                logoutModal.classList.remove('active');
+            }
+        });
+    }
+});
