@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -36,6 +38,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    /**
+     * @var Collection<int, XUserWallet>
+     */
+    #[ORM\OneToMany(targetEntity: XUserWallet::class, mappedBy: 'targetUser', orphanRemoval: true)]
+    private Collection $xUserWallets;
+
+    public function __construct()
+    {
+        $this->xUserWallets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -126,6 +139,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, XUserWallet>
+     */
+    public function getXUserWallets(): Collection
+    {
+        return $this->xUserWallets;
+    }
+
+    public function addXUserWallet(XUserWallet $xUserWallet): static
+    {
+        if (!$this->xUserWallets->contains($xUserWallet)) {
+            $this->xUserWallets->add($xUserWallet);
+            $xUserWallet->setTargetUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeXUserWallet(XUserWallet $xUserWallet): static
+    {
+        if ($this->xUserWallets->removeElement($xUserWallet)) {
+            // set the owning side to null (unless already changed)
+            if ($xUserWallet->getTargetUser() === $this) {
+                $xUserWallet->setTargetUser(null);
+            }
+        }
 
         return $this;
     }

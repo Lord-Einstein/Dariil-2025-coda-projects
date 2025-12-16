@@ -36,7 +36,10 @@
             "symfony/runtime": true
         },
         "bump-after-update": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "8.3.28"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -82,6 +85,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.3",
         "jolicode/gif-exception-bundle": "^1.9",
         "symfony/maker-bundle": "^1.65",
         "symfony/stopwatch": "7.4.*",
