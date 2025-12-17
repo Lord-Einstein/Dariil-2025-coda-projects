@@ -3,7 +3,6 @@
 {% block body %}
 
     {% block header %}
-
         {% embed '_components/header.html.twig' %}
             {% block header_right %}
                 <div class="user-profile">
@@ -21,14 +20,15 @@
                 </div>
             {% endblock %}
         {% endembed %}
-
     {% endblock %}
 
-    <h1>Template In App</h1>
+    {# <h1>Template In App</h1> #}
 
     {# menu #}
     {{ include('_components/menu.html.twig') }}
 
     {# container #}
+    {% block content %}
+    {% endblock %}
 
 {% endblock %}

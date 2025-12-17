@@ -1,30 +1,54 @@
 {% extends '_layouts/in_app.html.twig' %}
 
-{% block title %}Wallets ?? | +Count{% endblock %}
+{% block title %}Détail {{ wallet.label }} | +Count {% endblock %}
 
 {% block content %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
+    <div class="container mt-4">
 
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>{{ wallet.label }}</h1>
+            <a href="{{ path('wallets_list') }}" class="btn btn-secondary">Retour aux portefeuilles</a>
+        </div>
 
-    <div class="example-wrapper">
-        <h1>Hello {{ controller_name }}! ✅</h1>
-        <h2>{{ id }}</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">Solde : {{ (wallet.totalAmount / 100)|number_format(2, ',', ' ') }} €</h3>
+            </div>
+        </div>
 
-        This friendly message is coming from:
-        <ul>
-            <li>Your controller at <code>/app/src/Controller/Wallets/ShowController.php</code></li>
-            <li>Your template at <code>/app/templates/wallets/show/index.html.twig</code></li>
-        </ul>
+        <h4>Historique des dépenses</h4>
+        <div class="list-group mb-4">
+            {% for expense in expenses %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="fw-bold">{{ expense.description }}</div>
+                        <small class="text-muted">
+                            Le {{ expense.createdDate|date('d/m/Y à H:i') }}
+                        </small>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">
+                        {{ (expense.amount / 100)|number_format(2, ',', ' ') }} €
+                    </span>
+                </div>
+            {% else %}
+                <p>Aucune dépense trouvée.</p>
+            {% endfor %}
+        </div>
+
+        {% if totalPages > 1 %}
+            <nav>
+                <ul class="pagination justify-content-center">
+                    {% for i in 1..totalPages %}
+                        <li class="page-item {% if i == currentPage %}active{% endif %}">
+                            <a class="page-link"
+                               href="{{ path('wallets_show', { uid: wallet.uid, page: i, limit: limit }) }}">
+                                {{ i }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        {% endif %}
+
     </div>
 {% endblock %}
