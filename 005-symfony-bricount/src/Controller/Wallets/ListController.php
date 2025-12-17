@@ -2,6 +2,7 @@
 
 namespace App\Controller\Wallets;
 
+use App\Entity\User;
 use App\Service\WalletService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +13,9 @@ final class ListController extends AbstractController
     #[Route('/wallets', name: 'wallets_list', methods: ['GET'])]
     public function index(WalletService $walletService): Response
     {
-        //Prendre l'user connecté
+        //Prendre l'utilisateur connecté.
+
+        /** @var User $user */
         $user = $this->getUser();
 
         if (!$user) {

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Wallets;
 
+use App\Entity\User;
 use App\Entity\Wallet;
 use App\Service\ExpenseService;
 use App\Service\WalletService;
@@ -23,7 +24,7 @@ final class ShowController extends AbstractController
         #[MapQueryParameter] int $limit = 10
     ): Response
     {
-
+        /** @var User $user */
         $user = $this->getUser();
         if (!$user) {
             return $this->redirectToRoute('app_login');
