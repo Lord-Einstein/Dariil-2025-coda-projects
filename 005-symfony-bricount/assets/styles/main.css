@@ -223,6 +223,60 @@ body {
 }
 
 
+/*App layout css*/
+/* --- LAYOUT GLOBAL IN-APP --- */
+/* Pour éviter que le contenu passe sous le header fixe */
+.main-content {
+    /* 60px + 40px de marge */
+    padding: calc(var(--header-height) + 40px) 20px 60px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 100vh;
+    box-sizing: border-box;
+    /* Petite animation d'entrée pour toutes les pages */
+    animation: fadeInUp 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Titres de section modernes */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    position: relative;
+    display: inline-block;
+}
+
+/* Petit soulignement orange stylé */
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40%;
+    height: 4px;
+    background: var(--main-color);
+    border-radius: 2px;
+}
+
+
 /* --- Profil Utilisateur (In-App) --- */
 .user-profile {
     display: flex;

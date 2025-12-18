@@ -2,21 +2,28 @@
 
 namespace App\Service;
 
+use App\Controller\Wallets\DTO\WalletDTO;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Entity\XUserWallet;
 use App\Repository\WalletRepository;
 use App\Repository\XUserWalletRepository;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Uid\Uuid;
 
 class WalletService
 {
-    private readonly WalletRepository $walletRepository;
-    private readonly XUserWalletRepository $xUserWalletRepository;
 
-    public function __construct(WalletRepository $walletRepository, xUserWalletRepository $xUserWalletRepository)
+
+    public function __construct(
+        private readonly WalletRepository       $walletRepository,
+        private readonly xUserWalletRepository  $xUserWalletRepository,
+        //ajouter le entity manager et faire l'injection de xUserWalletServce.
+        private readonly EntityManagerInterface $entityManager,
+        private readonly XUserWalletService     $xUserWalletService
+    )
     {
-        $this->walletRepository = $walletRepository;
-        $this->xUserWalletRepository = $xUserWalletRepository;
     }
 
     public function getWalletsForUser(User $user): array
@@ -32,4 +39,27 @@ class WalletService
         ]);
     }
 
+    public function createWallet(WalletDTO $dto, User $owner): Wallet
+    {
+        //créer un wallet
+        $wallet = new Wallet();
+        $wallet->setUid(Uuid::v7()->toString());
+        $wallet->setLabel($dto->name); //récupérer le nom depuis le DTO...
+        $wallet->setTotalAmount(0);
+        $wallet->setCreatedDate(new DateTime());
+
+        $wallet->setCreatedBy($owner);
+
+        $this->entityManager->persist($wallet);
+
+        //implémenter le lien avec le caractère d'admin directement pour le créateur courant
+        $this->xUserWalletService->create($wallet, $owner, 'admin');
+
+
+        $this->entityManager->flush();
+
+        return $wallet;
+    }
+
 }
+

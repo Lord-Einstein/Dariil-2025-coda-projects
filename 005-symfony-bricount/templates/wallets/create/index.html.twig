@@ -1,0 +1,31 @@
+{% extends '_layouts/in_app.html.twig' %}
+
+{% block title %}Nouveau Portefeuille{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Créer un nouveau portefeuille</h1>
+        <hr>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            {{ form_row(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+                <div class="mt-3 text-center">
+                    <a href="{{ path('wallets_list') }}" class="text-secondary">Annuler</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

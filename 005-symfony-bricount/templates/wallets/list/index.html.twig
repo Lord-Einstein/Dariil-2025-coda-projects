@@ -7,6 +7,10 @@
     <div class="container mt-4">
         <h1>Mes Portefeuilles</h1>
 
+        <a href="{{ path('wallets_create') }}" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Créer un portefeuille
+        </a>
+
         <div class="row">
             {% for wallet in wallets %}
                 <div class="col-md-4">
