@@ -2,10 +2,10 @@
 
 namespace App\Controller\Wallets;
 
-use App\Controller\Wallets\DTO\WalletDTO;
 use App\Entity\User;
 use App\Form\WalletType;
 use App\Service\WalletService;
+use App\Wallet\DTO\WalletDTO;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +25,10 @@ final class CreateController extends AbstractController
         //traitement de la requête 'post'
         $form->handleRequest($request);
 
-
-        if ($form->isSubmitted() && !$form->isValid()) {
-            dd($form->getErrors(true, false));
-        } //Debugger Code.
+//
+//        if ($form->isSubmitted() && !$form->isValid()) {
+//            dd($form->getErrors(true, false));
+//        } //Debugger Code.
 
         //derniers controlles de validité et de soumission du formulaire
         if ($form->isSubmitted() && $form->isValid()) {

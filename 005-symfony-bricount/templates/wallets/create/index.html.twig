@@ -1,31 +1,33 @@
 {% extends '_layouts/in_app.html.twig' %}
 
-{% block title %}Nouveau Portefeuille{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/forms.css') }}">
+{% endblock %}
+
 
 {% block content %}
-    <div class="container mt-4">
-        <h1>Créer un nouveau portefeuille</h1>
-        <hr>
+    <div class="form-page-container">
+        <div class="form-card-in-app">
+            <h2 class="auth-title">Nouveau Portefeuille</h2>
+            <p class="auth-subtitle">Donne un nom à ton projet ou ton compte.</p>
 
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        {{ form_start(form) }}
-                        <div class="mb-3">
-                            {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            {{ form_row(form.submit, {'attr': {'class': 'btn btn-primary'}}) }}
-                        </div>
-                        {{ form_end(form) }}
-                    </div>
-                </div>
-                <div class="mt-3 text-center">
-                    <a href="{{ path('wallets_list') }}" class="text-secondary">Annuler</a>
-                </div>
+            {{ form_start(form) }}
+            <div class="input-group-custom">
+                {{ form_widget(form.name, {'attr': {'class': 'form-input', 'placeholder': ' '}}) }}
+                {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_errors(form.name) }}
             </div>
+
+            {# je mets le bouton de soumission  directement ici au lieu de le mettre dans le builder #}
+            <button type="submit" class="btn-modern">
+                Créer maintenant <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{{ path('wallets_list') }}" class="btn-back">Annuler</a>
+            </div>
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}

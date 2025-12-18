@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/wallets.css') }}">
+{% endblock %}
+
 {% block body %}
 
     {% block header %}
@@ -30,8 +35,12 @@
     {# flash messages compenent #}
     {{ include('_components/_flash_messages.html.twig') }}
 
-    {# container #}
-    {% block content %}
-    {% endblock %}
+    <div class="container main-content">
+
+        {# container #}
+        {% block content %}
+        {% endblock %}
+
+    </div>
 
 {% endblock %}

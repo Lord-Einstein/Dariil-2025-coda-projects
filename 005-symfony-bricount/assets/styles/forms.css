@@ -356,3 +356,33 @@ body {
         height: 160px;
     }
 }
+
+
+/* --- CREATE FORM PAGE --- */
+.form-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Centré dans la zone de contenu */
+}
+
+.form-card-in-app {
+    width: 600px;
+    background: white;
+    border-radius: 30px;
+    padding: 50px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Petit header coloré pour la carte formulaire */
+.form-card-in-app::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(to right, var(--main-color), #ffcc80);
+}

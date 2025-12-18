@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Wallets\DTO;
+namespace App\Wallet\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

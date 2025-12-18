@@ -3,52 +3,104 @@
 {% block title %}Détail {{ wallet.label }} | +Count {% endblock %}
 
 {% block content %}
-    <div class="container mt-4">
-
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>{{ wallet.label }}</h1>
-            <a href="{{ path('wallets_list') }}" class="btn btn-secondary">Retour aux portefeuilles</a>
+    {# --- EN-TÊTE DU PORTEFEUILLE --- #}
+    <div class="section-header">
+        <div>
+            <a href="{{ path('wallets_list') }}" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i> Retour
+            </a>
+            <h1 class="page-title" style="margin-top:10px;">{{ wallet.label }}</h1>
         </div>
 
-        <div class="card mb-4">
-            <div class="card-body">
-                <h3 class="card-title">Solde : {{ (wallet.totalAmount / 100)|number_format(2, ',', ' ') }} €</h3>
-            </div>
+        {# Bouton d'ajout (A adapter selon ta route de création de dépense) #}
+        <a href="#" class="btn-modern" style="width: auto; padding: 10px 25px;">
+            <i class="fa-solid fa-plus"></i> Nouvelle dépense
+        </a>
+    </div>
+
+    {# --- CARTE SOLDE  --- #}
+    <div class="wallet-detail-header">
+        <div>
+            <div class="wallet-total-label">Solde Actuel</div>
+            <div class="wallet-total-amount">{{ (wallet.totalAmount/100)|number_format(2, ',', ' ') }} €</div>
         </div>
 
-        <h4>Historique des dépenses</h4>
-        <div class="list-group mb-4">
-            {% for expense in expenses %}
-                <div class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="fw-bold">{{ expense.description }}</div>
-                        <small class="text-muted">
-                            Le {{ expense.createdDate|date('d/m/Y à H:i') }}
-                        </small>
-                    </div>
-                    <span class="badge bg-primary rounded-pill">
-                        {{ (expense.amount / 100)|number_format(2, ',', ' ') }} €
+        <div style="text-align: right;">
+            <div class="t-meta">Page actuelle</div>
+            <div style="font-weight:600; color:var(--text-dark); font-size: 1.2rem;">{{ currentPage }}
+                / {{ totalPages }}</div>
+        </div>
+    </div>
+
+    {# --- LISTE DES DÉPENSES --- #}
+    <div class="transaction-container">
+        {% for expense in expenses %}
+            <div class="transaction-card">
+                {# 1. ICONE #}
+                <div class="t-icon-box">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+
+                {# 2. INFOS #}
+                <div class="t-details">
+                    {# Le filtre |default gère le cas où la description est vide (nullable) #}
+                    <span class="t-label">{{ expense.description|default('Dépense sans nom') }}</span>
+
+                    <span class="t-meta">
+                        {{ expense.createdDate|date('d M Y') }} à {{ expense.createdDate|date('H:i') }}
                     </span>
                 </div>
-            {% else %}
-                <p>Aucune dépense trouvée.</p>
-            {% endfor %}
-        </div>
 
-        {% if totalPages > 1 %}
-            <nav>
-                <ul class="pagination justify-content-center">
-                    {% for i in 1..totalPages %}
-                        <li class="page-item {% if i == currentPage %}active{% endif %}">
-                            <a class="page-link"
-                               href="{{ path('wallets_show', { uid: wallet.uid, page: i, limit: limit }) }}">
-                                {{ i }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </nav>
-        {% endif %}
+                {# 3. MONTANT #}
+                {% set isPositive = expense.amount > 0 %}
+                <div class="t-amount {{ isPositive ? 'amount-positive' : 'amount-negative' }}">
+                    {{ isPositive ? '+' : '' }}{{ (expense.amount / 100)|number_format(2, ',', ' ') }} €
+                </div>
 
+                {# 4. ACTIONS #}
+                <div style="margin-left: 20px; font-size:1.3rem; ">
+                    <a href="#" style="color: #a0aec0;" title="Actions sur les dépenses."><i
+                            class="fa-solid fa-ellipsis-vertical"></i></a>
+                </div>
+            </div>
+        {% else %}
+            {# ETAT VIDE #}
+            <div style="text-align: center; padding: 50px; color: #a0aec0;">
+                <i class="fa-solid fa-ghost" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.3;"></i>
+                <p>Aucune dépense sur cette page.</p>
+            </div>
+        {% endfor %}
     </div>
+
+    {# --- PAGINATION MANUELLE --- #}
+    {% if totalPages > 1 %}
+        <div class="pagination-wrapper">
+            <ul class="pagination">
+                {# BOUTON PRECEDENT #}
+                <li class="page-item {{ currentPage == 1 ? 'disabled' }}">
+                    <a href="{{ path('wallets_show', {uid: wallet.uid, page: currentPage - 1}) }}" class="page-link">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </a>
+                </li>
+
+                {# NUMEROS DE PAGE #}
+                {# On affiche toutes les pages. Si tu en as 100, il faudra faire une logique plus complexe plus tard #}
+                {% for i in 1..totalPages %}
+                    <li class="page-item {{ currentPage == i ? 'active' }}">
+                        <a href="{{ path('wallets_show', {uid: wallet.uid, page: i}) }}" class="page-link">
+                            {{ i }}
+                        </a>
+                    </li>
+                {% endfor %}
+
+                {# BOUTON SUIVANT #}
+                <li class="page-item {{ currentPage == totalPages ? 'disabled' }}">
+                    <a href="{{ path('wallets_show', {uid: wallet.uid, page: currentPage + 1}) }}" class="page-link">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+
 {% endblock %}

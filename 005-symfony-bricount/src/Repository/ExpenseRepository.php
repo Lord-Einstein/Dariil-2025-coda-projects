@@ -19,11 +19,14 @@ class ExpenseRepository extends ServiceEntityRepository
 
     public function findExpensesForWallet(Wallet $wallet, int $page, int $limit): array
     {
-        return $this->createQueryBuilder('expense')
-            ->andWhere('expense.isDeleted = false')
-            ->andWhere('expense.wallet = :wallet')
+
+        return $this->createQueryBuilder('e')
+            ->innerJoin('e.wallet', 'w')
+            ->where('e.wallet = :wallet')
+            ->andWhere('e.isDeleted = false')
+            ->andWhere('w.isDeleted = false')
             ->setParameter('wallet', $wallet)
-            ->orderBy('expense.createdDate', 'DESC')
+            ->orderBy('e.createdDate', 'DESC')
             ->setFirstResult($page)
             ->setMaxResults($limit)
             ->getQuery()
@@ -39,5 +42,4 @@ class ExpenseRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
-
 }

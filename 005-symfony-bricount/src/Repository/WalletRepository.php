@@ -18,7 +18,7 @@ class WalletRepository extends ServiceEntityRepository
 
     /**
      * @param User $user
-     * @return Wallet[] Return a array of Wallet objects with filtered on one user.
+     * @return Wallet[] Return array of Wallet objects with filtered on one user.
      */
     public function findWalletForUser(User $user): array
     {

@@ -1,36 +1,41 @@
 {% extends '_layouts/in_app.html.twig' %}
 
-{% block title %}Wallets | +Count{% endblock %}
+{% block title %}Liste de wallets | +Count {% endblock %}
 
 {% block content %}
-
-    <div class="container mt-4">
-        <h1>Mes Portefeuilles</h1>
-
-        <a href="{{ path('wallets_create') }}" class="btn btn-success">
-            <i class="bi bi-plus-circle"></i> Créer un portefeuille
-        </a>
-
-        <div class="row">
-            {% for wallet in wallets %}
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ wallet.label }}</h5>
-
-                            <p class="card-text">
-                                Solde : {{ (wallet.totalAmount / 100)|number_format(2, ',', ' ') }} €
-                            </p>
-
-                            <a href="{{ path('wallets_show', {uid : wallet.uid}) }}" class="btn btn-primary">Voir le
-                                détail</a>
-                        </div>
-                    </div>
-                </div>
-            {% else %}
-                <p>Aucun portefeuille trouvé.</p>
-            {% endfor %}
-        </div>
+    <div class="section-header">
+        <h1 class="page-title">Mes Portefeuilles</h1>
     </div>
 
+    <div class="wallet-grid">
+        <a href="{{ path('wallets_create') }}" class="wallet-card add-new">
+            <i class="fa-solid fa-plus add-icon-big"></i>
+            <span style="margin-top: 10px; font-weight: 600; color: #a0aec0;">Nouveau</span>
+        </a>
+
+        {# Boucle de display wallets #}
+        {% for wallet in wallets %}
+            <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="wallet-card">
+                <div class="card-content">
+                    <div class="card-header-w">
+                        <h3 class="wallet-name">{{ wallet.label }}</h3>
+                        <div class="wallet-icon">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                    </div>
+
+                    <div class="wallet-balance">
+                        {{ (wallet.totalAmount / 100)|number_format(2, ',', ' ') }} <span
+                            class="wallet-currency">€</span>
+                    </div>
+                </div>
+
+                <div class="card-footer-w">
+                    <div class="btn-mini-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}

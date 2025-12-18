@@ -228,13 +228,26 @@ body {
 /* Pour éviter que le contenu passe sous le header fixe */
 .main-content {
     /* 60px + 40px de marge */
-    padding: calc(var(--header-height) + 40px) 20px 60px 20px;
-    max-width: 1400px;
+    padding: calc(var(--header-height) + 20px) 20px 60px 120px;
+    max-width: 1600px;
     margin: 0 auto;
     min-height: 100vh;
     box-sizing: border-box;
     /* Petite animation d'entrée pour toutes les pages */
     animation: fadeInUp 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    transition: padding 0.3s ease;
+}
+
+.main-content::before {
+    content: '';
+    position: fixed;
+    left: 60px;
+    top: var(--header-height);
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(255, 87, 34, 0.2), rgba(0, 0, 0, 0));
+    z-index: -1;
 }
 
 @keyframes fadeInUp {
@@ -692,5 +705,13 @@ body {
 
     .fab-list li a:not(.active):hover {
         width: 130px;
+    }
+}
+
+/* RESPONSIVE TABLETTE/MOBILE */
+@media (max-width: 1024px) {
+    .main-content {
+        padding-left: 20px; /* On remet normal sur petit écran */
+        padding-right: 20px;
     }
 }

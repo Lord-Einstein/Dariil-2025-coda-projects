@@ -2,12 +2,12 @@
 
 namespace App\Service;
 
-use App\Controller\Wallets\DTO\WalletDTO;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Entity\XUserWallet;
 use App\Repository\WalletRepository;
 use App\Repository\XUserWalletRepository;
+use App\Wallet\DTO\WalletDTO;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -33,10 +33,7 @@ class WalletService
 
     public function getUserAccessOnWallet(User $user, Wallet $wallet): null|XUserWallet
     {
-        return $this->xUserWalletRepository->findOneBy([
-            'targetUser' => $user,
-            'wallet' => $wallet
-        ]);
+        return $this->xUserWalletRepository->findActiveLink($user, $wallet);
     }
 
     public function createWallet(WalletDTO $dto, User $owner): Wallet
