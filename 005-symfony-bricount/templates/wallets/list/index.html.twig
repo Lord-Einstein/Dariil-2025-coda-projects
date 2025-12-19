@@ -13,12 +13,25 @@
             <span style="margin-top: 10px; font-weight: 600; color: #a0aec0;">Nouveau</span>
         </a>
 
-        {# Boucle de display wallets #}
-        {% for wallet in wallets %}
+        {# --- CORRECTION : On boucle sur 'link', pas 'wallet' --- #}
+        {% for link in walletLinks %}
+            {# On extrait le wallet depuis le lien #}
+            {% set wallet = link.wallet %}
+
             <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="wallet-card">
                 <div class="card-content">
                     <div class="card-header-w">
-                        <h3 class="wallet-name">{{ wallet.label }}</h3>
+                        <div>
+                            <h3 class="wallet-name">{{ wallet.label }}</h3>
+
+                            {# --- AJOUT DES BADGES ICI --- #}
+                            {% if link.role == 'admin' %}
+                                <span class="badge badge-admin">ADMIN</span>
+                            {% else %}
+                                <span class="badge badge-member">MEMBRE</span>
+                            {% endif %}
+                        </div>
+
                         <div class="wallet-icon">
                             <i class="fa-solid fa-wallet"></i>
                         </div>
@@ -31,6 +44,13 @@
                 </div>
 
                 <div class="card-footer-w">
+                    {# Petit bonus : Affiche "Nouveau" si ajouté aujourd'hui #}
+                    {% if link.createdDate|date('Y-m-d') == "now"|date('Y-m-d') %}
+                        <small style="color: #10b981; font-weight: bold;">Nouveau !</small>
+                    {% else %}
+                        <small style="color: #a0aec0;">Rejoint le {{ link.createdDate|date('d/m/Y') }}</small>
+                    {% endif %}
+
                     <div class="btn-mini-arrow">
                         <i class="fa-solid fa-arrow-right"></i>
                     </div>
@@ -38,4 +58,5 @@
             </a>
         {% endfor %}
     </div>
+
 {% endblock %}

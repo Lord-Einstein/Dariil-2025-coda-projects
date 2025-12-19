@@ -1,0 +1,52 @@
+{% extends '_layouts/in_app.html.twig' %}
+
+{% block title %}Ajouter a {{ wallet.label }}| +Count{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/forms.css') }}">
+{% endblock %}
+
+
+{% block content %}
+    <div class="form-page-container">
+        <div class="form-card-in-app">
+            <h2 class="auth-title">Inviter un membre</h2>
+            <p class="auth-subtitle">Ajouter un utilisateur à "{{ wallet.label }}"</p>
+
+            {{ form_start(form) }}
+
+            {# Champ User (Select) #}
+            <div class="input-group-custom">
+                {{ form_label(form.user, null, {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(form.user, {'attr': {'class': 'form-input'}}) }}
+                {{ form_errors(form.user) }}
+            </div>
+
+            {# Champ Role (Radios) #}
+            <div class="input-group-custom" style="margin-top: 20px;">
+                {{ form_label(form.role, null, {'label_attr': {'class': 'form-label'}}) }}
+                <div class="radio-group" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
+                    {% for child in form.role %}
+                        <label class="radio-option"
+                               style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            {{ form_widget(child) }}
+                            <span>{{ form_label(child) }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+                {{ form_errors(form.role) }}
+            </div>
+
+            <button type="submit" class="btn-modern" style="margin-top: 30px;">
+                <i class="fa-solid fa-user-plus"></i> Ajouter l'utilisateur
+            </button>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="btn-back">Annuler</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+

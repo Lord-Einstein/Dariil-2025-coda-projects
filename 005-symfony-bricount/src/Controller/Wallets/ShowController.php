@@ -50,7 +50,9 @@ final class ShowController extends AbstractController
             'expenses' => $expenses,
             'currentPage' => $page,
             'totalPages' => $totalPages,
-            'limit' => $limit
+            'limit' => $limit,
+            //je veux passer le droit d'accès à ma vue twig pour pas afficher le bouton au non admin
+            'userAccess' => $access,
         ]);
     }
 }

@@ -2,12 +2,13 @@
 
 namespace App\Service;
 
+use App\DTO\WalletDTO;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Entity\XUserWallet;
+use App\Repository\UserRepository;
 use App\Repository\WalletRepository;
 use App\Repository\XUserWalletRepository;
-use App\Wallet\DTO\WalletDTO;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -21,7 +22,8 @@ class WalletService
         private readonly xUserWalletRepository  $xUserWalletRepository,
         //ajouter le entity manager et faire l'injection de xUserWalletServce.
         private readonly EntityManagerInterface $entityManager,
-        private readonly XUserWalletService     $xUserWalletService
+        private readonly XUserWalletService     $xUserWalletService,
+        private readonly UserRepository         $userRepository
     )
     {
     }
@@ -50,12 +52,35 @@ class WalletService
         $this->entityManager->persist($wallet);
 
         //implémenter le lien avec le caractère d'admin directement pour le créateur courant
-        $this->xUserWalletService->create($wallet, $owner, 'admin');
+        $this->xUserWalletService->create($wallet, $owner, 'admin', $owner);
 
 
         $this->entityManager->flush();
 
         return $wallet;
+    }
+
+    public function updateWallet(Wallet $wallet, WalletDTO $dto, User $updater): Wallet
+    {
+        $wallet->setLabel($dto->name);
+
+        $wallet->setUpdatedDate(new DateTime());
+        $wallet->setUpdatedBy($updater);
+
+        $this->entityManager->persist($wallet);
+        $this->entityManager->flush();
+
+        return $wallet;
+    }
+
+    public function findAvailableUsersForWallet(Wallet $wallet): array
+    {
+        return $this->userRepository->findUsersNotInWallet($wallet);
+    }
+
+    public function getWalletsAccessForUser(User $user): array
+    {
+        return $this->xUserWalletRepository->findLinksByUser($user);
     }
 
 }

@@ -22,11 +22,11 @@ final class ListController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $wallets = $walletService->getWalletsForUser($user);
+        $walletLinks = $walletService->getWalletsAccessForUser($user);
 
 
         return $this->render('wallets/list/index.html.twig', [
-            'wallets' => $wallets,
+            'walletLinks' => $walletLinks,
         ]);
     }
 }

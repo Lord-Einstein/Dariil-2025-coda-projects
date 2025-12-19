@@ -1,6 +1,6 @@
 {% extends '_layouts/in_app.html.twig' %}
 
-{% block title %}Création de wallet | +Count{% endblock %}
+{% block title %}Modification de {{ wallet.label }} | +Count{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,8 +11,8 @@
 {% block content %}
     <div class="form-page-container">
         <div class="form-card-in-app">
-            <h2 class="auth-title">Nouveau Portefeuille</h2>
-            <p class="auth-subtitle">Donne un nom à ton projet ou ton compte.</p>
+            <h2 class="auth-title">Modifier le Portefeuille</h2>
+            <p class="auth-subtitle">Mise à jour des informations de "{{ wallet.label }}"</p>
 
             {{ form_start(form) }}
             <div class="input-group-custom">
@@ -21,13 +21,12 @@
                 {{ form_errors(form.name) }}
             </div>
 
-            {# je mets le bouton de soumission  directement ici au lieu de le mettre dans le builder #}
             <button type="submit" class="btn-modern">
-                Créer maintenant <i class="fa-solid fa-arrow-right"></i>
+                Enregistrer les modifications <i class="fa-solid fa-check"></i>
             </button>
 
             <div style="text-align: center; margin-top: 20px;">
-                <a href="{{ path('wallets_list') }}" class="btn-back">Annuler</a>
+                <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="btn-back">Annuler</a>
             </div>
             {{ form_end(form) }}
         </div>

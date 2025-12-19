@@ -18,27 +18,34 @@ readonly class XUserWalletService
     {
     } //je procède par promotion de... propriété.
 
-    public function create(Wallet $wallet, User $user, string $role): XUserWallet
+    public function create(Wallet $wallet, User $targetUser, string $role, User $initiator): XUserWallet
     {
         // vérifier si l'association existe déjà
         $association = $this->xUserWalletRepository->findOneBy([
             'wallet' => $wallet,
-            'targetUser' => $user
+            'targetUser' => $targetUser
         ]);
         // if not exist.. je la crée en remplissant les champs obligatoires
         if (!$association) {
             $association = new XUserWallet();
             $association->setWallet($wallet);
-            $association->setTargetUser($user);
-            $association->setCreatedBy($user);
+            $association->setTargetUser($targetUser);
+
+            $association->setCreatedBy($initiator);
             $association->setCreatedDate(new DateTime());
+        } else {
+            $association->setUpdatedDate(new DateTime());
+            $association->setUpdatedBy($initiator);
         }
 
         // mettre à jour le rôle
         $association->setRole($role);
+        //à chaque fois qu'on passe par cette fonction, je m'assure que le lien qui en sort soit valide.
+        $association->setIsDeleted(false);
+
 
         $this->entityManager->persist($association);
-        //je vais flush directement dans le WalletService en bloc...
+        $this->entityManager->flush();
 
         return $association;
     }

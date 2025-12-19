@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Wallet\DTO\WalletDTO;
+use App\DTO\WalletDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;

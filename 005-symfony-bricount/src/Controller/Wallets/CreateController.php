@@ -2,10 +2,10 @@
 
 namespace App\Controller\Wallets;
 
+use App\DTO\WalletDTO;
 use App\Entity\User;
 use App\Form\WalletType;
 use App\Service\WalletService;
-use App\Wallet\DTO\WalletDTO;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -715,3 +715,41 @@ body {
         padding-right: 20px;
     }
 }
+
+.badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+}
+
+/* Badge Admin : Doré / Orangé */
+.badge-admin {
+    background-color: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #ffedd5;
+}
+
+/* Badge Membre : Bleu pâle */
+.badge-member {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #dbeafe;
+}
+
+/* Ajustement pour aligner le titre et le badge */
+.card-header-w {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Important pour l'alignement vertical */
+    margin-bottom: 1rem;
+}
+
+.wallet-name {
+    margin-bottom: 0; /* On retire la marge du bas du titre pour coller le badge */
+    line-height: 1.2;
+}
