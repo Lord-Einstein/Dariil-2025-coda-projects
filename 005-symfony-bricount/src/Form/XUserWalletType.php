@@ -32,12 +32,12 @@ class XUserWalletType extends AbstractType
             ->add('role', ChoiceType::class, [
 
                 'choices' => [
-                    'Membre' => 'member',
+                    'Membre' => 'user',
                     'Administrateur' => 'admin',
                 ],
                 'expanded' => true, // pour avoir des boutons Radio
                 'multiple' => false,
-                'data' => 'member' // Valeur par défaut pour le role
+                'data' => 'user' // Valeur par défaut pour le role
             ]);
     }
 

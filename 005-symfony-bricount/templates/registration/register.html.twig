@@ -22,6 +22,14 @@
                 {{ form_start(registrationForm, {'attr': {'class': 'styled-form'}}) }}
 
                 <div class="input-group-custom">
+                    {{ form_widget(registrationForm.name, {'attr': {'placeholder': ' ', 'class': 'form-input'}}) }}
+                    {{ form_label(registrationForm.name, 'Votre Nom...', {'label_attr': {'class': 'form-label'}}) }}
+                    <div style="color:#d32f2f; font-size:0.8rem; margin-top:5px;">
+                        {{ form_errors(registrationForm.name) }}
+                    </div>
+                </div>
+
+                <div class="input-group-custom">
                     {{ form_widget(registrationForm.email, {'attr': {'placeholder': ' ', 'class': 'form-input'}}) }}
                     {{ form_label(registrationForm.email, 'Votre Email.', {'label_attr': {'class': 'form-label'}}) }}
                     <div style="color:#d32f2f; font-size:0.8rem; margin-top:5px;">
