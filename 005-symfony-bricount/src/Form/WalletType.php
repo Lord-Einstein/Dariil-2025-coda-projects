@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class WalletType extends AbstractType
 {
@@ -15,7 +17,13 @@ class WalletType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom du portefeuille.',
-                'attr' => ['placeholder' => 'Ex : Randonnée en Taïwan...']
+                'attr' => ['placeholder' => 'Ex : Randonnée en Taïwan...'],
+                'required' => true,
+
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(min: 3, max: 50),
+                ]
             ]);
     }
 

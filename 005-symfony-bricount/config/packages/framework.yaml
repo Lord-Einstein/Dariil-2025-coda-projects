@@ -8,6 +8,13 @@ framework:
     #esi: true
     #fragments: true
 
+    #CSRF protection
+    csrf-protection: ~
+    form:
+        csrf_protection:
+            enabled: true
+            field_name: 'custom_token_name'
+
 when@test:
     framework:
         test: true

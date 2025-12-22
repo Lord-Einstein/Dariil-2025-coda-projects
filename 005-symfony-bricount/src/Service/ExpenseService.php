@@ -2,16 +2,23 @@
 
 namespace App\Service;
 
+use App\DTO\ExpenseDTO;
+use App\Entity\Expense;
+use App\Entity\User;
 use App\Entity\Wallet;
 use App\Repository\ExpenseRepository;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Uid\Uuid;
 
 class ExpenseService
 {
-    private readonly ExpenseRepository $expenseRepository;
 
-    public function __construct(ExpenseRepository $expenseRepository)
+    public function __construct(
+        private readonly ExpenseRepository      $expenseRepository,
+        private readonly EntityManagerInterface $entityManager,
+    )
     {
-        $this->expenseRepository = $expenseRepository;
     }
 
     //Recupère les dépenses par page
@@ -25,6 +32,31 @@ class ExpenseService
     public function getCountExpensesForWallet(Wallet $wallet): int
     {
         return $this->expenseRepository->countExpensesForWallet($wallet);
+    }
+
+    public function createExpense(Wallet $wallet, ExpenseDTO $dto, User $creator): Expense
+    {
+        $expense = new Expense();
+
+        $expense->setUid(Uuid::v7()->toString());
+
+        //convertir en integer par une multiplication par 100
+        $amountInCents = (int)($dto->amount * 100);
+        $expense->setAmount($amountInCents);
+        //remplissage des autres champs
+        $expense->setDescription($dto->description);
+        $expense->setWallet($wallet);
+        $expense->setCreatedBy($creator);
+        $expense->setCreatedDate(new DateTime());
+
+        //calcul auto de la somme complète
+        $currentTotal = $wallet->getTotalAmount();
+        $wallet->setTotalAmount($currentTotal + $amountInCents);
+
+        $this->entityManager->persist($expense);
+        $this->entityManager->flush();
+
+        return $expense;
     }
 }
 
