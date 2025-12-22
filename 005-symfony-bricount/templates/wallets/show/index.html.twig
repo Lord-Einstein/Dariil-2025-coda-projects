@@ -29,13 +29,12 @@
                    style="background: white; color: var(--main-color); border: 1px solid var(--main-color); width: auto; padding: 10px 15px;">
                     <i class="fa-solid fa-user-plus"></i>
                 </a>
-
             {% endif %}
 
 
             {# Bouton Nouvelle dépense #}
-            <a href="#" class="btn-modern" style="width: auto; padding: 10px 25px;">
-                <i class="fa-solid fa-plus"></i> Nouvelle dépense
+            <a href="{{ path('wallets_expense_create', {uid: wallet.uid}) }}" class="btn btn-primary">
+                <i class="fa-solid fa-plus"></i> Ajouter une dépense
             </a>
         </div>
     </div>
@@ -61,7 +60,8 @@
             <div class="transaction-card">
                 {# 1. ICONE #}
                 <div class="t-icon-box">
-                    <i class="fa-solid fa-bag-shopping"></i>
+                    {# <i class="fa-solid fa-bag-shopping"></i> #}
+                    <i class="{{ expense.icon }}"></i>
                 </div>
 
                 {# 2. INFOS #}
@@ -81,15 +81,22 @@
                 </div>
 
                 {# 4. ACTIONS #}
-                <div style="margin-left: 20px; font-size:1.3rem; ">
-                    <a href="#" style="color: #a0aec0;" title="Actions sur les dépenses."><i
-                            class="fa-solid fa-ellipsis-vertical"></i></a>
-                </div>
+                {% if userAccess and userAccess.role == 'admin' %}
+                    <div class="expense-actions">
+                        {# Ce bouton ne supprime pas direct, il ouvre le popup #}
+                        {# On stocke l'URL de suppression dans un attribut data-url #}
+                        <button class="btn-icon-danger"
+                                onclick="openDeleteModal('{{ path('wallets_expense_delete', {wallet_uid: wallet.uid, expense_uid: expense.uid}) }}')">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                {% endif %}
+
             </div>
         {% else %}
             {# ETAT VIDE #}
             <div style="text-align: center; padding: 50px; color: #a0aec0;">
-                <i class="fa-solid fa-ghost" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.3;"></i>
+                <i class="fa-solid fa-ghost" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.7;"></i>
                 <p>Aucune dépense sur cette page.</p>
             </div>
         {% endfor %}
@@ -125,5 +132,154 @@
             </ul>
         </div>
     {% endif %}
+
+
+
+    {# --- LE POPUP DE CONFIRMATION (Caché par défaut) --- #}
+    <div id="deleteModal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Supprimer la dépense ?</h3>
+            <p>Cette action supprimera cette dépense la dépense du wallet.</p>
+
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeDeleteModal()">Annuler</button>
+                <a id="confirmDeleteBtn" href="#" class="btn-danger">Confirmer la suppression</a>
+            </div>
+        </div>
+    </div>
+
+    {# --- LE SCRIPT JS --- #}
+    <script>
+        function openDeleteModal(deleteUrl) {
+            // 1. On met la bonne URL dans le bouton rouge "Confirmer"
+            document.getElementById('confirmDeleteBtn').href = deleteUrl;
+            // 2. On affiche le modal
+            document.getElementById('deleteModal').classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.add('hidden');
+        }
+
+        // Fermer si on clique en dehors de la carte (sur le fond gris)
+        document.getElementById('deleteModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeDeleteModal();
+            }
+        });
+    </script>
+
+    {# --- LE CSS DU POPUP --- #}
+    <style>
+        /* Fond gris transparent */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px); /* Petit effet flou moderne */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        /* La carte blanche */
+        .modal-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Animation d'apparition */
+        @keyframes popIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            color: #ef4444; /* Rouge */
+            margin-bottom: 1rem;
+        }
+
+        .modal-card h3 {
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .modal-card p {
+            color: #6b7280;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* Boutons */
+        .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            background: #f3f4f6;
+            color: #374151;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-danger {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            background: #ef4444;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-icon-danger {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            padding: 5px;
+            transition: transform 0.2s;
+        }
+
+        .btn-icon-danger:hover {
+            transform: scale(1.2);
+        }
+    </style>
+
+
 
 {% endblock %}

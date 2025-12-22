@@ -1,20 +1,126 @@
-{% extends 'base.html.twig' %}
+{% extends '_layouts/in_app.html.twig' %}
 
-{% block title %}Hello CreateController!{% endblock %}
+{% block title %}Ajouter une dépense{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/forms.css') }}">
+{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% block content %}
+    <div class="container-small">
+        <div class="section-header">
+            <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Retour
+            </a>
+            <h1>Nouvelle dépense</h1>
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/app/src/Controller/Expense/CreateController.php</code></li>
-        <li>Your template at <code>/app/templates/expense/create/index.html.twig</code></li>
-    </ul>
-</div>
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(form) }}
+
+                {# 1. Montant #}
+                <div class="form-group amount-group">
+                    {{ form_label(form.amount) }}
+                    <div class="input-wrapper">
+                        {{ form_widget(form.amount, {'attr': {'class': 'big-input'}}) }}
+                        <span class="currency-suffix">€</span>
+                    </div>
+                    {{ form_errors(form.amount) }}
+                </div>
+
+                {# 2. Sélecteur d'icônes (Grille) #}
+                <div class="form-group">
+                    <label class="form-label">Catégorie</label>
+                    <div class="icons-grid">
+                        {% for choice in form.icon %}
+                            <div class="icon-option">
+                                {# On cache le vrai input radio #}
+                                {{ form_widget(choice, {'attr': {'class': 'hidden-radio'}}) }}
+
+                                {# On stylise le label qui contient l'icône #}
+                                {{ form_label(choice, null, {
+                                    'label_html': true,
+                                    'label': '<i class="' ~ choice.vars.value ~ '"></i>'
+                                }) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {{ form_errors(form.icon) }}
+                </div>
+
+                {# 3. Description #}
+                <div class="form-group">
+                    {{ form_row(form.description) }}
+                </div>
+
+                <button type="submit" class="btn btn-primary full-width">Valider</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    {# CSS spécifique pour cette page (à déplacer idéalement dans ton fichier style.css) #}
+    <style>
+        .amount-group {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .big-input {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            border: none;
+            border-bottom: 2px solid #e5e7eb;
+            width: 150px;
+        }
+
+        .big-input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        /* Grille d'icônes */
+        .icons-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .hidden-radio {
+            display: none;
+        }
+
+        /* Le style par défaut de l'icône (le label) */
+        .icon-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: #f3f4f6;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #4b5563;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .icon-option label:hover {
+            background-color: #e5e7eb;
+        }
+
+        /* Quand le radio est CHECKED, on change le style du label frère */
+        .hidden-radio:checked + label {
+            background-color: #eff6ff;
+            color: #2563eb;
+            border-color: #2563eb;
+            transform: scale(1.1);
+        }
+    </style>
 {% endblock %}

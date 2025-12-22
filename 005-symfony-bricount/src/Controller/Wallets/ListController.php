@@ -14,7 +14,6 @@ final class ListController extends AbstractController
     public function index(WalletService $walletService): Response
     {
         //Prendre l'utilisateur connecté.
-
         /** @var User $user */
         $user = $this->getUser();
 

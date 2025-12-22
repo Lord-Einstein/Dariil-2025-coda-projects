@@ -13,5 +13,9 @@ class ExpenseDTO
     #[Assert\NotBlank(message: "La description est obligatoire")]
     #[Assert\Length(min: 3, minMessage: "La description doit faire au moins 3 caractères")]
     public string $description = '';
+
+    #[Assert\NotBlank(message: "Veuillez choisir une icone !")]
+    public string $icon = 'fa-solid fa-receipt';
+
 }
 

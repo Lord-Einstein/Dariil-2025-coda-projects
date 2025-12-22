@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\DTO\ExpenseDTO;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,6 +12,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ExpenseType extends AbstractType
 {
+
+    //Liste en dur de mes icones
+    private const ICONS = [
+        'Restaurant' => 'fa-solid fa-utensils',
+        'Courses' => 'fa-solid fa-cart-shopping',
+        'Bar' => 'fa-solid fa-beer-mug-empty',
+        'Transport' => 'fa-solid fa-bus',
+        'Logement' => 'fa-solid fa-house',
+        'Loisir' => 'fa-solid fa-gamepad',
+        'Santé' => 'fa-solid fa-stethoscope',
+        'Cadeau' => 'fa-solid fa-gift',
+        'Autre' => 'fa-solid fa-receipt'
+    ];
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -20,7 +35,8 @@ class ExpenseType extends AbstractType
                 'scale' => 2,
                 'html5' => true,
                 'attr' => [
-                    'placeholder' => 'Ex: 15.50'
+                    'placeholder' => '0.00',
+                    'class' => 'input-amount'
                 ]
             ])
             ->add('description', TextareaType::class, [
@@ -29,6 +45,13 @@ class ExpenseType extends AbstractType
                     'placeholder' => 'Ex: Courses pour le dîner...',
                     'rows' => 3
                 ]
+            ])
+            ->add('icon', ChoiceType::class, [
+                'label' => 'Catégorie',
+                'choices' => self::ICONS,
+                'expanded' => true,
+                'multiple' => false,
+                'label_attr' => ['class' => 'radio-inline'],
             ]);
     }
 

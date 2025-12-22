@@ -83,5 +83,13 @@ class WalletService
         return $this->xUserWalletRepository->findLinksByUser($user);
     }
 
+    public function deleteWallet(Wallet $wallet): void
+    {
+        $wallet->setIsDeleted(true);
+        // revoir ensuite l'option de "supprimer" en soft toutes les dépenses associées
+        // ou marquer les liens xUserWallet comme deleted.
+        $this->entityManager->flush();
+    }
+
 }
 

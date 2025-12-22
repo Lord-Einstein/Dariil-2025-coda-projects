@@ -45,6 +45,7 @@ class ExpenseService
         $expense->setAmount($amountInCents);
         //remplissage des autres champs
         $expense->setDescription($dto->description);
+        $expense->setIcon($dto->icon); // j'enregistre juste la classe CSS pour les icones
         $expense->setWallet($wallet);
         $expense->setCreatedBy($creator);
         $expense->setCreatedDate(new DateTime());
@@ -57,6 +58,20 @@ class ExpenseService
         $this->entityManager->flush();
 
         return $expense;
+    }
+
+    public function deleteExpense(Expense $expense): void
+    {
+        //c'est ici que je fais le soft delete
+        $expense->setIsDeleted(true);
+
+        //Recalcul du total du Wallet
+        $wallet = $expense->getWallet();
+        $currentTotal = $wallet->getTotalAmount();
+        $expenseAmount = $expense->getAmount();
+        $wallet->setTotalAmount($currentTotal - $expenseAmount);
+
+        $this->entityManager->flush();
     }
 }
 
