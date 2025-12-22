@@ -29,6 +29,9 @@ class Expense extends BaseEntity
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $icon = null;
+
     public function __construct()
     {
         $this->uid = Uuid::v4()->toRfc4122();
@@ -83,6 +86,18 @@ class Expense extends BaseEntity
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(string $icon): static
+    {
+        $this->icon = $icon;
 
         return $this;
     }
