@@ -30,11 +30,15 @@ final class ShowController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        if ($wallet->isDeleted()) {
+            throw $this->createNotFoundException('Ce portefeuille a été supprimé.');
+        }
+
         //vérification du droit d'accès
         $access = $walletService->getUserAccessOnWallet($user, $wallet);
 
         if ($access === null) {
-            $this->addFlash('danger', "Vous n'avez pas les droits d'accès à ce portefeuille.");
+            $this->addFlash('danger', "Ce portefeuille est inacessible.");
             return $this->redirectToRoute('wallets_list');
         }
 

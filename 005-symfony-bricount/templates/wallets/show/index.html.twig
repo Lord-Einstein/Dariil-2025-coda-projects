@@ -134,6 +134,66 @@
     {% endif %}
 
 
+    <hr class="separator">
+    {% if userAccess and userAccess.role == 'admin' %}
+        <div class="danger-zone">
+            <h3>Zone de danger</h3>
+            <p>La suppression du portefeuille est irréversible (archivage).</p>
+
+            {# Bouton qui déclenche un Javascript simple de confirmation #}
+            <a href="{{ path('wallets_delete', {uid: wallet.uid}) }}"
+               class="btn btn-danger-outline"
+               onclick="return confirm('Êtes-vous sûr de vouloir supprimer définitivement ce portefeuille ?');">
+                <i class="fa-solid fa-trash-can"></i> Supprimer le portefeuille
+            </a>
+        </div>
+    {% endif %}
+
+    {# CSS pour la zone de danger #}
+    <style>
+        .separator {
+            margin: 3rem 0;
+            border: 0;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .danger-zone {
+            background-color: #fef2f2; /* Rouge très pâle */
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .danger-zone h3 {
+            color: #991b1b;
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        .danger-zone p {
+            color: #7f1d1d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-danger-outline {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #ef4444;
+            color: #ef4444;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-danger-outline:hover {
+            background-color: #ef4444;
+            color: white;
+        }
+    </style>
+
 
     {# --- LE POPUP DE CONFIRMATION (Caché par défaut) --- #}
     <div id="deleteModal" class="modal-overlay hidden">
