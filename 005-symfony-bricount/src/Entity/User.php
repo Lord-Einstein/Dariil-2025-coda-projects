@@ -45,6 +45,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: XUserWallet::class, mappedBy: 'targetUser', orphanRemoval: true)]
     private Collection $xUserWallets;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $gender = null;
+
     public function __construct()
     {
         $this->xUserWallets = new ArrayCollection();
@@ -169,6 +172,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $xUserWallet->setTargetUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): static
+    {
+        $this->gender = $gender;
 
         return $this;
     }

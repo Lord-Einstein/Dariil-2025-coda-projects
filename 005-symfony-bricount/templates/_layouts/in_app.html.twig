@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="{{ asset('styles/wallets.css') }}">
 {% endblock %}
 
+{% set urlAvatar = app.user.gender == 'M' ?
+    'https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-6299539-5187871.png'
+    : 'https://cdn3d.iconscout.com/3d/premium/thumb/with-glasses-3d-icon-png-download-5823066.png' %}
+
 {% block body %}
 
     {% block header %}
@@ -17,9 +21,7 @@
                     </p>
 
                     <div class="avatar-wrapper">
-                        <img src="https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-6299539-5187871.png"
-                             alt="Avatar 3D"
-                             class="avatar-img">
+                        <img src="{{ urlAvatar }}" alt="Avatar 3D" class="avatar-img">
                         <span class="status-dot"></span>
                     </div>
                 </div>
