@@ -29,6 +29,16 @@
                    style="background: white; color: var(--main-color); border: 1px solid var(--main-color); width: auto; padding: 10px 15px;">
                     <i class="fa-solid fa-user-plus"></i>
                 </a>
+
+                <form action="{{ path('wallets_settle', {'uid': wallet.uid}) }}" method="post"
+                      onsubmit="return confirm('Voulez-vous marquer tous les comptes comme réglés ? (Remise à zéro des dettes)');"
+                      style="margin: 0;">
+                    <button type="submit" class="btn btn-secondary"
+                            style="height: 100%; display: flex; align-items: center; gap: 5px;">
+                        <i class="fa-solid fa-check-double"></i> Solder les comptes
+                    </button>
+                </form>
+
             {% endif %}
 
 
@@ -53,6 +63,38 @@
             {# petit détail pour éviter le 1/0 pages quand on génère pas la pagination #}
         </div>
     </div>
+
+    {# --- BLOC 2 : Qui doit à qui (Balances) --- #}
+    {% if balances is not empty %}
+        <div class="card mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">⚖️ Équilibrage</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for debtorId, debts in balances %}
+                        {# "members" nous sert à traduire l'ID en objet User #}
+                        {% set debtor = members[debtorId] %}
+
+                        <div class="col-md-6 mb-2">
+                            <strong>{{ debtor.name }}</strong> doit payer :
+                            <ul class="list-group mt-1">
+                                {% for debt in debts %}
+                                    {% set creditor = members[debt.creditor_id] %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center py-1">
+                                        <span>à {{ creditor.name }}</span>
+                                        <span
+                                            class="badge bg-primary">{{ (debt.amount / 100)|number_format(2, ',', ' ') }} €</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
 
     {# --- LISTE DES DÉPENSES --- #}
     <div class="transaction-container">

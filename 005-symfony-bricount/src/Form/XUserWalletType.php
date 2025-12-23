@@ -22,7 +22,7 @@ class XUserWalletType extends AbstractType
                 'choices' => $availableUsers,
                 //formater l'affichage des users dans mon formulaire
                 'choice_label' => function (User $user) {
-                    return $user->getEmail() . ' (' . $user->getName() . ' )';
+                    return $user->getName() . ' (' . $user->getEmail() . ')';
                 },
                 //utiliser les id coe valeur de choix
                 'choice_value' => 'id',

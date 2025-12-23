@@ -32,4 +32,16 @@ class WalletRepository extends ServiceEntityRepository
 
     }
 
+    public function calculateTotalBalance(Wallet $wallet): int
+    {
+        return (int)$this->createQueryBuilder('w')
+            ->select('SUM(e.amount)')
+            ->join('w.expenses', 'e')
+            ->where('w.id = :id')
+            ->andWhere('e.isDeleted = false')
+            ->setParameter('id', $wallet->getId())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

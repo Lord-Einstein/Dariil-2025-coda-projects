@@ -42,4 +42,20 @@ class ExpenseRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    public function findExpensesSinceLastSettlement(Wallet $wallet): array
+    {
+        $qb = $this->createQueryBuilder('e')
+            ->where('e.wallet = :wallet')
+            ->andWhere('e.isDeleted = false')
+            ->setParameter('wallet', $wallet);
+
+        if ($wallet->getLastSettlementDate()) {
+            $qb->andWhere('e.createdDate > :lastSettlement')
+                ->setParameter('lastSettlement', $wallet->getLastSettlementDate());
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 }

@@ -49,6 +49,14 @@ final class ShowController extends AbstractController
         $totalExpenses = $expenseService->getCountExpensesForWallet($wallet);
         $totalPages = (int)ceil($totalExpenses / $limit);
 
+        // --- NOUVEAU CODE : Calcul des balances ---
+        // On récupère le tableau des dettes [debtor_id => [...]]
+        $balances = $walletService->getUserBalances($wallet);
+
+        // On récupère les objets User pour afficher les noms (User 12 => "Alice")
+        $members = $wallet->getMembers();
+
+
         return $this->render('wallets/show/index.html.twig', [
             'wallet' => $wallet,
             'expenses' => $expenses,
@@ -57,6 +65,39 @@ final class ShowController extends AbstractController
             'limit' => $limit,
             //je veux passer le droit d'accès à ma vue twig pour pas afficher le bouton au non admin
             'userAccess' => $access,
+            // On passe les nouvelles variables à la vue
+            'balances' => $balances,
+            'members' => $members
         ]);
     }
+
+    /**
+     * Nouvelle méthode pour gérer l'action "Marquer comme réglé"
+     */
+    #[Route('/wallets/{uid}/settle', name: 'wallets_settle', methods: ['POST'])]
+    public function settle(
+        #[MapEntity(mapping: ['uid' => 'uid'])]
+        Wallet        $wallet,
+        WalletService $walletService
+    ): Response
+    {
+
+        /** @var User $user */
+        $user = $this->getUser();
+        $access = $walletService->getUserAccessOnWallet($user, $wallet);
+
+        if (!$access || $access->getRole() !== 'admin') {
+            $this->addFlash('danger', 'Seul un administrateur peut solder les comptes.');
+            return $this->redirectToRoute('wallets_show', ['uid' => $wallet->getUid()]);
+        }
+
+        // 2. Action
+        $walletService->markAsSettled($wallet);
+
+        // 3. Feedback et Redirection
+        $this->addFlash('success', 'Les comptes ont été marqués comme réglés.');
+
+        return $this->redirectToRoute('wallets_show', ['uid' => $wallet->getUid()]);
+    }
+
 }

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Entity\Impl\BaseEntity;
 use App\Repository\WalletRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -31,7 +33,7 @@ class Wallet extends BaseEntity
     private array $paymentsDue = [];
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTime $lastSettlementDate = null;
+    private ?DateTime $lastSettlementDate = null;
 
     /**
      * @var Collection<int, Expense>
@@ -105,12 +107,12 @@ class Wallet extends BaseEntity
         return $this;
     }
 
-    public function getLastSettlementDate(): ?\DateTimeInterface
+    public function getLastSettlementDate(): ?DateTimeInterface
     {
         return $this->lastSettlementDate;
     }
 
-    public function setLastSettlementDate(?\DateTimeInterface $lastSettlementDate): static
+    public function setLastSettlementDate(?DateTimeInterface $lastSettlementDate): static
     {
         $this->lastSettlementDate = $lastSettlementDate;
 
@@ -176,4 +178,33 @@ class Wallet extends BaseEntity
 
         return $this;
     }
+
+    public function getOwner(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * Récupère tous les membres actifs (Owner + Invités)
+     * @return User[]
+     */
+    public function getMembers(): array
+    {
+        $members = [];
+
+        // ajout du propriétaire et j'utilise l'ID comme clé pour éviter les doublons facilement
+//        if ($this->getOwner()) {
+//            $members[$this->getOwner()->getId()] = $this->getOwner();
+//        }
+
+        foreach ($this->getXUserWallets() as $xUserWallet) {
+            if (!$xUserWallet->isDeleted() && $xUserWallet->getTargetUser()) {
+                $user = $xUserWallet->getTargetUser();
+                $members[$user->getId()] = $user;
+            }
+        }
+
+        return $members;
+    }
+
 }

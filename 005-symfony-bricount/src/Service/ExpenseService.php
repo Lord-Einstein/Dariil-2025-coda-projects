@@ -17,6 +17,7 @@ class ExpenseService
     public function __construct(
         private readonly ExpenseRepository      $expenseRepository,
         private readonly EntityManagerInterface $entityManager,
+        private readonly WalletService          $walletService,
     )
     {
     }
@@ -51,11 +52,14 @@ class ExpenseService
         $expense->setCreatedDate(new DateTime());
 
         //calcul auto de la somme complète
-        $currentTotal = $wallet->getTotalAmount();
-        $wallet->setTotalAmount($currentTotal + $amountInCents);
+//        $currentTotal = $wallet->getTotalAmount();
+//        $wallet->setTotalAmount($currentTotal + $amountInCents);
 
         $this->entityManager->persist($expense);
         $this->entityManager->flush();
+
+//        $this->walletService->updateTotalBalance($wallet);
+        $this->walletService->refreshWalletState($wallet);
 
         return $expense;
     }
@@ -66,12 +70,16 @@ class ExpenseService
         $expense->setIsDeleted(true);
 
         //Recalcul du total du Wallet
-        $wallet = $expense->getWallet();
-        $currentTotal = $wallet->getTotalAmount();
-        $expenseAmount = $expense->getAmount();
-        $wallet->setTotalAmount($currentTotal - $expenseAmount);
+//        $wallet = $expense->getWallet();
+//        $currentTotal = $wallet->getTotalAmount();
+//        $expenseAmount = $expense->getAmount();
+//        $wallet->setTotalAmount($currentTotal - $expenseAmount);
 
         $this->entityManager->flush();
+
+        //nouveau calcul propre du total wallet
+//        $this->walletService->updateTotalBalance($expense->getWallet());
+        $this->walletService->refreshWalletState($expense->getWallet());
     }
 }
 
