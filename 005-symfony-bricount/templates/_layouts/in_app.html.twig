@@ -5,9 +5,17 @@
     <link rel="stylesheet" href="{{ asset('styles/wallets.css') }}">
 {% endblock %}
 
-{% set urlAvatar = app.user.gender == 'M' ?
-    'https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-6299539-5187871.png'
-    : 'https://cdn3d.iconscout.com/3d/premium/thumb/with-glasses-3d-icon-png-download-5823066.png' %}
+{% if(app.user.avatar is null ) %}
+
+    {% set urlAvatar = app.user.gender == 'M'
+        ? 'https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-6299539-5187871.png'
+        : 'https://cdn3d.iconscout.com/3d/premium/thumb/with-glasses-3d-icon-png-download-5823066.png' %}
+
+{% else %}
+
+    {% set urlAvatar = app.user.avatar %}
+
+{% endif %}
 
 {% block body %}
 

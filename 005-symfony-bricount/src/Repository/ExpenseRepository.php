@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Expense;
+use App\Entity\User;
 use App\Entity\Wallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -56,6 +57,24 @@ class ExpenseRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function getTotalSpentByUser(User $user): float
+    {
+        $result = $this->createQueryBuilder('e')
+            ->select('SUM(e.amount)')
+            ->innerJoin('e.wallet', 'w')
+            ->where('e.createdBy = :user')
+            ->andWhere('w.isDeleted = :deleted') // Le wallet doit exister
+            ->andWhere('e.isDeleted = :deleted') // La dépense doit exister.
+            ->setParameter('user', $user)
+            ->setParameter('deleted', false)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $result ? (float)$result : 0.0;
+        //On verra bien mais, je pense que faudra venir mettre un petit /100 ou pas ?
+        //J'espère vraiment me souvenir de revenir pour effacer ces comms :p. MDR je délire là...
     }
 
 }

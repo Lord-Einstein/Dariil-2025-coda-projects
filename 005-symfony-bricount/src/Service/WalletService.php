@@ -97,6 +97,7 @@ class WalletService
         $this->entityManager->flush();
     }
 
+    //remplacer par refresh à supprimer at the end...
     public function updateTotalBalance(Wallet $wallet): void
     {
 

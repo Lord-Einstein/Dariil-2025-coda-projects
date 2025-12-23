@@ -51,23 +51,21 @@ class ExpenseService
         $expense->setCreatedBy($creator);
         $expense->setCreatedDate(new DateTime());
 
-        //calcul auto de la somme complète
-//        $currentTotal = $wallet->getTotalAmount();
-//        $wallet->setTotalAmount($currentTotal + $amountInCents);
 
         $this->entityManager->persist($expense);
         $this->entityManager->flush();
 
-//        $this->walletService->updateTotalBalance($wallet);
         $this->walletService->refreshWalletState($wallet);
 
         return $expense;
     }
 
-    public function deleteExpense(Expense $expense): void
+    public function deleteExpense(Expense $expense, User $user): void
     {
         //c'est ici que je fais le soft delete
         $expense->setIsDeleted(true);
+        $expense->setDeletedBy($user);
+        $expense->setDeletedDate(new DateTime());
 
         //Recalcul du total du Wallet
 //        $wallet = $expense->getWallet();
@@ -77,8 +75,6 @@ class ExpenseService
 
         $this->entityManager->flush();
 
-        //nouveau calcul propre du total wallet
-//        $this->walletService->updateTotalBalance($expense->getWallet());
         $this->walletService->refreshWalletState($expense->getWallet());
     }
 }

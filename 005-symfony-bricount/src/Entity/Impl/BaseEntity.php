@@ -3,27 +3,28 @@
 namespace App\Entity\Impl;
 
 use App\Entity\User;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 abstract class BaseEntity
 {
     #[ORM\Column(name: 'created_date', type: Types::DATETIME_MUTABLE, nullable: false, options: ['default' => "CURRENT_TIMESTAMP"])]
-    protected \DateTime $createdDate;
+    protected DateTime $createdDate;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     protected User $createdBy;
 
     #[ORM\Column(name: 'updated_date', type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected null|\DateTime $updatedDate;
+    protected null|DateTime $updatedDate;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
     protected null|User $updatedBy;
 
     #[ORM\Column(name: 'deleted_date', type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected null|\DateTime $deletedDate;
+    protected null|DateTime $deletedDate;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: true)]
@@ -32,12 +33,12 @@ abstract class BaseEntity
     #[ORM\Column(name: 'is_deleted', type: Types::BOOLEAN, nullable: false, options: ['default' => false])]
     protected bool $isDeleted = false;
 
-    public function getCreatedDate(): \DateTime
+    public function getCreatedDate(): DateTime
     {
         return $this->createdDate;
     }
 
-    public function setCreatedDate(\DateTime $createdDate): self
+    public function setCreatedDate(DateTime $createdDate): self
     {
         $this->createdDate = $createdDate;
 
@@ -56,12 +57,12 @@ abstract class BaseEntity
         return $this;
     }
 
-    public function getUpdatedDate(): ?\DateTime
+    public function getUpdatedDate(): ?DateTime
     {
         return $this->updatedDate;
     }
 
-    public function setUpdatedDate(?\DateTime $updatedDate): self
+    public function setUpdatedDate(?DateTime $updatedDate): self
     {
         $this->updatedDate = $updatedDate;
 
@@ -80,12 +81,12 @@ abstract class BaseEntity
         return $this;
     }
 
-    public function getDeletedDate(): ?\DateTime
+    public function getDeletedDate(): ?DateTime
     {
         return $this->deletedDate;
     }
 
-    public function setDeletedDate(?\DateTime $deletedDate): self
+    public function setDeletedDate(?DateTime $deletedDate): self
     {
         $this->deletedDate = $deletedDate;
 

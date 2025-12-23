@@ -3,6 +3,7 @@
 namespace App\Controller\Expense;
 
 use App\Entity\Expense;
+use App\Entity\User;
 use App\Entity\Wallet;
 use App\Service\ExpenseService;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -28,8 +29,11 @@ final class DeleteController extends AbstractController
             throw $this->createNotFoundException("Cette dépense n'appartient pas à ce portefeuille.");
         }
 
+        /** @var User $user */
+        $user = $this->getUser();
+
         // Appel au service
-        $expenseService->deleteExpense($expense);
+        $expenseService->deleteExpense($expense, $user);
 
         $this->addFlash('success', 'La dépense a été supprimée.');
 
