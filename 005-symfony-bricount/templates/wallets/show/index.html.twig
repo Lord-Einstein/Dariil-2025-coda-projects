@@ -16,13 +16,13 @@
 
             {# S'il est pas admin, ne pas afficher le btn de modif tout simplement #}
             {% if userAccess and userAccess.role == 'admin' %}
-                {# Bouton Modifier (icône d'engrenage ou crayon) #}
+                {# Bouton Modifier #}
                 <a href="{{ path('wallets_edit', {uid: wallet.uid}) }}" class="btn-modern"
                    style="background: white; color: var(--text-dark); border: 1px solid #e2e8f0; width: auto; padding: 10px 15px;">
                     <i class="fa-solid fa-pen"></i>
                 </a>
 
-                {# NOUVEAU : Bouton Ajouter un membre #}
+                {# Bouton Ajouter un membre #}
                 <a href="{{ path('wallets_add_user', {uid: wallet.uid}) }}"
                    class="btn-modern"
                    title="Ajouter un membre"
@@ -39,6 +39,11 @@
                     </button>
                 </form>
 
+                {# Bouton pour ouvrir le modal MEMBRES #}
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#membersModal">
+                    <i class="fa-solid fa-users"></i> Gérer les membres
+                </button>
+
             {% endif %}
 
 
@@ -46,6 +51,8 @@
             <a href="{{ path('wallets_expense_create', {uid: wallet.uid}) }}" class="btn btn-primary">
                 <i class="fa-solid fa-plus"></i> Ajouter une dépense
             </a>
+
+
         </div>
     </div>
 
@@ -60,7 +67,6 @@
             <div class="t-meta">Page actuelle</div>
             <div style="font-weight:600; color:var(--text-dark); font-size: 1.2rem;">{{ currentPage }}
                 / {{ (totalPages > 1) ? totalPages : 1 }}</div>
-            {# petit détail pour éviter le 1/0 pages quand on génère pas la pagination #}
         </div>
     </div>
 
@@ -73,7 +79,6 @@
             <div class="card-body">
                 <div class="row">
                     {% for debtorId, debts in balances %}
-                        {# "members" nous sert à traduire l'ID en objet User #}
                         {% set debtor = members[debtorId] %}
 
                         <div class="col-md-6 mb-2">
@@ -103,15 +108,12 @@
             <div class="transaction-card">
                 {# 1. ICONE #}
                 <div class="t-icon-box">
-                    {# <i class="fa-solid fa-bag-shopping"></i> #}
                     <i class="{{ expense.icon }}"></i>
                 </div>
 
                 {# 2. INFOS #}
                 <div class="t-details">
-                    {# Le filtre |default gère le cas où la description est vide (nullable) #}
                     <span class="t-label">{{ expense.description|default('Dépense sans nom') }}</span>
-
                     <span class="t-meta">
                         {{ expense.createdDate|date('d M Y') }} à {{ expense.createdDate|date('H:i') }}
                     </span>
@@ -129,10 +131,9 @@
                 {# 4. ACTIONS #}
                 {% if userAccess and userAccess.role == 'admin' %}
                     <div class="expense-actions">
-                        {# Ce bouton ne supprime pas direct, il ouvre le popup #}
-                        {# On stocke l'URL de suppression dans un attribut data-url #}
+                        {# ATTENTION : J'ai changé le nom de la fonction JS ici #}
                         <button class="btn-icon-danger"
-                                onclick="openDeleteModal('{{ path('wallets_expense_delete', {wallet_uid: wallet.uid, expense_uid: expense.uid}) }}')">
+                                onclick="openExpenseDeleteModal('{{ path('wallets_expense_delete', {wallet_uid: wallet.uid, expense_uid: expense.uid}) }}')">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
@@ -148,19 +149,15 @@
         {% endfor %}
     </div>
 
-    {# --- PAGINATION MANUELLE --- #}
+    {# --- PAGINATION --- #}
     {% if totalPages > 1 %}
         <div class="pagination-wrapper">
             <ul class="pagination">
-                {# BOUTON PRECEDENT #}
                 <li class="page-item {{ currentPage == 1 ? 'disabled' }}">
                     <a href="{{ path('wallets_show', {uid: wallet.uid, page: currentPage - 1}) }}" class="page-link">
                         <i class="fa-solid fa-chevron-left"></i>
                     </a>
                 </li>
-
-                {# NUMEROS DE PAGE #}
-                {# On affiche toutes les pages. Si tu en as 100, il faudra faire une logique plus complexe plus tard #}
                 {% for i in 1..totalPages %}
                     <li class="page-item {{ currentPage == i ? 'active' }}">
                         <a href="{{ path('wallets_show', {uid: wallet.uid, page: i}) }}" class="page-link">
@@ -168,8 +165,6 @@
                         </a>
                     </li>
                 {% endfor %}
-
-                {# BOUTON SUIVANT #}
                 <li class="page-item {{ currentPage == totalPages ? 'disabled' }}">
                     <a href="{{ path('wallets_show', {uid: wallet.uid, page: currentPage + 1}) }}" class="page-link">
                         <i class="fa-solid fa-chevron-right"></i>
@@ -186,7 +181,6 @@
             <h3>Zone de danger</h3>
             <p>La suppression du portefeuille est irréversible (archivage).</p>
 
-            {# Bouton qui déclenche un Javascript simple de confirmation #}
             <a href="{{ path('wallets_delete', {uid: wallet.uid}) }}"
                class="btn btn-danger-outline"
                onclick="return confirm('Êtes-vous sûr de vouloir supprimer définitivement ce portefeuille ?');">
@@ -195,8 +189,139 @@
         </div>
     {% endif %}
 
-    {# CSS pour la zone de danger #}
+    {# ========================================================================= #}
+    {#                           LES MODALES (POP-UPS)                           #}
+    {# ========================================================================= #}
+
+    {# 1. MODAL SUPPRESSION DEPENSE (Custom CSS) #}
+    <div id="deleteExpenseModal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3>Supprimer la dépense ?</h3>
+            <p>Cette action supprimera la dépense du wallet.</p>
+
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="closeExpenseDeleteModal()">Annuler</button>
+                <a id="confirmExpenseDeleteBtn" href="#" class="btn-danger">Confirmer la suppression</a>
+            </div>
+        </div>
+    </div>
+
+    {# 2. MODAL LISTE DES MEMBRES (Bootstrap) #}
+    <div class="modal fade" id="membersModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Membres du Portefeuille</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <ul class="list-group list-group-flush">
+                        {% for relation in wallet.xUserWallets %}
+                            {% if not relation.isDeleted %}
+                                {% set member = relation.targetUser %}
+
+                                <li class="list-group-item d-flex align-items-center justify-content-between p-3">
+                                    {# INFO GAUCHE #}
+                                    <div class="d-flex align-items-center">
+                                        {% set avatar = member.avatar ?? (member.gender == 'M' ? 'https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-6299539-5187871.png' : 'https://cdn3d.iconscout.com/3d/premium/thumb/with-glasses-3d-icon-png-download-5823066.png') %}
+                                        <img src="{{ avatar }}" class="rounded-circle me-3" width="50" height="50"
+                                             style="object-fit: cover;">
+                                        <div>
+                                            <h6 class="mb-0 fw-bold">
+                                                {{ member.name }}
+                                                {% if relation.role == 'admin' %}
+                                                    <span class="badge bg-warning text-dark ms-2"
+                                                          style="font-size: 0.7em;">ADMIN</span>
+                                                {% endif %}
+                                                {% if wallet.owner == member %}
+                                                    <span class="badge bg-primary ms-2" style="font-size: 0.7em;">CRÉATEUR</span>
+                                                {% endif %}
+                                            </h6>
+                                            <small class="text-muted">{{ member.email }}</small>
+                                        </div>
+                                    </div>
+
+                                    {# ACTIONS DROITE #}
+                                    <div class="d-flex gap-2">
+                                        {% if wallet.owner != member %}
+                                            {% if relation.role != 'admin' %}
+                                                <a href="{{ path('wallet_member_promote', {id: relation.id}) }}"
+                                                   class="btn btn-outline-success btn-sm" title="Promouvoir Admin">
+                                                    <i class="fa-solid fa-arrow-up"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if relation.role == 'admin' %}
+                                                <a href="{{ path('wallet_member_demote', {id: relation.id}) }}"
+                                                   class="btn btn-outline-warning btn-sm" title="Rétrograder Membre">
+                                                    <i class="fa-solid fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+
+                                            {# ATTENTION : J'ai changé le nom de la fonction JS ici #}
+                                            <button type="button"
+                                                    class="btn btn-outline-danger btn-sm"
+                                                    onclick="openMemberDeleteModal('{{ relation.id }}', '{{ member.name }}')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# 3. MODAL CONFIRMATION SUPPRESSION MEMBRE (Bootstrap) #}
+    <div class="modal fade" id="deleteMemberModal" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Supprimer <span id="spanMemberName"></span> ?</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="deleteMemberForm" method="post" action="">
+                    <div class="modal-body">
+                        <p>Ce membre va être retiré du portefeuille. Que faire de ses dépenses passées ?</p>
+                        <div class="form-check mb-3 p-3 border rounded bg-light">
+                            <input class="form-check-input" type="radio" name="delete_expenses" id="optKeep" value="no"
+                                   checked>
+                            <label class="form-check-label" for="optKeep">
+                                <strong>Garder ses dépenses</strong><br>
+                                <small class="text-muted">L'historique comptable reste intact. Le solde ne change
+                                    pas.</small>
+                            </label>
+                        </div>
+                        <div class="form-check p-3 border rounded bg-light border-danger">
+                            <input class="form-check-input" type="radio" name="delete_expenses" id="optDelete"
+                                   value="yes">
+                            <label class="form-check-label text-danger" for="optDelete">
+                                <strong>Supprimer ses dépenses</strong><br>
+                                <small>Attention : Cela va modifier l'équilibre total du portefeuille !</small>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    {# ========================================================================= #}
+    {#                                  STYLES                                   #}
+    {# ========================================================================= #}
     <style>
+        /* Styles pour la Zone Danger et les Modales Custom */
         .separator {
             margin: 3rem 0;
             border: 0;
@@ -204,7 +329,7 @@
         }
 
         .danger-zone {
-            background-color: #fef2f2; /* Rouge très pâle */
+            background-color: #fef2f2;
             border: 1px solid #fecaca;
             border-radius: 12px;
             padding: 1.5rem;
@@ -238,49 +363,8 @@
             background-color: #ef4444;
             color: white;
         }
-    </style>
 
-
-    {# --- LE POPUP DE CONFIRMATION (Caché par défaut) --- #}
-    <div id="deleteModal" class="modal-overlay hidden">
-        <div class="modal-card">
-            <div class="modal-icon">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <h3>Supprimer la dépense ?</h3>
-            <p>Cette action supprimera cette dépense la dépense du wallet.</p>
-
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeDeleteModal()">Annuler</button>
-                <a id="confirmDeleteBtn" href="#" class="btn-danger">Confirmer la suppression</a>
-            </div>
-        </div>
-    </div>
-
-    {# --- LE SCRIPT JS --- #}
-    <script>
-        function openDeleteModal(deleteUrl) {
-            // 1. On met la bonne URL dans le bouton rouge "Confirmer"
-            document.getElementById('confirmDeleteBtn').href = deleteUrl;
-            // 2. On affiche le modal
-            document.getElementById('deleteModal').classList.remove('hidden');
-        }
-
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').classList.add('hidden');
-        }
-
-        // Fermer si on clique en dehors de la carte (sur le fond gris)
-        document.getElementById('deleteModal').addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeDeleteModal();
-            }
-        });
-    </script>
-
-    {# --- LE CSS DU POPUP --- #}
-    <style>
-        /* Fond gris transparent */
+        /* Modal Overlay Custom */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -288,7 +372,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px); /* Petit effet flou moderne */
+            backdrop-filter: blur(4px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -300,7 +384,6 @@
             display: none;
         }
 
-        /* La carte blanche */
         .modal-card {
             background: white;
             padding: 2rem;
@@ -308,11 +391,10 @@
             width: 90%;
             max-width: 400px;
             text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
             animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Animation d'apparition */
         @keyframes popIn {
             from {
                 transform: scale(0.9);
@@ -326,7 +408,7 @@
 
         .modal-icon {
             font-size: 3rem;
-            color: #ef4444; /* Rouge */
+            color: #ef4444;
             margin-bottom: 1rem;
         }
 
@@ -347,7 +429,6 @@
             justify-content: center;
         }
 
-        /* Boutons */
         .btn-secondary {
             padding: 0.75rem 1.5rem;
             border-radius: 8px;
@@ -386,6 +467,61 @@
         }
     </style>
 
+    {# ========================================================================= #}
+    {#                                  SCRIPTS                                  #}
+    {# ========================================================================= #}
+    <script>
+        // --- 1. Gestion Suppression DEPENSES (Modal Custom) ---
+        function openExpenseDeleteModal(deleteUrl) {
+            // On met la bonne URL dans le bouton rouge "Confirmer"
+            const btn = document.getElementById('confirmExpenseDeleteBtn');
+            if (btn) btn.href = deleteUrl;
 
+            // On affiche le modal
+            const modal = document.getElementById('deleteExpenseModal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeExpenseDeleteModal() {
+            const modal = document.getElementById('deleteExpenseModal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        // Fermer si on clique en dehors de la carte (sur le fond gris)
+        const expenseModal = document.getElementById('deleteExpenseModal');
+        if (expenseModal) {
+            expenseModal.addEventListener('click', function (e) {
+                if (e.target === this) {
+                    closeExpenseDeleteModal();
+                }
+            });
+        }
+
+        // --- 2. Gestion Suppression MEMBRES (Modal Bootstrap) ---
+        function openMemberDeleteModal(relationId, memberName) {
+            // On remplit le nom dans le titre
+            document.getElementById('spanMemberName').textContent = memberName;
+
+            // On construit l'URL de suppression dynamiquement
+            let url = "{{ path('wallet_member_remove', {'id': 'PLACEHOLDER'}) }}";
+            url = url.replace('PLACEHOLDER', relationId);
+
+            document.getElementById('deleteMemberForm').action = url;
+
+            // On ferme le premier modal (Liste) pour ouvrir le second (Confirmation)
+            const listModalEl = document.getElementById('membersModal');
+            // Vérification de sécurité si bootstrap est bien chargé
+            if (window.bootstrap) {
+                const listModal = bootstrap.Modal.getInstance(listModalEl);
+                if (listModal) listModal.hide();
+
+                const deleteModalEl = document.getElementById('deleteMemberModal');
+                const deleteModal = new bootstrap.Modal(deleteModalEl);
+                deleteModal.show();
+            } else {
+                console.error("Bootstrap JS n'est pas chargé !");
+            }
+        }
+    </script>
 
 {% endblock %}

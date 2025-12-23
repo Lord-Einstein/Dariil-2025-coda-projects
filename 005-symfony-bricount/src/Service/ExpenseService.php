@@ -74,7 +74,7 @@ class ExpenseService
 //        $wallet->setTotalAmount($currentTotal - $expenseAmount);
 
         $this->entityManager->flush();
-
+        
         $this->walletService->refreshWalletState($expense->getWallet());
     }
 }

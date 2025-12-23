@@ -11,10 +11,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/wallets/{wallet_uid}/expense/{expense_uid}/delete', name: 'wallets_expense_delete', methods: ['GET'])]
 final class DeleteController extends AbstractController
 {
-    public function __invoke(
+    #[Route('/wallets/{wallet_uid}/expense/{expense_uid}/delete', name: 'wallets_expense_delete', methods: ['GET'])]
+    public function index(
         //je mappe {wallet_uid} de l'URL vers la propriété 'uid' de l'entité Wallet
         #[MapEntity(mapping: ['wallet_uid' => 'uid'])]
         Wallet         $wallet,
