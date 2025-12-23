@@ -77,12 +77,13 @@
                         {% set debtor = members[debtorId] %}
 
                         <div class="col-md-6 mb-2">
-                            <strong>{{ debtor.name }}</strong> doit payer :
+                            <strong>{{ userAccess.targetUser.name == debtor.name ? 'Vous' : debtor.name }}</strong> doit
+                            payer :
                             <ul class="list-group mt-1">
                                 {% for debt in debts %}
                                     {% set creditor = members[debt.creditor_id] %}
                                     <li class="list-group-item d-flex justify-content-between align-items-center py-1">
-                                        <span>à {{ creditor.name }}</span>
+                                        <span>à {{ userAccess.targetUser.name == creditor.name ? 'Vous' : creditor.name }}</span>
                                         <span
                                             class="badge bg-primary">{{ (debt.amount / 100)|number_format(2, ',', ' ') }} €</span>
                                     </li>
@@ -113,6 +114,9 @@
 
                     <span class="t-meta">
                         {{ expense.createdDate|date('d M Y') }} à {{ expense.createdDate|date('H:i') }}
+                    </span>
+                    <span class="t-name">
+                        par {{ expense.createdBy.name }}
                     </span>
                 </div>
 
