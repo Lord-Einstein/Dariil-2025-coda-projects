@@ -656,8 +656,8 @@
     {# --- ZONE DANGER (REMISE EN BAS) --- #}
     {% if userAccess and userAccess.role == 'admin' %}
         <div class="danger-zone">
-            <h3 style="color: #991b1b; margin-top: 0;">Zone de danger</h3>
-            <p style="color: #7f1d1d; margin-bottom: 1.5rem;">La suppression est définitive.</p>
+            <h3 style="color: #991b1b; margin-top: 0;">Zone rouge</h3>
+            <p style="color: #7f1d1d; margin-bottom: 1.5rem;">Cette action est dangereuse et irréversible</p>
             <a href="{{ path('wallets_delete', {uid: wallet.uid}) }}" class="btn-delete-wallet"
                onclick="return confirm('Êtes-vous sûr ? Cette action est irréversible.');">
                 <i class="fa-solid fa-trash-can"></i> Supprimer le portefeuille

@@ -652,6 +652,7 @@ body {
 .btn-cancel {
     background: #f3f4f6;
     color: #374151;
+    border: 2px solid var(--main-color);
 }
 
 .btn-cancel:hover {
