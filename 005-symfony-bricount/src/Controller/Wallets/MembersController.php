@@ -5,6 +5,7 @@ namespace App\Controller\Wallets;
 use App\Entity\User;
 use App\Entity\XUserWallet;
 use App\Repository\ExpenseRepository;
+use App\Service\WalletService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,7 +60,8 @@ class MembersController extends AbstractController
         Request                $request,
         XUserWallet            $relation,
         EntityManagerInterface $em,
-        ExpenseRepository      $expenseRepo
+        ExpenseRepository      $expenseRepo,
+        WalletService          $walletService,
     ): Response
     {
         $wallet = $relation->getWallet();
@@ -92,6 +94,8 @@ class MembersController extends AbstractController
         $relation->setDeletedBy($this->getUser());
 
         $em->flush();
+
+        $walletService->refreshWalletState($wallet);
 
         $this->addFlash('success', "Le membre a été retiré du portefeuille.");
         return $this->redirectToRoute('wallets_show', ['uid' => $wallet->getUid()]);
