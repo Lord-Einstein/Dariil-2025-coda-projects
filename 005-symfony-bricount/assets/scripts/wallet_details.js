@@ -1,3 +1,7 @@
+// ============================================
+// WALLET_DETAILS.JS - VERSION FINALE
+// ============================================
+
 // Accordéon : Gestion de l'affichage
 function toggleAccordion(header) {
     header.classList.toggle('active');
@@ -11,7 +15,9 @@ function toggleAccordion(header) {
     }
 }
 
-// --- MODALES DÉPENSES ---
+// ============================================
+// MODALES DÉPENSES
+// ============================================
 
 function openExpenseDeleteModal(url) {
     const btn = document.getElementById('confirmExpenseDeleteBtn');
@@ -39,7 +45,9 @@ function closeExpenseDetail() {
     document.getElementById('detailExpenseModal').classList.remove('active');
 }
 
-// --- MODALES MEMBRES ---
+// ============================================
+// MODALES MEMBRES
+// ============================================
 
 function openMembersModal() {
     const modal = document.getElementById('membersModalOverlay');
@@ -52,7 +60,6 @@ function closeMembersModal() {
 }
 
 // Gestion Suppression Membre (Admin)
-// urlTemplate doit contenir le path Twig brut avec le placeholder
 function openMemberDeleteModal(id, name, urlTemplate) {
     closeMembersModal();
     document.getElementById('spanMemberName').textContent = name;

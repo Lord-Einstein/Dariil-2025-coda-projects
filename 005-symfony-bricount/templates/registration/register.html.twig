@@ -50,6 +50,11 @@
                     </div>
                 </div>
 
+                <div class="mb-3"
+                     style=" width:100%; margin: 10px 0;">
+                    {{ form_widget(registrationForm.gender, {'attr': {'style': 'height: 18px; accent-color: var(--main-color); cursor: pointer;  display: flex; align-items: center; justify-content : center; gap : 15px;'}}) }}
+                </div>
+
                 <div class="mb-3" style="margin-top: 15px; display: flex; align-items: center; gap: 12px;">
                     {{ form_widget(registrationForm.agreeTerms, {'attr': {'style': 'width: 18px; height: 18px; accent-color: var(--main-color); cursor: pointer;'}}) }}
                     <label for="{{ registrationForm.agreeTerms.vars.id }}"
@@ -57,6 +62,7 @@
                         J'accepte les <a href="#" style="color:var(--main-color);">conditions d'utilisation</a>
                     </label>
                 </div>
+
 
                 <button type="submit" class="btn-modern">
                     <span>C'est parti !</span>

@@ -1,8 +1,14 @@
+// ============================================
+// SETTINGS.JS - VERSION FINALE
+// ============================================
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. COUNTER ANIMATION ---
+    // ============================================
+    // COUNTER ANIMATION
+    // ============================================
     const counters = document.querySelectorAll('[data-count-target]');
-    const animationDuration = 2000; // 2 secondes pour compter
+    const animationDuration = 2000; // 2 secondes
 
     const formatNumber = (num, isCurrency) => {
         if (isCurrency) {
@@ -14,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return Math.floor(num).toString();
     };
 
-    const easeOutQuad = (t) => t * (2 - t); // Fonction pour ralentir à la fin
+    const easeOutQuad = (t) => t * (2 - t);
 
     const animateCounter = (counter) => {
         const target = parseFloat(counter.getAttribute('data-count-target'));
@@ -34,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (progress < 1) {
                 requestAnimationFrame(updateCount);
             } else {
-                counter.innerText = formatNumber(target, isCurrency); // S'assurer que la fin est précise
+                counter.innerText = formatNumber(target, isCurrency);
             }
         };
 
@@ -44,10 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lancer les animations
     counters.forEach(counter => animateCounter(counter));
 
-
-    // --- 2. MODAL LOGIC ---
+    // ============================================
+    // MODAL LOGIC
+    // ============================================
     const modal = document.getElementById('editProfileModal');
-    const hiddenInput = document.getElementById('profile_avatar'); // Le champ hidden Symfony
+    const hiddenInput = document.getElementById('profile_avatar');
     const avatarItems = document.querySelectorAll('.avatar-item');
 
     window.openEditModal = () => {
@@ -57,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentVal = hiddenInput.value;
         avatarItems.forEach(img => {
             img.classList.remove('selected');
-            // On compare la fin de l'URL pour éviter les soucis de chemins absolus/relatifs
             if (currentVal && img.src.includes(currentVal.split('/').pop())) {
                 img.classList.add('selected');
             } else if (img.src === currentVal) {
@@ -77,7 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Fermeture via clic extérieur
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) window.closeEditModal();
-    });
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) window.closeEditModal();
+        });
+    }
 });

@@ -1,21 +1,10 @@
-/* --- VARIABLES --- */
-:root {
-    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-    --purple-deep: #382ead;
-    --purple-mid: rgba(62, 72, 185, 0.67);
-    --orange-vibrant: #ec6c15;
-    --orange-dark: #ea580c;
-    --glass-bg: rgba(255, 255, 255, 0.95);
-    --glass-border: 1px solid rgba(255, 255, 255, 0.8);
-    --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
-    --shadow-hover: 0 20px 40px -5px rgba(0, 0, 0, 0.12);
-    --text-dark: #1e293b;
-    --text-gray: #64748b;
-    --text-light: #94a3b8;
-    --danger: #ef4444;
-}
+/* ============================================
+   WALLET_DETAILS.CSS - VERSION FINALE
+   ============================================ */
 
-/* --- LAYOUT GLOBAL --- */
+/* ============================================
+   LAYOUT
+   ============================================ */
 .wallet-header-wrapper {
     display: flex;
     flex-direction: column;
@@ -36,7 +25,9 @@
     font-size: 0.9rem;
 }
 
-/* --- BOUTONS --- */
+/* ============================================
+   BOUTONS
+   ============================================ */
 .btn-back-styled {
     display: inline-flex;
     align-items: center;
@@ -50,6 +41,10 @@
     transition: all 0.3s ease;
 }
 
+[data-theme="dark"] .btn-back-styled {
+    background: rgba(99, 102, 241, 0.2);
+}
+
 .btn-back-styled i {
     transition: transform 0.3s ease;
 }
@@ -59,26 +54,21 @@
     transform: translateX(-5px);
 }
 
-.btn-back-styled:hover i {
-    transform: translateX(-3px);
-}
-
 .btn-hero {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 12px 20px;
-    background: white;
+    background: var(--card-bg);
     border: 2px solid var(--orange-vibrant);
     border-radius: 16px;
-    color: #334155;
+    color: var(--text-dark);
     font-weight: 600;
     text-decoration: none;
     box-shadow: var(--shadow-soft);
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     position: relative;
     overflow: hidden;
-
     font-family: 'Poppins', sans-serif;
     font-size: .9rem;
 }
@@ -116,7 +106,9 @@
     transform: translateY(-3px) scale(1.02);
 }
 
-/* --- HEADER --- */
+/* ============================================
+   HEADER
+   ============================================ */
 .header-main-row {
     display: flex;
     justify-content: space-between;
@@ -152,9 +144,11 @@
     align-items: center;
 }
 
-/* --- BALANCE CARD --- */
+/* ============================================
+   BALANCE CARD
+   ============================================ */
 .balance-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 24px;
     padding: 2rem;
     box-shadow: var(--shadow-soft);
@@ -164,7 +158,7 @@
     margin-bottom: 2rem;
     position: relative;
     overflow: hidden;
-    border: 1px solid #f8fafc;
+    border: 1px solid var(--glass-border);
 }
 
 .balance-card::after {
@@ -218,20 +212,26 @@
     filter: drop-shadow(0 8px 12px rgba(99, 102, 241, 0.25));
 }
 
-/* --- ACCORDEON --- */
+.balance-icon-wrapper {
+    z-index: 1;
+}
+
+/* ============================================
+   ACCORDION
+   ============================================ */
 .accordion-wrapper {
-    background: white;
+    background: var(--card-bg);
     border-radius: 16px;
     margin-bottom: 2rem;
     box-shadow: var(--shadow-soft);
-    border: 1px solid #f1f5f9;
+    border: 1px solid var(--glass-border);
     overflow: hidden;
 }
 
 .accordion-header {
     width: 100%;
     padding: 1.5rem;
-    background: white;
+    background: var(--card-bg);
     border: none;
     display: flex;
     align-items: center;
@@ -241,7 +241,7 @@
 }
 
 .accordion-header:hover {
-    background: #f8fafc;
+    background: var(--glass-bg);
 }
 
 .accordion-title {
@@ -249,7 +249,7 @@
     align-items: center;
     gap: 15px;
     font-weight: 700;
-    color: #334155;
+    color: var(--text-dark);
     font-size: 1rem;
     text-transform: uppercase;
 }
@@ -274,7 +274,7 @@
     max-height: 0;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background: #f8fafc;
+    background: var(--glass-bg);
     padding: 0 1.5rem;
     opacity: 0;
 }
@@ -284,21 +284,43 @@
     opacity: 1;
 }
 
-/* Items Balances */
 .debt-item {
-    background: white;
+    background: var(--card-bg);
     padding: 12px 18px;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--glass-border);
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 1rem;
-    color: #475569;
+    color: var(--text-muted);
 }
 
 .debt-amount {
     font-weight: 800;
+}
+
+.debts-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+
+.text-success-custom {
+    color: #10b981;
+}
+
+.text-danger-custom {
+    color: #ef4444;
+}
+
+.text-neutral-custom {
+    color: var(--text-gray);
+}
+
+.badge-action {
+    font-size: 0.7em;
 }
 
 .btn-settle-orange {
@@ -330,12 +352,14 @@
     background: var(--orange-dark);
 }
 
-/* --- TRANSACTIONS --- */
+/* ============================================
+   TRANSACTIONS
+   ============================================ */
 .transaction-card {
     display: flex;
     align-items: center;
     padding: 16px 20px;
-    background: white;
+    background: var(--card-bg);
     border-radius: 16px;
     margin-bottom: 12px;
     border: 1px solid transparent;
@@ -346,21 +370,21 @@
 .transaction-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
-    border-color: #e2e8f0;
+    border-color: var(--glass-border);
 }
 
 .t-icon-box {
     width: 50px;
     height: 50px;
     border-radius: 16px;
-    background: #f1f5f9;
+    background: var(--glass-bg);
     color: var(--orange-vibrant);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.3rem;
     margin-right: 18px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--glass-border);
 }
 
 .t-details {
@@ -378,7 +402,7 @@
 .t-meta {
     display: block;
     font-size: 0.85rem;
-    color: #94a3b8;
+    color: var(--text-light);
 }
 
 .price-me {
@@ -407,8 +431,8 @@
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    background: white;
+    border: 1px solid var(--glass-border);
+    background: var(--card-bg);
     color: var(--text-gray);
     transition: all 0.2s;
     cursor: pointer;
@@ -424,13 +448,23 @@
     background: #e0e7ff;
 }
 
+[data-theme="dark"] .btn-list-action.view:hover {
+    background: rgba(99, 102, 241, 0.2);
+}
+
 .btn-list-action.del:hover {
     color: var(--danger);
     border-color: var(--danger);
     background: #fef2f2;
 }
 
-/* --- EMPTY STATE --- */
+[data-theme="dark"] .btn-list-action.del:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
 .empty-state {
     text-align: center;
     padding: 60px 20px;
@@ -438,7 +472,7 @@
 }
 
 .empty-icon-circle {
-    background: #f1f5f9;
+    background: var(--glass-bg);
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -450,10 +484,17 @@
 
 .empty-icon {
     font-size: 2rem;
-    color: #cbd5e1;
+    color: var(--text-light);
 }
 
-/* --- DANGER ZONE --- */
+.empty-title {
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+/* ============================================
+   DANGER ZONE
+   ============================================ */
 .danger-zone {
     margin-top: 4rem;
     padding: 2rem;
@@ -463,9 +504,18 @@
     border: 1px solid #fecaca;
 }
 
+[data-theme="dark"] .danger-zone {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
 .danger-title {
     color: #991b1b;
     margin-top: 0;
+}
+
+[data-theme="dark"] .danger-title {
+    color: #fca5a5;
 }
 
 .danger-text {
@@ -473,12 +523,16 @@
     margin-bottom: 1.5rem;
 }
 
+[data-theme="dark"] .danger-text {
+    color: var(--text-muted);
+}
+
 .btn-delete-wallet {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     padding: 12px 24px;
-    background: white;
+    background: var(--card-bg);
     color: var(--danger);
     border: 2px solid var(--danger);
     border-radius: 14px;
@@ -493,11 +547,17 @@
     box-shadow: 0 5px 15px -3px rgba(239, 68, 68, 0.4);
 }
 
-/* --- PAGINATION MODERNE --- */
+/* ============================================
+   PAGINATION
+   ============================================ */
 .pagination-wrapper {
     margin-top: 40px;
     display: flex;
     justify-content: center;
+}
+
+.pagination-container {
+    margin-top: 2rem;
 }
 
 .pagination {
@@ -505,7 +565,7 @@
     gap: 8px;
     list-style: none;
     margin: 0;
-    background: white;
+    background: var(--card-bg);
     padding: 10px 15px;
     border-radius: 50px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -523,7 +583,7 @@
     height: 36px;
     border-radius: 50%;
     text-decoration: none;
-    color: #718096;
+    color: var(--text-gray);
     font-weight: 600;
     font-size: 0.9rem;
     transition: all 0.2s;
@@ -531,7 +591,7 @@
 }
 
 .page-link:hover {
-    background: #edf2f7;
+    background: var(--glass-bg);
     color: var(--main-color);
 }
 
@@ -542,70 +602,21 @@
 }
 
 .page-item.disabled .page-link {
-    color: #cbd5e0;
+    color: var(--text-light);
     pointer-events: none;
 }
 
-@keyframes slideInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* --- REFACTORING TWIG & STYLES --- */
-.balance-icon-wrapper {
-    z-index: 1;
-}
-
-.badge-action {
-    font-size: 0.7em;
-}
-
-.debts-list {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: 10px;
-}
-
-.text-success-custom {
-    color: #10b981;
-}
-
-.text-danger-custom {
-    color: #ef4444;
-}
-
-.text-neutral-custom {
-    color: #64748b;
-}
-
-.form-no-margin {
-    margin: 0;
-}
-
-.empty-title {
-    color: #475569;
-    font-weight: 700;
-}
-
-.pagination-container {
-    margin-top: 2rem;
-}
-
-/* ========================================= */
-/* --- NEW MODERN MODALS STYLES --- */
-/* ========================================= */
-
+/* ============================================
+   MODALS (Continued from main.css patterns)
+   ============================================ */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(15, 23, 42, 0.6); /* Plus sombre */
-    backdrop-filter: blur(8px); /* Plus flou */
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
     z-index: 2000;
     display: flex;
     justify-content: center;
@@ -621,7 +632,7 @@
 }
 
 .modal-box {
-    background: #ffffff;
+    background: var(--card-bg);
     width: 90%;
     max-width: 480px;
     border-radius: 24px;
@@ -629,14 +640,13 @@
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     transform: scale(0.95) translateY(10px);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid var(--glass-border);
 }
 
 .modal-overlay.active .modal-box {
     transform: scale(1) translateY(0);
 }
 
-/* Utility classes extraction */
 .modal-center {
     text-align: center;
 }
@@ -657,12 +667,11 @@
     position: static;
 }
 
-/* Close Button */
 .modal-close-btn {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: #f1f5f9;
+    background: var(--glass-bg);
     border: none;
     width: 32px;
     height: 32px;
@@ -677,12 +686,11 @@
 }
 
 .modal-close-btn:hover {
-    background: #e2e8f0;
+    background: var(--glass-border);
     color: var(--danger);
     transform: rotate(90deg);
 }
 
-/* --- DELETE / CONFIRM MODALS (Ultra Modern) --- */
 .modal-icon-wrapper {
     width: 80px;
     height: 80px;
@@ -696,8 +704,14 @@
 
 .danger-wrapper {
     background: #fef2f2;
-    border: 4px solid #fff;
+    border: 4px solid white;
     box-shadow: 0 0 0 4px #fee2e2;
+}
+
+[data-theme="dark"] .danger-wrapper {
+    background: rgba(239, 68, 68, 0.2);
+    border: 4px solid var(--card-bg);
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.3);
 }
 
 .modal-emoji-icon {
@@ -734,27 +748,10 @@
     line-height: 1.5;
 }
 
-/* Actions Buttons */
 .modal-actions {
     display: flex;
     gap: 12px;
     justify-content: center;
-}
-
-.btn-cancel {
-    background: white;
-    color: var(--text-gray);
-    padding: 12px 24px;
-    border-radius: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: 2px solid var(--main-color);
-}
-
-.btn-cancel:hover {
-    background: var(--main-color);
-    color: white;
 }
 
 .btn-confirm-danger {
@@ -776,7 +773,7 @@
     box-shadow: 0 15px 20px -3px rgba(239, 68, 68, 0.4);
 }
 
-/* --- DETAIL EXPENSE MODAL --- */
+/* Detail modal elements */
 .detail-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -787,9 +784,9 @@
 .detail-icon-circle {
     width: 90px;
     height: 90px;
-    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-    border: 1px solid #e2e8f0;
-    border-radius: 30px; /* Squircle */
+    background: linear-gradient(135deg, var(--glass-bg) 0%, var(--card-bg) 100%);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -819,14 +816,14 @@
 }
 
 .detail-grid {
-    background: #f8fafc;
+    background: var(--glass-bg);
     border-radius: 20px;
     padding: 1.5rem;
     display: grid;
     grid-template-columns: auto 1fr;
     gap: 20px;
     align-items: center;
-    border: 1px solid #f1f5f9;
+    border: 1px solid var(--glass-border);
 }
 
 .detail-label {
@@ -850,6 +847,15 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.avatar-medium {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    object-fit: cover;
+    border: 2px solid var(--card-bg);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
 .detail-user-name {
     font-weight: 700;
     color: var(--text-dark);
@@ -863,22 +869,22 @@
 
 .detail-date-val {
     font-weight: 600;
-    color: #334155;
-    background: white;
+    color: var(--text-dark);
+    background: var(--card-bg);
     padding: 8px 12px;
     border-radius: 8px;
     display: inline-block;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--glass-border);
 }
 
-/* --- MEMBERS LIST (Cleaned but preserved visually) --- */
+/* Members modal */
 .members-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--glass-border);
 }
 
 .member-list-styled {
@@ -893,17 +899,16 @@
     padding-right: 5px;
 }
 
-/* Scrollbar perso */
 .members-scroll-area::-webkit-scrollbar {
     width: 5px;
 }
 
 .members-scroll-area::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: var(--glass-bg);
 }
 
 .members-scroll-area::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: var(--text-light);
     border-radius: 10px;
 }
 
@@ -912,7 +917,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 0;
-    border-bottom: 1px dashed #e2e8f0;
+    border-bottom: 1px dashed var(--glass-border);
     transition: background 0.2s;
 }
 
@@ -926,15 +931,6 @@
     gap: 15px;
 }
 
-.avatar-medium {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px; /* Un peu plus moderne que 50% */
-    object-fit: cover;
-    border: 2px solid white;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
 .member-name-block {
     font-weight: 700;
     color: var(--text-dark);
@@ -943,7 +939,6 @@
     gap: 8px;
 }
 
-/* Classes extraites des styles inline */
 .icon-admin-gold {
     color: #fbbf24;
     font-size: 0.9em;
@@ -963,7 +958,7 @@
     gap: 8px;
 }
 
-/* --- RADIO GROUP (Delete Member) - Modern Cards --- */
+/* Radio group */
 .radio-group-title {
     margin-bottom: 15px;
     font-weight: 700;
@@ -985,29 +980,32 @@
     gap: 15px;
     align-items: center;
     padding: 15px;
-    border: 2px solid #f1f5f9;
+    border: 2px solid var(--glass-border);
     border-radius: 16px;
     cursor: pointer;
     transition: all 0.2s ease;
-    background: white;
+    background: var(--card-bg);
 }
 
 .radio-label:hover {
-    border-color: #e2e8f0;
-    background: #f8fafc;
+    border-color: var(--glass-border);
+    background: var(--glass-bg);
 }
 
-/* Style quand le bouton radio est coché (via le sélecteur adjacent) */
 .radio-label:has(input:checked) {
     border-color: var(--purple-mid);
     background: rgba(99, 102, 241, 0.05);
+}
+
+[data-theme="dark"] .radio-label:has(input:checked) {
+    background: rgba(99, 102, 241, 0.1);
 }
 
 .radio-input-purple, .radio-input-red {
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid #cbd5e1;
+    border: 2px solid var(--text-light);
     border-radius: 50%;
     display: grid;
     place-content: center;
@@ -1041,7 +1039,7 @@
 
 .radio-text-keep {
     font-size: 0.95rem;
-    color: #475569;
+    color: var(--text-dark);
     font-weight: 500;
 }
 
@@ -1049,4 +1047,86 @@
     font-size: 0.95rem;
     color: #ef4444;
     font-weight: 600;
+}
+
+.form-no-margin {
+    margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .header-main-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-bar {
+        flex-wrap: wrap;
+    }
+
+    .total-amount {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-hero {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+
+    .btn-hero span {
+        display: none;
+    }
+
+    .action-bar {
+        gap: 0.5rem;
+    }
+
+    .transaction-card {
+        flex-wrap: wrap;
+        padding: 12px 15px;
+    }
+
+    .action-group {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .modal-box {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .page-title {
+        font-size: 1.8rem;
+    }
+
+    .total-amount {
+        font-size: 2rem;
+    }
+
+    .btn-hero {
+        padding: 8px 12px;
+    }
+
+    .transaction-card {
+        padding: 10px 12px;
+    }
+
+    .t-icon-box {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+        margin-right: 12px;
+    }
+
+    .modal-box {
+        padding: 1.5rem 1rem;
+    }
 }

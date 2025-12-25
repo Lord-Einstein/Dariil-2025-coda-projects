@@ -1,12 +1,20 @@
-/* --- GRID SYSTEM --- */
+/* ============================================
+   WALLETS.CSS - VERSION FINALE
+   ============================================ */
+
+/* ============================================
+   GRID SYSTEM
+   ============================================ */
 .wallet-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); /* Cartes un peu plus larges */
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 25px;
     padding-bottom: 40px;
 }
 
-/* --- BASE CARTE (Structure commune) --- */
+/* ============================================
+   BASE CARTE
+   ============================================ */
 .wallet-card {
     position: relative;
     height: 230px;
@@ -19,31 +27,32 @@
     justify-content: space-between;
 }
 
-/* --- STYLE CARTE "EXISTANTE" --- */
+/* ============================================
+   CARTE EXISTANTE
+   ============================================ */
 .card-existing {
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02),
-    0 12px 24px rgba(0, 0, 0, 0.04);
+    background: var(--card-bg);
+    border: 2px solid var(--glass-border);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02), 0 12px 24px rgba(0, 0, 0, 0.04);
 }
 
-/* Effet Glassmorphism subtil */
 @supports (backdrop-filter: blur(10px)) {
     .card-existing {
         background: rgba(255, 255, 255, 0.75);
         backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+    }
+
+    [data-theme="dark"] .card-existing {
+        background: rgba(30, 41, 59, 0.8);
     }
 }
 
 .card-existing:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(255, 87, 34, 0.1); /* Bordure subtile couleur thème */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 87, 34, 0.1);
     border: 2px solid var(--main-color);
 }
 
-/* Forme abstraite en arrière plan */
 .card-bg-shape {
     position: absolute;
     top: -60px;
@@ -56,11 +65,17 @@
     transition: transform 0.5s ease;
 }
 
+[data-theme="dark"] .card-bg-shape {
+    background: radial-gradient(circle, rgba(236, 107, 64, 0.15) 0%, rgba(30, 41, 59, 0) 70%);
+}
+
 .card-existing:hover .card-bg-shape {
     transform: scale(1.2);
 }
 
-/* --- CONTENU DE LA CARTE --- */
+/* ============================================
+   CONTENU DE LA CARTE
+   ============================================ */
 .card-content {
     position: relative;
     z-index: 2;
@@ -70,7 +85,6 @@
     flex-direction: column;
 }
 
-/* Header : Badge & Icone */
 .card-top {
     display: flex;
     justify-content: space-between;
@@ -84,7 +98,6 @@
     transition: color 0.3s;
 }
 
-/* Badges */
 .badge {
     padding: 6px 12px;
     border-radius: 16px;
@@ -99,12 +112,20 @@
     color: var(--main-color);
 }
 
+[data-theme="dark"] .badge-admin {
+    background: rgba(255, 87, 34, 0.2);
+}
+
 .badge-member {
     background: #ebf8ff;
     color: #3182ce;
 }
 
-/* Info Principales (Nom & Montant) */
+[data-theme="dark"] .badge-member {
+    background: rgba(49, 130, 206, 0.2);
+    color: #63b3ed;
+}
+
 .card-main {
     display: flex;
     flex-direction: column;
@@ -113,7 +134,7 @@
 
 .wallet-name {
     font-size: 1.1rem;
-    color: #434b59;
+    color: var(--text-dark);
     font-weight: 600;
     margin: 0;
     white-space: nowrap;
@@ -124,7 +145,6 @@
 
 .wallet-balance {
     font-size: 2.2rem;
-
     color: var(--purple-deep);
     line-height: 1.1;
     letter-spacing: -1px;
@@ -132,36 +152,37 @@
 
 .currency {
     font-size: 1.2rem;
-    color: #434b59;
+    color: var(--text-dark);
     font-weight: 600;
     vertical-align: top;
     margin-left: 2px;
 }
 
-/* --- FOOTER CARTE --- */
+/* ============================================
+   FOOTER CARTE
+   ============================================ */
 .card-footer-w {
     position: relative;
     z-index: 2;
     padding: 15px 24px 24px 24px;
     display: flex;
-    justify-content: space-between; /* Ecarte la date et le bouton */
+    justify-content: space-between;
     align-items: flex-end;
 }
 
 .meta-date {
     font-size: 0.85rem;
-    color: #656c77;
+    color: var(--text-muted);
 }
 
 .meta-new {
     font-size: 0.85rem;
-    color: #10b981; /* Vert émeraude */
+    color: #10b981;
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 6px;
 }
 
-/* Bouton Flèche */
 .btn-mini-arrow {
     width: 40px;
     height: 40px;
@@ -176,6 +197,10 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
+[data-theme="dark"] .btn-mini-arrow {
+    background: var(--purple-mid);
+}
+
 .card-existing:hover .btn-mini-arrow {
     background: var(--purple-deep);
     color: white;
@@ -183,10 +208,11 @@
     box-shadow: 0 5px 15px rgba(255, 87, 34, 0.3);
 }
 
-
-/* --- STYLE CARTE "NOUVEAU" (Design vivant) --- */
+/* ============================================
+   CARTE NOUVEAU
+   ============================================ */
 .card-new {
-    background: #ffffff;
+    background: var(--card-bg);
     border: 2px dashed var(--purple-mid);
     align-items: center;
     justify-content: center;
@@ -202,7 +228,6 @@
     z-index: 2;
 }
 
-/* Cercle icône */
 .icon-circle {
     width: 70px;
     height: 70px;
@@ -218,12 +243,11 @@
 
 .new-label {
     font-weight: 700;
-    color: #747485;
+    color: var(--text-muted);
     font-size: 1.1rem;
     transition: color 0.3s;
 }
 
-/* Décoration de fond subtile */
 .new-bg-decoration {
     position: absolute;
     width: 100%;
@@ -234,10 +258,13 @@
     z-index: 1;
 }
 
-/* Hover Effect sur la carte New */
+[data-theme="dark"] .new-bg-decoration {
+    background: radial-gradient(circle, rgba(255, 87, 34, 0.1) 0%, rgba(30, 41, 59, 0) 60%);
+}
+
 .card-new:hover {
     border-color: var(--purple-deep);
-    border-style: solid; /* On passe de dashed à solid pour un effet 'focus' */
+    border-style: solid;
     transform: translateY(-5px);
 }
 
@@ -254,4 +281,40 @@
 
 .card-new:hover .new-label {
     color: var(--text-dark);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .wallet-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wallet-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .wallet-card {
+        height: auto;
+        min-height: 200px;
+    }
+}
+
+@media (max-width: 320px) {
+    .card-content {
+        padding: 20px 20px 0 20px;
+    }
+
+    .card-footer-w {
+        padding: 10px 20px 20px 20px;
+    }
+
+    .wallet-balance {
+        font-size: 1.8rem;
+    }
 }

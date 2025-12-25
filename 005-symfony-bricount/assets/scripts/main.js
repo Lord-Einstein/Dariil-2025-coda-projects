@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainIcon = document.getElementById('mainIcon');
     const overlay = document.getElementById('menuOverlay');
 
+
     // --- 1. INITIALISATION DE L'ICÔNE PRINCIPALE ---
     // On cherche s'il y a un lien avec la classe "active" (générée par PHP)
     const activeLink = document.querySelector('.fab-list li a.active');
@@ -16,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mainIcon.className = activeIconClass;
     }
     // Sinon, l'icône par défaut (outils) reste en place (définie dans le HTML).
-
 
     // --- 2. GESTION OUVERTURE / FERMETURE ---
     function toggleMenu() {
@@ -54,6 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.addEventListener('click', () => {
         if (wrapper.classList.contains('open')) toggleMenu();
     });
+
+
 });
 
 document.addEventListener('DOMContentLoaded', () => {

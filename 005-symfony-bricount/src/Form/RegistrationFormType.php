@@ -40,10 +40,10 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('email', EmailType::class)
             ->add('gender', ChoiceType::class, [
-                'label' => 'Vous êtes',
+                'label' => '',
                 'choices' => [
-                    'Un homme' => 'M',
-                    'Une femme' => 'F',
+                    'Homme' => 'M',
+                    'Femme' => 'F',
                 ],
                 'expanded' => true,
                 'multiple' => false,

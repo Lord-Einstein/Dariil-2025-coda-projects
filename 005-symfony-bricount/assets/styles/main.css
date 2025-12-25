@@ -1,26 +1,103 @@
+/* ============================================
+   VARIABLES GLOBALES CENTRALISÉES
+   ============================================ */
 :root {
-    --main-color: #ff5722; /* Orange */
+    /* Couleurs principales */
+    --main-color: #ff5722;
     --main-dark: #e64a19;
+    --main-hover: #f4511e;
+
+    /* Couleurs de texte */
     --text-dark: #212020;
-    --glass-bg: rgba(255, 255, 255, 0.7); /* Plus opaque pour lisibilité */
-    --glass-border: rgba(255, 255, 255, 0.5);
-    /* Courbe de Bézier pour l'effet "Blop" élastique */
-    --elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    --header-height: 60px;
-    --header-bg: rgba(255, 255, 255, 0.85); /* Un peu plus opaque que le verre du menu */
+    --text-muted: #5d5f69;
+    --text-light: #94a3b8;
+    --text-gray: #64748b;
+
+    /* Backgrounds */
+    --bg-primary: #f0f2f5;
+    --card-bg: rgba(255, 255, 255, 0.90);
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-white: rgba(255, 255, 255, 0.7);
+
+    /* Borders & Shadows */
+    --glass-border: rgba(117, 109, 109, 0.6);
+    --input-border: #565c60;
+    --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 20px 40px -5px rgba(0, 0, 0, 0.12);
+    --shadow-float: 0 15px 35px rgba(0, 0, 0, 0.1);
+
+    /* Purple palette */
     --purple-deep: #382ead;
     --purple-mid: rgba(129, 140, 248, 0.73);
+
+    /* Orange palette */
+    --orange-accent: #ec6c15;
+    --orange-vibrant: #ec6c15;
+    --orange-dark: #ea580c;
+
+    /* Utility colors */
+    --danger: #ef4444;
+
+    /* Layout */
+    --header-height: 60px;
+    --header-bg: rgba(255, 255, 255, 0.85);
+    --radius-xl: 24px;
+
+    /* Curves */
+    --elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Gradients */
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    --secondary-gradient: linear-gradient(135deg, rgba(241, 170, 99, 0.91) 0%, rgba(231, 122, 54, 0.93) 100%);
+    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+/* ============================================
+   DARK MODE VARIABLES
+   ============================================ */
+[data-theme="dark"] {
+    /* Couleurs inversées */
+    --text-dark: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-light: #64748b;
+    --text-gray: #cbd5e1;
+
+    /* Backgrounds sombres */
+    --bg-primary: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.95);
+    --glass-bg: rgba(30, 41, 59, 0.8);
+    --glass-white: rgba(30, 41, 59, 0.8);
+
+    /* Borders adaptés */
+    --glass-border: rgba(71, 85, 105, 0.6);
+    --input-border: #475569;
+    --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+    --shadow-hover: 0 20px 40px -5px rgba(0, 0, 0, 0.6);
+
+    /* Header sombre */
+    --header-bg: rgba(30, 41, 59, 0.95);
+}
+
+/* ============================================
+   BASE & RESET
+   ============================================ */
+* {
+    box-sizing: border-box;
 }
 
 body {
     margin: 0;
-    height: 100vh;
-    background-color: #f0f2f5;
+    min-height: 100vh;
+    background-color: var(--bg-primary);
     font-family: 'Poppins', sans-serif;
     overflow-x: hidden;
+    color: var(--text-dark);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* --- Header Global --- */
+/* ============================================
+   HEADER GLOBAL
+   ============================================ */
 .app-header {
     position: fixed;
     top: 0;
@@ -31,14 +108,14 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    box-sizing: border-box;
     background: var(--header-bg);
     backdrop-filter: blur(10px);
     z-index: 80;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease;
 }
 
-/* --- Logo Animé --- */
+/* Logo */
 .header-left .logo-wrapper {
     display: flex;
     align-items: center;
@@ -54,9 +131,10 @@ body {
 .app-title {
     font-size: 24px;
     font-weight: 800;
-    color: #333;
+    color: var(--text-dark);
     margin-left: 5px;
     letter-spacing: -0.5px;
+    transition: color 0.3s ease;
 }
 
 @keyframes spin-pause {
@@ -68,7 +146,9 @@ body {
     }
 }
 
-/* --- BOUTONS AUTH (Design demandé) --- */
+/* ============================================
+   BOUTONS AUTH (Header)
+   ============================================ */
 .header-right {
     display: flex;
     gap: 30px;
@@ -85,11 +165,10 @@ body {
     text-decoration: none;
     font-size: 14px;
     font-weight: 700;
-    overflow: hidden; /* Important pour contenir le cercle qui gonfle */
+    overflow: hidden;
     transition: all 0.3s ease;
 }
 
-/* Conteneur texte+icone pour gérer le z-index au dessus du fond */
 .btn-content {
     position: relative;
     z-index: 2;
@@ -105,140 +184,78 @@ body {
     width: 1rem;
 }
 
-/* --- Animation Survol Commune (Cercle qui grandit) --- */
 .btn-auth::before {
     content: '';
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, 100%); /* Caché en bas */
+    transform: translate(-50%, 100%);
     width: 150%;
-    padding-top: 150%; /* Crée un grand cercle */
+    padding-top: 150%;
     border-radius: 50%;
     transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1;
 }
 
 .btn-auth:hover::before {
-    transform: translate(-50%, 10%) scale(1.5); /* Remonte et remplit */
+    transform: translate(-50%, 10%) scale(1.5);
 }
 
-
-/* --- 1. BOUTON SE CONNECTER (Orange Outline -> Orange Fill + Glow) --- */
+/* Bouton Login */
 .btn-login {
     color: var(--main-color);
     border: 2px solid var(--main-color);
     background: transparent;
 }
 
-/* Le rond qui monte est orange */
 .btn-login::before {
     background: var(--main-color);
 }
 
 .btn-login:hover {
-    color: white; /* Texte devient blanc */
+    color: white;
     border-color: var(--main-color);
-    /* Glow léger qui déborde */
     box-shadow: 0 8px 20px rgba(255, 87, 34, 0.5);
 }
 
-/* --- 2. BOUTON S'INSCRIRE (Orange Fill -> White Fill) --- */
+/* Bouton Signup */
 .btn-signup {
     color: white;
     background: var(--main-color);
-    border: 2px solid var(--main-color); /* Bordure invisible mais présente pour la taille */
+    border: 2px solid var(--main-color);
 }
 
-/* Le rond qui monte est blanc */
 .btn-signup::before {
     background: white;
 }
 
 .btn-signup:hover {
-    color: var(--main-color); /* Texte devient orange */
+    color: var(--main-color);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* --- RESPONSIVE MOBILE (<= 480px) --- */
-@media (max-width: 480px) {
-    .app-header {
-        padding: 0 15px;
-        height: 60px;
-    }
-
-    .logo-svg {
-        width: 35px;
-        height: 35px;
-    }
-
-    .app-title {
-        font-size: 20px;
-    }
-
-    .header-right {
-        gap: 10px;
-    }
-
-    .btn-auth {
-        padding: 0;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-    }
-
-    /* Sur mobile, on cache le texte "Se connecter" mais on force l'affichage de l'icône */
-    .btn-content {
-        font-size: 0;
-        gap: 0;
-    }
-
-    .btn-content i {
-        width: auto;
-        opacity: 1;
-        transform: none;
-        font-size: 16px;
-    }
-
-    /* Sur mobile : Login reste outline, Signup reste plein */
-    .btn-login {
-        border-width: 1px;
-    }
-
-    .btn-login:hover {
-        box-shadow: none;
-        color: var(--main-color);
-    }
-
-    .btn-login:hover::before {
-        display: none;
-    }
-
-    /* Pas d'anim complexe sur touch */
-    .btn-signup:hover {
-        color: white;
-    }
-
-    .btn-signup:hover::before {
-        display: none;
-    }
-}
-
-
-/*App layout css*/
-/* --- LAYOUT GLOBAL IN-APP --- */
-/* Pour éviter que le contenu passe sous le header fixe */
+/* ============================================
+   LAYOUT IN-APP
+   ============================================ */
 .main-content {
-    /* 60px + 40px de marge */
     padding: calc(var(--header-height) + 20px) 20px 60px 120px;
     max-width: 1600px;
     margin: 0 auto;
     min-height: 100vh;
-    box-sizing: border-box;
-    /* Petite animation d'entrée pour toutes les pages */
-    animation: fadeInUp 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
     transition: padding 0.3s ease;
+    /* Animation corrigée - pas de transform initial */
+    animation: fadeInUpFixed 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Animation sans "jump" */
+@keyframes fadeInUpFixed {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 .main-content::before {
@@ -252,18 +269,7 @@ body {
     z-index: -1;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Titres de section modernes */
+/* Section Header */
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -277,9 +283,9 @@ body {
     color: var(--text-dark);
     position: relative;
     display: inline-block;
+    transition: color 0.3s ease;
 }
 
-/* Petit soulignement orange stylé */
 .page-title::after {
     content: '';
     position: absolute;
@@ -291,50 +297,45 @@ body {
     border-radius: 2px;
 }
 
-
-/* --- Profil Utilisateur (In-App) --- */
+/* ============================================
+   PROFIL UTILISATEUR
+   ============================================ */
 .user-profile {
     display: flex;
     align-items: center;
     gap: 50px;
-    cursor: pointer; /* Indique qu'on peut cliquer pour un menu déroulant */
+    cursor: pointer;
     padding: 25px;
     border-radius: 50px;
     transition: background 0.3s ease;
 }
 
-
-/* --- Le Nom Stylisé --- */
 .user-name {
     font-size: 16px;
     font-weight: 700;
-    color: var(--text-dark); /* #333 */
+    color: var(--text-dark);
     margin: 0;
     line-height: 1;
     white-space: nowrap;
+    transition: color 0.3s ease;
 }
 
-/* Les Initiales (Orange + Grand) */
 .user-name .initial {
-    color: var(--main-color); /* Orange #ff5722 */
-    font-size: 1.4em; /* 40% plus grand que le reste */
-    vertical-align: -2px; /* Léger alignement optique */
-
+    color: var(--main-color);
+    font-size: 1.4em;
+    vertical-align: -2px;
 }
 
 .user-name .initial:nth-child(2) {
     margin-left: 20px;
 }
 
-/* --- L'Avatar 3D --- */
 .avatar-wrapper {
     position: relative;
     width: 45px;
     height: 45px;
-    /* Cercle blanc derrière pour faire ressortir la 3D */
-    background: #f0f2f5;
+    background: var(--bg-primary);
     border-radius: 50%;
-    /* Ombre portée douce pour l'effet flottant */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -342,17 +343,15 @@ body {
 .avatar-img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* S'assure que l'image remplit bien */
+    object-fit: cover;
     border-radius: 50%;
 }
 
-/* Animation au survol de la div parent */
 .user-profile:hover .avatar-wrapper {
-    transform: scale(1.1) rotate(5deg); /* Petit pop 3D sympa */
+    transform: scale(1.1) rotate(5deg);
     box-shadow: 0 6px 15px rgba(255, 87, 34, 0.2);
 }
 
-/* La petite pastille verte (Status en ligne) */
 .status-dot {
     position: absolute;
     bottom: 2px;
@@ -365,28 +364,9 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* --- RESPONSIVE (Mobile < 480px) --- */
-@media (max-width: 480px) {
-    /* On cache le nom pour gagner de la place */
-    .user-name {
-        display: none;
-    }
-
-    /* On réduit un peu l'espacement du conteneur */
-    .user-profile {
-        gap: 0;
-        padding: 0;
-    }
-
-    /* L'avatar reste bien visible */
-    .avatar-wrapper {
-        width: 40px;
-        height: 40px;
-    }
-}
-
-
-/* --- Overlay --- */
+/* ============================================
+   FAB MENU (Floating Action Button)
+   ============================================ */
 .menu-overlay {
     position: fixed;
     inset: 0;
@@ -403,16 +383,13 @@ body {
     visibility: visible;
 }
 
-/* --- Wrapper Principal --- */
 .fab-wrapper {
     position: fixed;
-    top: 50%; /* Centré verticalement */
-    left: 20px; /* Flotte à gauche */
+    top: 50%;
+    left: 20px;
     z-index: 100;
-    /* On ne transforme pas ici pour éviter les conflits de contexte d'empilement */
 }
 
-/* --- Bouton Principal (Orange) --- */
 .fab-main-btn {
     width: 70px;
     height: 70px;
@@ -427,7 +404,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Centrage propre par rapport au wrapper */
     transform: translateY(-50%);
     transition: transform 0.5s var(--elastic), background 0.3s;
 }
@@ -438,10 +414,9 @@ body {
     transition: opacity 0.3s;
 }
 
-/* --- Liste en Arc de Cercle --- */
 .fab-list {
     position: absolute;
-    top: 50%; /* On part du centre exact du bouton principal */
+    top: 50%;
     left: 0;
     padding: 0;
     margin: 0;
@@ -455,92 +430,63 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    /* Le secret est ici : on prépare le terrain mais on ne bouge pas encore */
     transform: rotate(0deg) translateX(0) rotate(0deg);
     transition: transform 0.5s var(--elastic), opacity 0.3s;
     opacity: 0;
     pointer-events: none;
-    /* On force la taille du li à 0 pour ne pas gêner */
     width: 0;
     height: 0;
 }
 
-/* État OUVERT : La magie opère ici */
 .fab-wrapper.open .fab-list li {
     opacity: 1;
     pointer-events: auto;
-
-    /* EXPLICATION DU CORRECTIF :
-       1. rotate(...) : On tourne l'axe vers la direction voulue.
-       2. translateX(110px) : On pousse le bouton au bon endroit.
-       3. rotate(...) INVRESE : On fait une contre-rotation immédiate du LI.
-
-       Résultat : Le LI est placé sur le cercle, mais il est "droit".
-       Donc quand l'enfant (le lien A) s'agrandit, il le fait à l'horizontale !
-    */
     transform: rotate(calc(var(--i) * 35deg)) translateX(150px) rotate(calc(var(--i) * -35deg));
 }
 
-/* --- Les Liens (Bulles) --- */
 .fab-list li a {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     text-decoration: none;
-
-    /* Dimensions fixes au départ */
     width: 50px;
     height: 50px;
-
-    /* Centrage absolu du lien par rapport au point du LI */
-    margin-top: -25px; /* Moitié de la hauteur */
-    margin-left: -25px; /* Moitié de la largeur */
-
+    margin-top: -25px;
+    margin-left: -25px;
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border: 1px solid var(--glass-border);
     border-radius: 50px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     color: var(--text-dark);
-
     overflow: hidden;
-    /* Transition fluide */
     transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background 0.3s;
-
-    /* PLUS DE ROTATION ICI ! Le parent LI a déjà tout remis droit */
     transform: none;
 }
 
-/* L'icone dans le lien */
 .fab-list li a i {
-    /* On fige la largeur de l'icône pour qu'elle ne soit pas écrasée pendant l'anim */
     width: 50px;
     min-width: 50px;
     height: 50px;
-    line-height: 50px; /* Centrage vertical du texte de l'icone */
+    line-height: 50px;
     text-align: center;
     font-size: 18px;
     z-index: 2;
 }
 
-/* Le Texte (Label) */
 .fab-list li a .label {
     opacity: 0;
     white-space: nowrap;
     font-size: 14px;
     font-weight: 600;
     padding-right: 20px;
-    /* Animation d'apparition du texte */
     transform: translateX(-10px);
     transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
 }
 
-/* Interaction Hover */
 .fab-list li a:hover {
-    width: 140px; /* S'étend vers la droite horizontalement maintenant */
-    background: #fff;
-    /* On assure que l'élément survolé passe au dessus des voisins si besoin */
+    width: 140px;
+    background: var(--card-bg);
     z-index: 10;
 }
 
@@ -549,7 +495,6 @@ body {
     transform: translateX(0);
 }
 
-/* CLASSE ACTIVE */
 .fab-list li a.active {
     background: var(--main-color);
     color: white;
@@ -557,8 +502,9 @@ body {
     cursor: default;
 }
 
-
-/* --- Overlay (Fond sombre flouté) --- */
+/* ============================================
+   MODAL LOGOUT
+   ============================================ */
 .logout-modal-overlay {
     position: fixed;
     top: 0;
@@ -566,14 +512,11 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px); /* Effet flou moderne */
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    /* Animation d'apparition */
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
@@ -584,12 +527,12 @@ body {
     visibility: visible;
 }
 
-/* --- La Carte --- */
 .logout-card {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--card-bg);
     padding: 30px;
     border-radius: 24px;
     width: 500px;
+    max-width: 90%;
     text-align: center;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     transform: scale(0.9);
@@ -600,12 +543,11 @@ body {
     transform: scale(1);
 }
 
-/* --- Icône --- */
 .logout-icon-box {
     width: 60px;
     height: 60px;
-    background: #fee2e2; /* Fond rouge très clair */
-    color: var(--main-color); /* Rouge vif */
+    background: #fee2e2;
+    color: var(--main-color);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -614,22 +556,20 @@ body {
     font-size: 24px;
 }
 
-/* --- Textes --- */
 .logout-card h3 {
     margin: 0 0 10px;
     font-size: 1.4rem;
-    color: #1f2937;
+    color: var(--text-dark);
     font-weight: 700;
 }
 
 .logout-card p {
     margin: 0 0 25px;
-    color: #6b7280;
+    color: var(--text-muted);
     font-size: 0.95rem;
     line-height: 1.5;
 }
 
-/* --- Boutons --- */
 .logout-actions {
     display: flex;
     gap: 12px;
@@ -645,24 +585,24 @@ body {
     border: none;
     transition: all 0.2s ease;
     flex: 1;
-    text-decoration: none; /* Pour le lien <a> */
+    text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
 .btn-cancel {
-    background: #f3f4f6;
-    color: #374151;
+    background: var(--card-bg);
+    color: var(--text-dark);
     border: 2px solid var(--main-color);
 }
 
 .btn-cancel:hover {
-    background: #e5e7eb;
+    background: var(--glass-bg);
 }
 
 .btn-confirm {
-    background: var(--main-color); /* Rouge Danger */
+    background: var(--main-color);
     color: white;
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
@@ -673,52 +613,9 @@ body {
     box-shadow: 0 6px 15px rgba(239, 68, 68, 0.4);
 }
 
-
-/* RESPONSIVE MOBILE */
-@media (max-width: 480px) {
-    .fab-wrapper {
-        left: 15px;
-    }
-
-    .fab-wrapper.open .fab-list li {
-        /* Version Mobile : rayon plus court (90px) */
-        transform: rotate(calc(var(--i) * 35deg)) translateX(110px) rotate(calc(var(--i) * -35deg));
-    }
-
-    .fab-main-btn {
-        width: 60px;
-        height: 60px;
-        top: 20px;
-    }
-
-    /* Ajustement top */
-    .fab-list li a {
-        width: 45px;
-        height: 45px;
-        margin-top: -22.5px;
-        margin-left: -22.5px; /* Recentrage précis */
-    }
-
-    .fab-list li a i {
-        width: 45px;
-        min-width: 45px;
-        height: 45px;
-        line-height: 45px;
-    }
-
-    .fab-list li a:not(.active):hover {
-        width: 130px;
-    }
-}
-
-/* RESPONSIVE TABLETTE/MOBILE */
-@media (max-width: 1024px) {
-    .main-content {
-        padding-left: 20px; /* On remet normal sur petit écran */
-        padding-right: 20px;
-    }
-}
-
+/* ============================================
+   BADGES
+   ============================================ */
 .badge {
     display: inline-block;
     font-size: 0.7rem;
@@ -730,70 +627,62 @@ body {
     margin-top: 4px;
 }
 
-/* Badge Admin : Doré / Orangé */
 .badge-admin {
     background-color: #fff7ed;
     color: #c2410c;
     border: 1px solid #ffedd5;
 }
 
-/* Badge Membre : Bleu pâle */
 .badge-member {
     background-color: #eff6ff;
     color: #1d4ed8;
     border: 1px solid #dbeafe;
 }
 
-/* Ajustement pour aligner le titre et le badge */
 .card-header-w {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Important pour l'alignement vertical */
+    align-items: flex-start;
     margin-bottom: 1rem;
 }
 
 .wallet-name {
-    margin-bottom: 0; /* On retire la marge du bas du titre pour coller le badge */
+    margin-bottom: 0;
     line-height: 1.2;
 }
 
-/* --- Conteneur Fixe (Le secret pour passer au-dessus du header) --- */
+/* ============================================
+   FLASH MESSAGES
+   ============================================ */
 .flash-toast-container {
     position: fixed;
-    top: 20px; /* Espace depuis le haut */
+    top: 20px;
     left: 50%;
-    transform: translateX(-50%); /* Centré horizontalement */
-    z-index: 9999; /* Bien au-dessus de ton header (z-80) */
+    transform: translateX(-50%);
+    z-index: 9999;
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 90%;
     max-width: 550px;
-    pointer-events: none; /* Permet de cliquer à travers le conteneur vide */
+    pointer-events: none;
 }
 
-/* --- Style de la bulle (Le "Blop") --- */
 .flash-toast {
-    pointer-events: auto; /* Réactive les clics sur la bulle */
+    pointer-events: auto;
     display: flex;
     align-items: center;
-    background: white;
+    background: var(--card-bg);
     padding: 12px 16px;
-    border-radius: 20px; /* Bords très ronds style moderne */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Ombre douce portée */
-
-    /* Animation d'entrée */
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     animation: blopEnter 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     opacity: 0;
     transform-origin: top center;
-
-    /* Look un peu "Glass" */
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-/* --- Couleurs selon le type --- */
-/* Succès (Vert) */
 .flash-success {
     background: #e8f5e9;
     color: #1b5e20;
@@ -804,7 +693,6 @@ body {
     stroke: #2e7d32;
 }
 
-/* Danger/Erreur (Rouge) */
 .flash-danger {
     background: #ffebee;
     color: #c62828;
@@ -815,7 +703,6 @@ body {
     stroke: #c62828;
 }
 
-/* Warning (Orange) */
 .flash-warning {
     background: #fff3e0;
     color: #e65100;
@@ -826,7 +713,6 @@ body {
     stroke: #ef6c00;
 }
 
-/* Info (Bleu) */
 .flash-info {
     background: #e3f2fd;
     color: #0d47a1;
@@ -837,7 +723,6 @@ body {
     stroke: #1565c0;
 }
 
-/* --- Éléments internes --- */
 .flash-icon {
     display: flex;
     align-items: center;
@@ -869,7 +754,6 @@ body {
     transform: scale(1.1);
 }
 
-/* --- L'Animation "Blop" (rebond fluide) --- */
 @keyframes blopEnter {
     0% {
         opacity: 0;
@@ -881,10 +765,8 @@ body {
     }
 }
 
-/* --- Animation de sortie (Le "Blop retour") --- */
 .flash-toast.hiding {
     animation: blopExit 0.4s cubic-bezier(0.55, -0.04, 0.91, 0.94) forwards;
-    /* Ce bezier donne un effet d'aspiration rapide vers le haut */
 }
 
 @keyframes blopExit {
@@ -894,8 +776,147 @@ body {
     }
     100% {
         opacity: 0;
-        transform: translateY(-20px) scale(0.5); /* Remonte et rétrécit */
+        transform: translateY(-20px) scale(0.5);
     }
 }
 
+/* ============================================
+   RESPONSIVE MOBILE
+   ============================================ */
+@media (max-width: 1024px) {
+    .main-content {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
 
+@media (max-width: 480px) {
+    .app-header {
+        padding: 0 15px;
+        height: 60px;
+    }
+
+    .logo-svg {
+        width: 35px;
+        height: 35px;
+    }
+
+    .app-title {
+        font-size: 20px;
+    }
+
+    .header-right {
+        gap: 10px;
+    }
+
+    .btn-auth {
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    .btn-content {
+        font-size: 0;
+        gap: 0;
+    }
+
+    .btn-content i {
+        width: auto;
+        opacity: 1;
+        transform: none;
+        font-size: 16px;
+    }
+
+    .btn-login {
+        border-width: 1px;
+    }
+
+    .btn-login:hover {
+        box-shadow: none;
+        color: var(--main-color);
+    }
+
+    .btn-login:hover::before {
+        display: none;
+    }
+
+    .btn-signup:hover {
+        color: white;
+    }
+
+    .btn-signup:hover::before {
+        display: none;
+    }
+
+    .user-name {
+        display: none;
+    }
+
+    .user-profile {
+        gap: 0;
+        padding: 0;
+    }
+
+    .avatar-wrapper {
+        width: 40px;
+        height: 40px;
+    }
+
+    .fab-wrapper {
+        left: 15px;
+    }
+
+    .fab-wrapper.open .fab-list li {
+        transform: rotate(calc(var(--i) * 35deg)) translateX(110px) rotate(calc(var(--i) * -35deg));
+    }
+
+    .fab-main-btn {
+        width: 60px;
+        height: 60px;
+        top: 20px;
+    }
+
+    .fab-list li a {
+        width: 45px;
+        height: 45px;
+        margin-top: -22.5px;
+        margin-left: -22.5px;
+    }
+
+    .fab-list li a i {
+        width: 45px;
+        min-width: 45px;
+        height: 45px;
+        line-height: 45px;
+    }
+
+    .fab-list li a:not(.active):hover {
+        width: 130px;
+    }
+}
+
+/* Responsive extrême (320px) */
+@media (max-width: 320px) {
+    .app-header {
+        padding: 0 10px;
+    }
+
+    .app-title {
+        font-size: 18px;
+    }
+
+    .btn-auth {
+        width: 36px;
+        height: 36px;
+    }
+
+    .main-content {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .fab-wrapper {
+        left: 10px;
+    }
+}
