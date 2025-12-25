@@ -1,47 +1,76 @@
 {% extends '_layouts/in_app.html.twig' %}
 
-{% block title %}Ajouter une dépense{% endblock %}
+{% block title %}Nouvelle dépense | {{ wallet.label }} | +Count{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('styles/forms.css') }}">
 {% endblock %}
 
+
 {% block content %}
-    <div class="container-small">
-        <div class="section-header">
-            <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="back-link">
-                <i class="fa-solid fa-arrow-left"></i> Retour
-            </a>
-            <h1>Nouvelle dépense</h1>
-        </div>
+    <div class="page-ambient-glow"></div>
 
-        <div class="card">
-            <div class="card-body">
-                {{ form_start(form) }}
+    <div class="form-page-container scrollable-view">
 
-                {# 1. Montant #}
-                <div class="form-group amount-group">
-                    {{ form_label(form.amount) }}
-                    <div class="input-wrapper">
-                        {{ form_widget(form.amount, {'attr': {'class': 'big-input'}}) }}
-                        <span class="currency-suffix">€</span>
+        <div class="form-card-in-app animated-container glow-card">
+
+            {# L'icône animée au sommet (Euro sign) #}
+            <div class="writing-pencil-icon icon-anim-euro">
+                <i class="fa-solid fa-euro-sign"></i>
+            </div>
+
+            <div class="form-header-center">
+                <h2 class="auth-title">Ajouter une dépense</h2>
+                <p class="auth-subtitle">Wallet : <strong>{{ wallet.label }}</strong></p>
+            </div>
+
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+            <div class="form-body-content">
+
+                {# --- SECTION MONTANT GÉANT --- #}
+                <div class="hero-amount-section">
+                    <div class="amount-input-wrapper">
+                        {{ form_widget(form.amount, {'attr': {'class': 'input-hero-display', 'placeholder': '0.00'}}) }}
                     </div>
-                    {{ form_errors(form.amount) }}
+                    <div class="amount-underline"></div>
+
+                    {% if form_errors(form.amount) %}
+                        <div class="custom-error-block">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            {{ form_errors(form.amount) }}
+                        </div>
+                    {% endif %}
                 </div>
 
-                {# 2. Sélecteur d'icônes (Grille) #}
-                <div class="form-group">
-                    <label class="form-label">Catégorie</label>
-                    <div class="icons-grid">
-                        {% for choice in form.icon %}
-                            <div class="icon-option">
-                                {# On cache le vrai input radio #}
-                                {{ form_widget(choice, {'attr': {'class': 'hidden-radio'}}) }}
+                {# --- DESCRIPTION --- #}
+                <div class="input-group-custom">
+                    {{ form_widget(form.description, {'attr': {'class': 'form-input with-icon', 'placeholder': ' '}}) }}
+                    {{ form_label(form.description, 'Description...', {'label_attr': {'class': 'form-label'}}) }}
 
-                                {# On stylise le label qui contient l'icône #}
+                    {% if form_errors(form.description) %}
+                        <div class="custom-error-block">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            {{ form_errors(form.description) }}
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                {# --- GRILLE DE CATÉGORIES (STYLÉE ET COMPACTE) --- #}
+                <div class="category-section">
+                    <label class="section-title-sm">Catégorie</label>
+                    <div class="modern-grid-layout">
+                        {% for choice in form.icon %}
+                            <div class="category-tile-item">
+                                {# Le radio est TOTALEMENT caché ici #}
+                                {{ form_widget(choice, {'attr': {'class': 'hidden-check'}}) }}
+
+                                {# Le label devient notre bouton stylé #}
                                 {{ form_label(choice, null, {
                                     'label_html': true,
+                                    'label_attr': {'class': 'tile-label'},
                                     'label': '<i class="' ~ choice.vars.value ~ '"></i>'
                                 }) }}
                             </div>
@@ -50,77 +79,17 @@
                     {{ form_errors(form.icon) }}
                 </div>
 
-                {# 3. Description #}
-                <div class="form-group">
-                    {{ form_row(form.description) }}
-                </div>
-
-                <button type="submit" class="btn btn-primary full-width">Valider</button>
-                {{ form_end(form) }}
             </div>
+
+            {# --- BOUTONS (Reprise de ton style Edit) --- #}
+            <div class="form-actions-group">
+                <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="btn-cancel-outline">Annuler</a>
+                <button type="submit" class="btn-modern">
+                    Enregistrer <i class="fa-solid fa-check"></i>
+                </button>
+            </div>
+
+            {{ form_end(form) }}
         </div>
     </div>
-
-    {# CSS spécifique pour cette page (à déplacer idéalement dans ton fichier style.css) #}
-    <style>
-        .amount-group {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .big-input {
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-align: center;
-            border: none;
-            border-bottom: 2px solid #e5e7eb;
-            width: 150px;
-        }
-
-        .big-input:focus {
-            outline: none;
-            border-color: #2563eb;
-        }
-
-        /* Grille d'icônes */
-        .icons-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .hidden-radio {
-            display: none;
-        }
-
-        /* Le style par défaut de l'icône (le label) */
-        .icon-option label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background-color: #f3f4f6;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: #4b5563;
-            transition: all 0.2s;
-            border: 2px solid transparent;
-        }
-
-        .icon-option label:hover {
-            background-color: #e5e7eb;
-        }
-
-        /* Quand le radio est CHECKED, on change le style du label frère */
-        .hidden-radio:checked + label {
-            background-color: #eff6ff;
-            color: #2563eb;
-            border-color: #2563eb;
-            transform: scale(1.1);
-        }
-    </style>
 {% endblock %}

@@ -23,6 +23,12 @@ class ExpenseType extends AbstractType
         'Loisir' => 'fa-solid fa-gamepad',
         'Santé' => 'fa-solid fa-stethoscope',
         'Cadeau' => 'fa-solid fa-gift',
+        'Randonnée' => 'fa-solid fa-mountain',
+        'Fête' => 'fa-solid fa-champagne-glasses',
+        'Shopping' => 'fa-solid fa-shirt',
+        'Voyage' => 'fa-solid fa-plane',
+        'Abonnements' => 'fa-solid fa-tv',
+
         'Autre' => 'fa-solid fa-receipt'
     ];
 
@@ -42,9 +48,10 @@ class ExpenseType extends AbstractType
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'attr' => [
-                    'placeholder' => 'Ex: Courses pour le dîner...',
-                    'rows' => 3
-                ]
+                    'placeholder' => '',
+                    'rows' => 3,
+                ],
+                'required' => true,
             ])
             ->add('icon', ChoiceType::class, [
                 'label' => 'Catégorie',

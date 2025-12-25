@@ -1,0 +1,147 @@
+{# 1. Delete Expense #}
+<div id="deleteExpenseModal" class="modal-overlay">
+    <div class="modal-box modal-center">
+        <div class="modal-icon-wrapper danger-wrapper">
+            <span class="modal-emoji-icon">🗑️</span>
+        </div>
+        <h3 class="modal-title">Supprimer la dépense ?</h3>
+        <p class="modal-subtitle">Cette action retirera le montant du total.</p>
+        <div class="modal-actions">
+            <button onclick="closeExpenseDeleteModal()" class="btn-cancel">Annuler</button>
+            <a id="confirmExpenseDeleteBtn" href="#" class="btn-confirm-danger">Supprimer</a>
+        </div>
+    </div>
+</div>
+
+{# 2. Detail Expense #}
+<div id="detailExpenseModal" class="modal-overlay">
+    <div class="modal-box modal-relative">
+        <button onclick="closeExpenseDetail()" class="modal-close-btn">&times;</button>
+
+        <div class="detail-header">
+            <div id="detailIcon" class="detail-icon-circle"></div>
+            <div id="detailDesc" class="detail-desc"></div>
+            <div id="detailAmount" class="detail-amount"></div>
+        </div>
+
+        <div class="detail-grid">
+            <div class="detail-label">Payé par</div>
+            <div class="detail-user-row">
+                <img id="detailAvatar" src="" alt="avatar" class="avatar-small">
+                <div>
+                    <div id="detailName" class="detail-user-name"></div>
+                    <div id="detailEmail" class="detail-user-email"></div>
+                </div>
+            </div>
+
+            <div class="detail-label">Date</div>
+            <div id="detailDate" class="detail-date-val"></div>
+        </div>
+    </div>
+</div>
+
+{# 3. Members List & Actions (ADMIN/USER/MEMBER) #}
+{% if userAccess and userAccess.role in ['admin', 'user', 'member'] %}
+    <div id="membersModalOverlay" class="modal-overlay">
+        {# Extraction: style="max-width: 600px;" -> class="modal-box-large" #}
+        <div class="modal-box modal-box-large">
+            <div class="members-header">
+                {# Extraction: style="margin:0;" -> class="title-reset" #}
+                <h3 class="modal-title title-reset">Membres du wallet.</h3>
+                {# Extraction: style="position:static;" -> class="close-static" #}
+                <button onclick="closeMembersModal()" class="modal-close-btn close-static">&times;</button>
+            </div>
+
+            <div class="members-scroll-area">
+                <ul class="member-list-styled">
+                    {% for relation in wallet.xUserWallets %}
+                        {% if not relation.isDeleted %}
+                            {% set member = relation.targetUser %}
+                            <li class="member-item">
+                                <div class="member-info">
+                                    {% set avatar = member.avatar ?? (member.gender == 'M' ? 'https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-6299539-5187871.png' : 'https://cdn3d.iconscout.com/3d/premium/thumb/with-glasses-3d-icon-png-download-5823066.png') %}
+                                    <img src="{{ avatar }}" alt="avatar" class="avatar-medium">
+                                    <div>
+                                        <div class="member-name-block">
+                                            {{ member.name }}
+                                            {% if relation.role == 'admin' %}
+                                                {# Extraction: style="color... font-size..." -> class="icon-admin-gold" #}
+                                                <i class="fa-solid fa-crown icon-admin-gold" title="Admin"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="detail-user-email">{{ member.email }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="member-actions">
+                                    {% if wallet.owner != member %}
+                                        {% if userAccess.role == 'admin' %}
+                                            {% if relation.role != 'admin' %}
+                                                <a href="{{ path('wallet_member_promote', {id: relation.id}) }}"
+                                                   class="btn-list-action view" title="Passer Admin">
+                                                    <i class="fa-solid fa-arrow-up"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if relation.role == 'admin' %}
+                                                <a href="{{ path('wallet_member_demote', {id: relation.id}) }}"
+                                                   class="btn-list-action view" title="Retirer Admin">
+                                                    <i class="fa-solid fa-arrow-down"></i>
+                                                </a>
+                                            {% endif %}
+                                            <button type="button" class="btn-list-action del"
+                                                    onclick="openMemberDeleteModal('{{ relation.id }}', '{{ member.name|e('js') }}', '{{ path('wallet_member_remove', {'id': 'PLACEHOLDER'}) }}')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        {% else %}
+                                            {# Extraction: style inline -> class="badge-role-member" #}
+                                            <span class="badge bg-light text-muted badge-role-member">Membre</span>
+                                        {% endif %}
+                                    {% else %}
+                                        {# Extraction: style inline -> class="badge-role-owner" #}
+                                        <span class="badge bg-light text-muted badge-role-owner">Owner</span>
+                                    {% endif %}
+                                </div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    {# 4. Delete Member Confirmation #}
+    <div id="deleteMemberModal" class="modal-overlay">
+        <div class="modal-box modal-center">
+            <div class="modal-icon-wrapper danger-wrapper">
+                {# Extraction: style="color: #ef4444;" -> géré par danger-wrapper #}
+                <span class="modal-emoji-icon">🚫</span>
+            </div>
+
+            <h3 class="modal-title">Retirer <span id="spanMemberName"></span> ?</h3>
+
+            <form id="deleteMemberForm" method="post" action="">
+                <div class="radio-group">
+                    {# Extraction: style="margin-bottom... color..." -> class="radio-group-title" #}
+                    <p class="radio-group-title">Que faire des dépenses ?</p>
+
+                    <label class="radio-label">
+                        <input type="radio" name="delete_expenses" value="no" checked class="radio-input-purple">
+                        {# Extraction: style inline -> class="radio-text-keep" #}
+                        <span class="radio-text-keep">Garder (Conseillé pour l'historique)</span>
+                    </label>
+
+                    <label class="radio-label">
+                        <input type="radio" name="delete_expenses" value="yes" class="radio-input-red">
+                        {# Extraction: style inline -> class="radio-text-delete" #}
+                        <span class="radio-text-delete">Tout supprimer (Change le solde)</span>
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" onclick="closeMemberDeleteModal()" class="btn-cancel">Annuler</button>
+                    <button type="submit" class="btn-confirm-danger">Confirmer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endif %}

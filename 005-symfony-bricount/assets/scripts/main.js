@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // On remplace l'icône outils par celle de la page active
         mainIcon.className = activeIconClass;
     }
-    // Sinon, l'icône par défaut (outils) reste en place (définie dans le HTML)
+    // Sinon, l'icône par défaut (outils) reste en place (définie dans le HTML).
 
 
     // --- 2. GESTION OUVERTURE / FERMETURE ---
@@ -84,4 +84,36 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const flashes = document.querySelectorAll('.flash-toast');
+
+    flashes.forEach(flash => {
+        // 1. Fonction pour fermer avec l'animation
+        const close = () => {
+            if (flash.classList.contains('hiding')) return; // Déjà en cours de fermeture
+
+            flash.classList.add('hiding'); // Déclenche l'anim CSS
+
+            // Une fois l'animation CSS finie, on supprime l'élément du HTML
+            flash.addEventListener('animationend', () => {
+                flash.remove();
+            });
+        };
+
+        // 2. Auto-disparition après 5 secondes (5000ms)
+        setTimeout(() => {
+            close();
+        }, 5000);
+
+        // 3. Gestion du clic sur la croix (pour garder l'anim de sortie même au clic)
+        const btnClose = flash.querySelector('.flash-close');
+        if (btnClose) {
+            btnClose.addEventListener('click', (e) => {
+                e.preventDefault();
+                close();
+            });
+        }
+    });
 });

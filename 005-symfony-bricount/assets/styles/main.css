@@ -1,13 +1,15 @@
 :root {
     --main-color: #ff5722; /* Orange */
     --main-dark: #e64a19;
-    --text-dark: #333;
+    --text-dark: #212020;
     --glass-bg: rgba(255, 255, 255, 0.7); /* Plus opaque pour lisibilité */
     --glass-border: rgba(255, 255, 255, 0.5);
     /* Courbe de Bézier pour l'effet "Blop" élastique */
     --elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     --header-height: 60px;
     --header-bg: rgba(255, 255, 255, 0.85); /* Un peu plus opaque que le verre du menu */
+    --purple-deep: #382ead;
+    --purple-mid: rgba(129, 140, 248, 0.73);
 }
 
 body {
@@ -754,3 +756,146 @@ body {
     margin-bottom: 0; /* On retire la marge du bas du titre pour coller le badge */
     line-height: 1.2;
 }
+
+/* --- Conteneur Fixe (Le secret pour passer au-dessus du header) --- */
+.flash-toast-container {
+    position: fixed;
+    top: 20px; /* Espace depuis le haut */
+    left: 50%;
+    transform: translateX(-50%); /* Centré horizontalement */
+    z-index: 9999; /* Bien au-dessus de ton header (z-80) */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+    max-width: 550px;
+    pointer-events: none; /* Permet de cliquer à travers le conteneur vide */
+}
+
+/* --- Style de la bulle (Le "Blop") --- */
+.flash-toast {
+    pointer-events: auto; /* Réactive les clics sur la bulle */
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 12px 16px;
+    border-radius: 20px; /* Bords très ronds style moderne */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Ombre douce portée */
+
+    /* Animation d'entrée */
+    animation: blopEnter 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+    transform-origin: top center;
+
+    /* Look un peu "Glass" */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* --- Couleurs selon le type --- */
+/* Succès (Vert) */
+.flash-success {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 2px solid #4caf50;
+}
+
+.flash-success .flash-icon svg {
+    stroke: #2e7d32;
+}
+
+/* Danger/Erreur (Rouge) */
+.flash-danger {
+    background: #ffebee;
+    color: #c62828;
+    border: 2px solid #ef5350;
+}
+
+.flash-danger .flash-icon svg {
+    stroke: #c62828;
+}
+
+/* Warning (Orange) */
+.flash-warning {
+    background: #fff3e0;
+    color: #e65100;
+    border: 2px solid #ff9800;
+}
+
+.flash-warning .flash-icon svg {
+    stroke: #ef6c00;
+}
+
+/* Info (Bleu) */
+.flash-info {
+    background: #e3f2fd;
+    color: #0d47a1;
+    border: 2px solid #2196f3;
+}
+
+.flash-info .flash-icon svg {
+    stroke: #1565c0;
+}
+
+/* --- Éléments internes --- */
+.flash-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.flash-content {
+    flex-grow: 1;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.flash-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    margin-left: 8px;
+    opacity: 0.5;
+    transition: opacity 0.2s, transform 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.flash-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* --- L'Animation "Blop" (rebond fluide) --- */
+@keyframes blopEnter {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* --- Animation de sortie (Le "Blop retour") --- */
+.flash-toast.hiding {
+    animation: blopExit 0.4s cubic-bezier(0.55, -0.04, 0.91, 0.94) forwards;
+    /* Ce bezier donne un effet d'aspiration rapide vers le haut */
+}
+
+@keyframes blopExit {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.5); /* Remonte et rétrécit */
+    }
+}
+
+

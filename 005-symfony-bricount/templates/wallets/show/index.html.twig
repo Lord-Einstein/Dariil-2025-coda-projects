@@ -2,499 +2,24 @@
 
 {% block title %}Détail {{ wallet.label }} | +Count {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/wallet_details.css') }}">
+{% endblock %}
+
 {% block content %}
-    {# --- CSS SCOPED ET CORRIGÉ --- #}
-    <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-            --purple-deep: #4338ca;
-            --purple-mid: #818cf8; /* Violet plus visible pour les séparateurs */
-            --orange-vibrant: #f97316;
-            --orange-dark: #ea580c;
-            --glass-bg: rgba(255, 255, 255, 0.95);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.8);
-            --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 20px 40px -5px rgba(0, 0, 0, 0.12);
-        }
-
-        /* --- 1. Header & Navigation --- */
-        .wallet-header-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .top-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Bouton Retour Stylé */
-        .btn-back-styled {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            color: var(--purple-deep);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 12px;
-            background: rgba(99, 102, 241, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .btn-back-styled i {
-            transition: transform 0.3s ease;
-        }
-
-        .btn-back-styled:hover {
-            background: rgba(99, 102, 241, 0.2);
-            transform: translateX(-5px);
-        }
-
-        .btn-back-styled:hover i {
-            transform: translateX(-3px);
-        }
-
-        /* Titre et Actions sur la MÊME LIGNE */
-        .header-main-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .header-title-block {
-            flex: 1; /* Prend l'espace dispo */
-        }
-
-        .page-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #1e293b;
-            margin: 0 5px;
-            letter-spacing: -1px;
-            line-height: 1.1;
-
-        }
-
-        .meta-created {
-            color: #94a3b8;
-            font-size: 0.8rem;
-            font-weight: 500;
-            display: inline-block;
-            margin-top: 5px;
-        }
-
-        /* Action Bar (Alignée à droite) */
-        .action-bar {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .btn-hero {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 20px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            color: #334155;
-            font-weight: 600;
-            text-decoration: none;
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-hero i {
-            color: var(--orange-vibrant);
-            font-size: 1.1rem;
-            transition: transform 0.4s ease;
-        }
-
-        .btn-hero:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-            border-color: #cbd5e1;
-        }
-
-        .btn-hero:hover i {
-            transform: rotate(15deg) scale(1.1);
-        }
-
-        .btn-hero.primary {
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-        }
-
-        .btn-hero.primary i {
-            color: white;
-        }
-
-        .btn-hero.primary:hover {
-            opacity: 0.95;
-            transform: translateY(-3px) scale(1.02);
-        }
-
-
-        /* --- 2. Carte Solde "Bling Bling" Orange --- */
-        .balance-card {
-            background: white;
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow-soft);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #f8fafc;
-        }
-
-        /* Effet Shimmer Orange Lent */
-        .balance-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 100%;
-            height: 100%;
-            /* Gradient Orange basse opacité */
-            background: linear-gradient(to right, transparent, rgba(249, 115, 22, 0.2), transparent);
-            transform: skewX(-30deg);
-            animation: shimmer 3s infinite linear;
-            pointer-events: none;
-        }
-
-        @keyframes shimmer {
-            0% {
-                left: -150%;
-            }
-            50% {
-                left: 150%;
-            }
-            100% {
-                left: 150%;
-            }
-        }
-
-        .total-amount {
-            font-size: 3.5rem;
-            font-weight: 500;
-            color: var(--purple-deep);
-            line-height: 1;
-            letter-spacing: 1.5px;
-            margin: 10px 0;
-        }
-
-        .wallet-icon-deco {
-            font-size: 3rem;
-            color: var(--purple-deep);
-            opacity: 1;
-            filter: drop-shadow(0 8px 12px rgba(99, 102, 241, 0.25));
-        }
-
-
-        /* --- 3. Accordéon Équilibrage (Fixé) --- */
-        .accordion-wrapper {
-            background: white;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid #f1f5f9;
-            overflow: hidden;
-        }
-
-        .accordion-header {
-            width: 100%;
-            padding: 1.5rem;
-            background: white;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .accordion-header:hover {
-            background: #f8fafc;
-        }
-
-        .accordion-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-weight: 700;
-            color: #334155;
-            font-size: 1rem;
-            text-transform: uppercase;
-        }
-
-        .icon-balance {
-            font-size: 2rem;
-            color: var(--orange-vibrant);
-            filter: drop-shadow(0 2px 4px rgba(249, 115, 22, 0.3));
-        }
-
-        .chevron-icon {
-            font-size: 1rem;
-            transition: transform 0.3s ease;
-            color: #94a3b8;
-        }
-
-        .accordion-header.active .chevron-icon {
-            transform: rotate(180deg);
-        }
-
-        /* Fix pour la fermeture : on anime le padding aussi */
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #f8fafc;
-            padding: 0 1.5rem; /* Padding horizontal seulement au début */
-            opacity: 0;
-        }
-
-        .accordion-content.open {
-            padding: 1.5rem; /* Padding complet quand ouvert */
-            opacity: 1;
-        }
-
-        /* Nouveau Bouton Solder Orange */
-        .btn-settle-orange {
-            background: var(--orange-vibrant);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 25px auto 0; /* Centré */
-            width: fit-content;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .btn-settle-orange i {
-            color: white;
-            font-size: 1.1rem;
-        }
-
-        .btn-settle-orange:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px -5px rgba(249, 115, 22, 0.5);
-            background: var(--orange-dark);
-        }
-
-
-        /* --- 4. Liste Dépenses --- */
-        .transaction-card {
-            display: flex;
-            align-items: center;
-            padding: 16px 20px;
-            background: white;
-            border-radius: 16px;
-            margin-bottom: 12px;
-            border: 1px solid transparent;
-            transition: all 0.2s;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
-        }
-
-        .transaction-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
-            border-color: #e2e8f0;
-        }
-
-        .t-icon-box {
-            width: 50px;
-            height: 50px;
-            border-radius: 16px;
-            background: #f1f5f9;
-            color: var(--orange-vibrant);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            margin-right: 18px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .t-details {
-            flex: 1;
-        }
-
-        .t-label {
-            display: block;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 3px;
-            font-size: 1.05rem;
-        }
-
-        .price-me {
-            color: #10b981;
-            font-weight: 700;
-            font-size: 1.15rem;
-        }
-
-        .price-other {
-            color: var(--purple-deep);
-            font-weight: 700;
-            font-size: 1.15rem;
-        }
-
-        .action-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-left: 25px;
-        }
-
-        .btn-list-action {
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            color: #64748b;
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-
-        .btn-list-action:hover {
-            transform: scale(1.1);
-        }
-
-        .btn-list-action.view:hover {
-            color: var(--purple-deep);
-            border-color: var(--purple-deep);
-            background: #e0e7ff;
-        }
-
-        .btn-list-action.del:hover {
-            color: #ef4444;
-            border-color: #ef4444;
-            background: #fef2f2;
-        }
-
-
-        /* --- 5. Modales & Zone Danger --- */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(10px);
-            z-index: 2000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal-box {
-            background: var(--glass-bg);
-            border: var(--glass-border);
-            width: 90%;
-            max-width: 500px;
-            border-radius: 28px;
-            padding: 2.5rem;
-            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
-            transform: scale(0.95);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .modal-overlay.active .modal-box {
-            transform: scale(1);
-        }
-
-        /* Ligne violette PLUS VISIBLE */
-        .member-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 18px 10px;
-            border-bottom: 1px solid var(--purple-mid); /* Couleur plus foncée */
-            transition: background 0.2s;
-        }
-
-        .member-item:hover {
-            background: rgba(99, 102, 241, 0.05);
-        }
-
-        .danger-zone {
-            margin-top: 4rem;
-            padding: 2rem;
-            background: #fef2f2;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid #fecaca;
-        }
-
-        .btn-delete-wallet {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            background: white;
-            color: #ef4444;
-            border: 2px solid #ef4444;
-            border-radius: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-
-        .btn-delete-wallet:hover {
-            background: #ef4444;
-            color: white;
-            box-shadow: 0 5px 15px -3px rgba(239, 68, 68, 0.4);
-        }
-    </style>
-
-    {# --- CONTENU PRINCIPAL --- #}
     <div class="wallet-header-wrapper">
-        {# 1. Top Nav (Retour + Pagination) #}
+        {# 1. Top Nav #}
         <div class="top-nav">
             <a href="{{ path('wallets_list') }}" class="btn-back-styled">
                 <i class="fa-solid fa-arrow-left"></i> <span>Retour</span>
             </a>
-            <div style="font-weight:600; color:#64748b; font-size: 0.9rem;">
+            <div class="pagination-info">
                 Page {{ currentPage }} / {{ (totalPages > 1) ? totalPages : 1 }}
             </div>
         </div>
 
-        {# 2. Titre + Actions sur la MÊME LIGNE #}
+        {# 2. Header Content #}
         <div class="header-main-row">
             <div class="header-title-block">
                 <h1 class="page-title">{{ wallet.label }}</h1>
@@ -507,7 +32,7 @@
                 {% if userAccess and userAccess.role == 'admin' %}
                     <a href="{{ path('wallets_edit', {uid: wallet.uid}) }}" class="btn-hero"
                        title="Modifier le portefeuille">
-                        <i class="fa-solid fa-pen"></i> {# Icone Crayon #}
+                        <i class="fa-solid fa-pen"></i>
                     </a>
                     <a href="{{ path('wallets_add_user', {uid: wallet.uid}) }}" class="btn-hero">
                         <i class="fa-solid fa-user-plus"></i> <span>Inviter</span>
@@ -523,51 +48,56 @@
         </div>
     </div>
 
-    {# --- CARTE SOLDE (Shimmer Orange Lent) --- #}
+    {# --- CARTE SOLDE --- #}
     <div class="balance-card">
         <div>
             <div class="total-label">Solde Total</div>
-            <div class="total-amount">{{ (wallet.totalAmount/100)|number_format(2, ',', ' ') }} <span
-                    style="font-size: 0.5em; vertical-align: super;">€</span></div>
+            <div class="total-amount">
+                {{ (wallet.totalAmount/100)|number_format(2, ',', ' ') }} <span class="currency-symbol">€</span>
+            </div>
         </div>
-        <div style="z-index: 1;">
+        {# Extraction: style="z-index: 1;" -> class="balance-icon-wrapper" #}
+        <div class="balance-icon-wrapper">
             <i class="fa-solid fa-wallet wallet-icon-deco"></i>
         </div>
     </div>
 
-    {# --- ACCORDÉON ÉQUILIBRAGE (Fixé) --- #}
+    {# --- ACCORDÉON ÉQUILIBRAGE --- #}
     {% if balances is not empty %}
         <div class="accordion-wrapper">
             <button class="accordion-header" onclick="toggleAccordion(this)">
                 <div class="accordion-title">
                     <div class="icon-balance"><i class="fa-solid fa-scale-balanced"></i></div>
                     <span>Voir les équilibres</span>
-                    <span class="badge bg-warning text-dark rounded-pill ms-2"
-                          style="font-size: 0.7em;">Action requise</span>
+                    {# Extraction: style="font-size: 0.7em;" -> class="badge-action" #}
+                    <span class="badge bg-warning text-dark rounded-pill ms-2 badge-action">
+                        Action requise
+                    </span>
                 </div>
                 <i class="fa-solid fa-chevron-down chevron-icon"></i>
             </button>
 
-            {# Ajout de la classe initiale pour l'état fermé #}
             <div class="accordion-content" id="balanceAccordionContent">
-                <div> {# Div wrapper nécessaire pour le padding lors de l'animation #}
+                <div>
                     <div class="row">
                         {% for debtorId, debts in balances %}
                             {% set debtor = members[debtorId] %}
                             <div class="col-md-6 mb-3">
-                                <ul style="list-style: none; padding: 0; display: grid; gap: 10px;">
+                                {# Extraction: style="list-style... gap: 10px;" -> class="debts-list" #}
+                                <ul class="debts-list">
                                     {% for debt in debts %}
                                         {% set creditor = members[debt.creditor_id] %}
                                         {% set isMyDebt = userAccess.targetUser.name == debtor.name %}
                                         {% set isMyRefund = userAccess.targetUser.name == creditor.name %}
 
-                                        <li style="background: white; padding: 12px 18px; border-radius: 12px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-size: 1rem; color: #475569;">
+                                        <li class="debt-item">
                                             <div>
                                                 <strong>{{ isMyDebt ? 'Vous' : debtor.name }}</strong> rembourse
                                                 <strong>{{ isMyRefund ? 'Vous' : creditor.name }}</strong>
                                             </div>
+                                            {# Extraction: Logique de couleur déplacée dans des classes CSS #}
                                             <span
-                                                style="font-weight: 800; color: {{ isMyRefund ? '#10b981' : (isMyDebt ? '#ef4444' : '#64748b') }};">
+                                                class="debt-amount {{ isMyRefund ? 'text-success-custom' : (isMyDebt ? 'text-danger-custom' : 'text-neutral-custom') }}">
                                                 {{ (debt.amount / 100)|number_format(2, ',', ' ') }} €
                                             </span>
                                         </li>
@@ -578,13 +108,12 @@
                     </div>
 
                     {% if userAccess and userAccess.role == 'admin' %}
+                        {# Extraction: style="margin: 0;" -> class="form-no-margin" #}
                         <form action="{{ path('wallets_settle', {'uid': wallet.uid}) }}" method="post"
-                              style="margin: 0;">
-                            {# NOUVEAU BOUTON SOLDER ORANGE CENTRÉ #}
+                              class="form-no-margin">
                             <button type="button" class="btn-settle-orange"
                                     onclick="if(confirm('Tout marquer comme payé ?')) this.form.submit();">
-                                <i class="fa-solid fa-check-double"></i>
-                                Solder tous les comptes
+                                <i class="fa-solid fa-check-double"></i> Solder tous les comptes
                             </button>
                         </form>
                     {% endif %}
@@ -608,7 +137,7 @@
                     {{ isMe ? '+' : '' }}{{ (expense.amount / 100)|number_format(2, ',', ' ') }} €
                 </div>
                 <div class="action-group">
-                    {% set avatarUrl = expense.createdBy.avatar ?? (expense.createdBy.gender == 'M' ? 'https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-6299539-5187871.png' : 'https://cdn3d.iconscout.com/3d/premium/thumb/woman-avatar-6299538-5187870.png') %}
+                    {% set avatarUrl = expense.createdBy.avatar ?? (expense.createdBy.gender == 'M' ? 'https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-6299539-5187871.png' : 'https://cdn3d.iconscout.com/3d/premium/thumb/with-glasses-3d-icon-png-download-5823066.png') %}
                     <button class="btn-list-action view"
                             onclick="openExpenseDetail('{{ expense.description|e('js') }}', '{{ (expense.amount / 100)|number_format(2, ',', ' ') }}', '{{ expense.icon }}', '{{ expense.createdBy.name|e('js') }}', '{{ expense.createdBy.email|e('js') }}', '{{ avatarUrl }}', '{{ expense.createdDate|date('d F Y à H:i') }}')">
                         <i class="fa-solid fa-eye"></i>
@@ -622,19 +151,20 @@
                 </div>
             </div>
         {% else %}
-            <div style="text-align: center; padding: 60px 20px; color: #94a3b8;">
-                <div
-                    style="background: #f1f5f9; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                    <i class="fa-solid fa-receipt" style="font-size: 2rem; color: #cbd5e1;"></i>
+            <div class="empty-state">
+                <div class="empty-icon-circle">
+                    <i class="fa-solid fa-receipt empty-icon"></i>
                 </div>
-                <h4 style="color: #475569; font-weight: 700;">Aucune dépense</h4>
+                {# Extraction: style="color: #475569; font-weight: 700;" -> class="empty-title" #}
+                <h4 class="empty-title">Aucune dépense par ici ^^</h4>
             </div>
         {% endfor %}
     </div>
 
     {# --- PAGINATION --- #}
     {% if totalPages > 1 %}
-        <div class="pagination-wrapper" style="margin-top: 2rem;">
+        {# Extraction: style="margin-top: 2rem;" -> class="pagination-container" #}
+        <div class="pagination-wrapper pagination-container">
             <ul class="pagination">
                 <li class="page-item {{ currentPage == 1 ? 'disabled' }}">
                     <a href="{{ path('wallets_show', {uid: wallet.uid, page: currentPage - 1}) }}" class="page-link"><i
@@ -653,11 +183,11 @@
         </div>
     {% endif %}
 
-    {# --- ZONE DANGER (REMISE EN BAS) --- #}
+    {# --- ZONE DANGER --- #}
     {% if userAccess and userAccess.role == 'admin' %}
         <div class="danger-zone">
-            <h3 style="color: #991b1b; margin-top: 0;">Zone rouge</h3>
-            <p style="color: #7f1d1d; margin-bottom: 1.5rem;">Cette action est dangereuse et irréversible</p>
+            <h3 class="danger-title">Zone rouge</h3>
+            <p class="danger-text">Cette action est dangereuse et irréversible</p>
             <a href="{{ path('wallets_delete', {uid: wallet.uid}) }}" class="btn-delete-wallet"
                onclick="return confirm('Êtes-vous sûr ? Cette action est irréversible.');">
                 <i class="fa-solid fa-trash-can"></i> Supprimer le portefeuille
@@ -665,229 +195,11 @@
         </div>
     {% endif %}
 
+    {% include '_components/_modals.html.twig' %}
 
-    {# ================= Modales ================= #}
+{% endblock %}
 
-    {# 1. Delete Expense #}
-    <div id="deleteExpenseModal" class="modal-overlay">
-        <div class="modal-box" style="text-align: center;">
-            <span style="font-size: 3rem; margin-bottom: 1rem; display: block;">🗑️</span>
-            <h3 style="font-weight: 800; color: #1e293b; margin-bottom: 0.5rem;">Supprimer la dépense ?</h3>
-            <p style="color: #64748b; margin-bottom: 2rem;">Cette action retirera le montant du total.</p>
-            <div style="display: flex; gap: 1rem; justify-content: center;">
-                <button onclick="closeExpenseDeleteModal()"
-                        style="background: white; border: 2px solid #fdba74; color: #c2410c; padding: 10px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
-                    Annuler
-                </button>
-                <a id="confirmExpenseDeleteBtn" href="#"
-                   style="background: #ef4444; color: white; padding: 12px 24px; border-radius: 12px; font-weight: 600; text-decoration: none; box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);">Supprimer</a>
-            </div>
-        </div>
-    </div>
-
-    {# 2. Detail Expense #}
-    <div id="detailExpenseModal" class="modal-overlay">
-        <div class="modal-box" style="position: relative;">
-            <button onclick="closeExpenseDetail()"
-                    style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; color: #94a3b8; cursor: pointer;">
-                &times;
-            </button>
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <div id="detailIcon"
-                     style="width: 80px; height: 80px; background: #f1f5f9; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--purple-deep); margin-bottom: 1rem;"></div>
-                <div id="detailDesc"
-                     style="font-size: 1.2rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 1px;"></div>
-                <div id="detailAmount" style="font-size: 3rem; font-weight: 800; color: #1e293b; margin: 10px 0;"></div>
-            </div>
-            <div
-                style="background: #f8fafc; border-radius: 16px; padding: 1.5rem; display: grid; grid-template-columns: auto 1fr; gap: 15px; align-items: center;">
-                <div style="color: #94a3b8; font-size: 0.9rem;">Payé par</div>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <img id="detailAvatar" src="" alt="description"
-                         style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <div>
-                        <div id="detailName" style="font-weight: 700; color: #1e293b;"></div>
-                        <div id="detailEmail" style="font-size: 0.8rem; color: #64748b;"></div>
-                    </div>
-                </div>
-                <div style="color: #94a3b8; font-size: 0.9rem;">Date</div>
-                <div id="detailDate" style="font-weight: 600; color: #334155;"></div>
-            </div>
-        </div>
-    </div>
-
-    {# 3. Members List (ADMIN) #}
-    {% if userAccess and userAccess.role in ['admin', 'user', 'member'] %}
-        <div id="membersModalOverlay" class="modal-overlay">
-            <div class="modal-box" style="max-width: 600px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h3 style="margin:0; font-weight:800; color: #1e293b; font-size: 1.5rem;">Membres du wallet.</h3>
-                    <button onclick="closeMembersModal()"
-                            style="background:none; border:none; font-size: 1.5rem; color: #94a3b8; cursor: pointer;">
-                        &times;
-                    </button>
-                </div>
-                <div style="max-height: 400px; overflow-y: auto;">
-                    <ul class="member-list-styled">
-                        {% for relation in wallet.xUserWallets %}
-                            {% if not relation.isDeleted %}
-                                {% set member = relation.targetUser %}
-                                <li class="member-item">
-                                    <div style="display: flex; align-items: center; gap: 15px;">
-                                        {% set avatar = member.avatar ?? (member.gender == 'M' ? 'https://cdn3d.iconscout.com/3d/premium/thumb/man-avatar-6299539-5187871.png' : 'https://cdn3d.iconscout.com/3d/premium/thumb/with-glasses-3d-icon-png-download-5823066.png') %}
-                                        <img src="{{ avatar }}" alt="avatar"
-                                             style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                        <div>
-                                            <div
-                                                style="font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 8px;">
-                                                {{ member.name }}
-                                                {# BADGE CREATEUR + COURONNE #}
-                                                {% if relation.role == 'admin' %}
-                                                    <i class="fa-solid fa-crown"
-                                                       style="color: #fbbf24; font-size: 0.9em;" title="Admin"></i>
-                                                {% endif %}
-                                            </div>
-                                            <div style="font-size: 0.8rem; color: #94a3b8;">{{ member.email }}</div>
-                                        </div>
-                                    </div>
-                                    <div style="display: flex; gap: 8px;">
-                                        {% if wallet.owner != member %}
-                                            {% if userAccess.role == 'admin' %}
-                                                {% if relation.role != 'admin' %} <a
-                                                    href="{{ path('wallet_member_promote', {id: relation.id}) }}"
-                                                    class="btn-list-action view" title="Passer Admin"><i
-                                                        class="fa-solid fa-arrow-up"></i></a> {% endif %}
-                                                {% if relation.role == 'admin' %} <a
-                                                    href="{{ path('wallet_member_demote', {id: relation.id}) }}"
-                                                    class="btn-list-action view" title="Retirer Admin"><i
-                                                        class="fa-solid fa-arrow-down"></i></a> {% endif %}
-                                                <button type="button" class="btn-list-action del"
-                                                        onclick="openMemberDeleteModal('{{ relation.id }}', '{{ member.name }}')">
-                                                    <i class="fa-solid fa-trash"></i></button>
-                                            {% else %}
-                                                <span class="badge bg-light text-muted"
-                                                      style="font-weight: 500;">Membre</span>
-                                            {% endif %}
-                                        {% else %}
-                                            <span class="badge bg-light text-muted"
-                                                  style="font-weight: 500; color: var(--orange-vibrant);">Owner</span>
-                                        {% endif %}
-                                    </div>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        {# 4. Delete Member (ADMIN) #}
-        <div id="deleteMemberModal" class="modal-overlay">
-            <div class="modal-box" style="text-align: center;">
-                <span style="font-size: 3rem; margin-bottom: 1rem; display: block; color: #ef4444;">🚫</span>
-                <h3 style="font-weight: 800; color: #1e293b; margin-bottom: 2rem;">Retirer <span
-                        id="spanMemberName"></span>?</h3>
-                <form id="deleteMemberForm" method="post" action="">
-                    <div
-                        style="text-align: left; background: #f8fafc; padding: 20px; border-radius: 16px; margin-bottom: 25px;">
-                        <p style="margin-bottom: 15px; font-weight: 700; font-size: 1rem; color: #334155;">Que faire des
-                            dépenses ?</p>
-                        <label
-                            style="display: flex; gap: 12px; margin-bottom: 12px; cursor: pointer; align-items: center;">
-                            <input type="radio" name="delete_expenses" value="no" checked
-                                   style="accent-color: var(--purple-deep); transform: scale(1.2);">
-                            <span style="font-size: 0.95rem; color: #475569; font-weight: 500;">Garder (Conseillé pour l'historique)</span>
-                        </label>
-                        <label style="display: flex; gap: 12px; cursor: pointer; align-items: center;">
-                            <input type="radio" name="delete_expenses" value="yes"
-                                   style="accent-color: #ef4444; transform: scale(1.2);">
-                            <span style="font-size: 0.95rem; color: #ef4444; font-weight: 600;">Tout supprimer (Change le solde)</span>
-                        </label>
-                    </div>
-                    <div style="display: flex; gap: 1rem; justify-content: center;">
-                        <button type="button" onclick="closeMemberDeleteModal()"
-                                style="background: white; border: 2px solid #fdba74; color: #c2410c; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
-                            Annuler
-                        </button>
-                        <button type="submit"
-                                style="background: #ef4444; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);">
-                            Confirmer
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    {% endif %}
-
-
-    {# ================= SCRIPTS ================= #}
-    <script>
-        // Accordion Fix (Gestion de la classe open pour le padding)
-        function toggleAccordion(header) {
-            header.classList.toggle('active');
-            const content = document.getElementById('balanceAccordionContent');
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-                content.classList.remove('open');
-            } else {
-                content.classList.add('open');
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        }
-
-        // Modales Dépenses
-        function openExpenseDeleteModal(url) {
-            document.getElementById('confirmExpenseDeleteBtn').href = url;
-            document.getElementById('deleteExpenseModal').classList.add('active');
-        }
-
-        function closeExpenseDeleteModal() {
-            document.getElementById('deleteExpenseModal').classList.remove('active');
-        }
-
-        function openExpenseDetail(desc, amount, iconClass, name, email, avatar, date) {
-            document.getElementById('detailDesc').textContent = desc;
-            document.getElementById('detailAmount').textContent = amount + ' €';
-            document.getElementById('detailIcon').innerHTML = `<i class="${iconClass}"></i>`;
-            document.getElementById('detailName').textContent = name;
-            document.getElementById('detailEmail').textContent = email;
-            document.getElementById('detailAvatar').src = avatar;
-            document.getElementById('detailDate').textContent = date;
-            document.getElementById('detailExpenseModal').classList.add('active');
-        }
-
-        function closeExpenseDetail() {
-            document.getElementById('detailExpenseModal').classList.remove('active');
-        }
-
-        // Modales Membres (Admin)
-        function openMembersModal() {
-            document.getElementById('membersModalOverlay').classList.add('active');
-        }
-
-        function closeMembersModal() {
-            document.getElementById('membersModalOverlay').classList.remove('active');
-        }
-        {% if userAccess and userAccess.role == 'admin' %}
-
-        function openMemberDeleteModal(id, name) {
-            closeMembersModal();
-            document.getElementById('spanMemberName').textContent = name;
-            let url = "{{ path('wallet_member_remove', {'id': 'PLACEHOLDER'}) }}";
-            url = url.replace('PLACEHOLDER', id);
-            document.getElementById('deleteMemberForm').action = url;
-            document.getElementById('deleteMemberModal').classList.add('active');
-        }
-
-        function closeMemberDeleteModal() {
-            document.getElementById('deleteMemberModal').classList.remove('active');
-        }
-        {% endif %}
-
-        window.onclick = function (event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                event.target.classList.remove('active');
-            }
-        }
-    </script>
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('scripts/wallet_details.js') }}"></script>
 {% endblock %}

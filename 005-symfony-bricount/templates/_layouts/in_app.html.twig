@@ -1,9 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('styles/wallets.css') }}">
-{% endblock %}
 
 {% if(app.user.avatar is null ) %}
 
@@ -25,7 +21,7 @@
                 <div class="user-profile">
 
                     <p class="user-name">
-                        <span class="initial">.</span>{{ app.user ? app.user.userIdentifier : 'ANONYMOUS !' }}
+                        <span class="initial">.</span>{{ app.user ? app.user.userIdentifier : 'T\'es qui toi ??' }}
                     </p>
 
                     <div class="avatar-wrapper">
@@ -37,7 +33,6 @@
         {% endembed %}
     {% endblock %}
 
-    {# <h1>Template In App</h1> #}
 
     {# menu #}
     {{ include('_components/menu.html.twig') }}
@@ -50,7 +45,6 @@
         {# container #}
         {% block content %}
         {% endblock %}
-
     </div>
 
 {% endblock %}

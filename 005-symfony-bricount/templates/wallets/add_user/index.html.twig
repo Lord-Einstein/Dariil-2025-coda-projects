@@ -1,52 +1,83 @@
 {% extends '_layouts/in_app.html.twig' %}
 
-{% block title %}Ajouter a {{ wallet.label }}| +Count{% endblock %}
+{% block title %}Ajouter à {{ wallet.label }} | +Count{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('styles/forms.css') }}">
 {% endblock %}
 
-
 {% block content %}
+    {# 1. Le Glow Violet d'ambiance #}
+    <div class="page-ambient-glow"></div>
+
     <div class="form-page-container">
-        <div class="form-card-in-app">
-            <h2 class="auth-title">Inviter un membre</h2>
-            <p class="auth-subtitle">Ajouter un utilisateur à "{{ wallet.label }}"</p>
 
-            {{ form_start(form) }}
+        {# On reprend la structure de la carte Edit #}
+        <div class="form-card-in-app animated-container glow-card">
 
-            {# Champ User (Select) #}
-            <div class="input-group-custom">
-                {{ form_label(form.user, null, {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_widget(form.user, {'attr': {'class': 'form-input'}}) }}
-                {{ form_errors(form.user) }}
+            {# 2. L'icône Enveloppe : Positionnée en haut à droite (Absolue) #}
+            <div class="corner-floating-icon">
+                <i class="fa-solid fa-envelope-open-text"></i>
             </div>
 
-            {# Champ Role (Radios) #}
-            <div class="input-group-custom" style="margin-top: 20px;">
-                {{ form_label(form.role, null, {'label_attr': {'class': 'form-label'}}) }}
-                <div class="radio-group" style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
-                    {% for child in form.role %}
-                        <label class="radio-option"
-                               style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                            {{ form_widget(child) }}
-                            <span>{{ form_label(child) }}</span>
-                        </label>
-                    {% endfor %}
+            <div class="form-header-center">
+                <h2 class="auth-title">Inviter un membre</h2>
+                <p class="auth-subtitle">Ajouter un utilisateur à <strong>{{ wallet.label }}</strong></p>
+            </div>
+
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'editor-form'}}) }}
+
+            <div class="form-body-content">
+
+                {# --- Champ User (Select) avec le style Input Group --- #}
+                <div class="input-group-custom">
+                    {#                    {{ form_widget(form.user, {'attr': {'class': 'form-input form-select-styled', 'placeholder': ' '}}) }} #}
+                    {{ form_widget(form.user, {'attr': {'class': 'hidden-native-select js-custom-select', 'placeholder': ' '}}) }}
+                    {{ form_label(form.user, 'Sélectionner l\'utilisateur', {'label_attr': {'class': 'form-label'}}) }}
                 </div>
-                {{ form_errors(form.role) }}
+                <div class="form-error-simple">
+                    {{ form_errors(form.user) }}
+                </div>
+
+                {# --- Champ Rôle (Style Cartes conservé) --- #}
+                <div class="role-selection-group">
+                    <label class="section-title-sm">Rôle attribué</label>
+                    <div class="radio-cards-row">
+                        {% for child in form.role %}
+                            <label class="radio-card-item">
+                                {{ form_widget(child) }}
+                                <span class="radio-content-box">
+                                    <span class="radio-text">{{ form_label(child) }}</span>
+                                </span>
+                                <i class="fa-solid fa-check-circle check-badge"></i>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <div class="form-error-simple">
+                        {{ form_errors(form.role) }}
+                    </div>
+                </div>
+
             </div>
 
-            <button type="submit" class="btn-modern" style="margin-top: 30px;">
-                <i class="fa-solid fa-user-plus"></i> Ajouter l'utilisateur
-            </button>
-
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="btn-back">Annuler</a>
+            {# --- Actions (Boutons identiques à Edit) --- #}
+            <div class="form-actions-group">
+                <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="btn-cancel-outline">
+                    Annuler
+                </a>
+                <button type="submit" class="btn-modern">
+                    Envoyer <i class="fa-solid fa-paper-plane"></i>
+                </button>
             </div>
+
             {{ form_end(form) }}
         </div>
     </div>
+
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('scripts/forms.js') }}"></script>
+{% endblock %}

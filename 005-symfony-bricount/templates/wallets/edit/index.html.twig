@@ -7,27 +7,53 @@
     <link rel="stylesheet" href="{{ asset('styles/forms.css') }}">
 {% endblock %}
 
-
 {% block content %}
+    {# 1. Le Glow Violet est maintenant indépendant du contenu pour ne pas être coupé #}
+    <div class="page-ambient-glow"></div>
+
     <div class="form-page-container">
-        <div class="form-card-in-app">
-            <h2 class="auth-title">Modifier le Portefeuille</h2>
-            <p class="auth-subtitle">Mise à jour des informations de "{{ wallet.label }}"</p>
+        {# La classe 'glow-card' a été renforcée dans le CSS #}
+        <div class="form-card-in-app animated-container glow-card">
 
-            {{ form_start(form) }}
-            <div class="input-group-custom">
-                {{ form_widget(form.name, {'attr': {'class': 'form-input', 'placeholder': ' '}}) }}
-                {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
-                {{ form_errors(form.name) }}
+            <div class="writing-pencil-icon">
+                <i class="fa-solid fa-pencil"></i>
             </div>
 
-            <button type="submit" class="btn-modern">
-                Enregistrer les modifications <i class="fa-solid fa-check"></i>
-            </button>
-
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="btn-back">Annuler</a>
+            <div class="form-header-center">
+                <h2 class="auth-title">Modifier le Portefeuille</h2>
+                <p class="auth-subtitle">Mise à jour des informations de <strong>{{ wallet.label }}</strong></p>
             </div>
+
+            {#
+            IMPORTANT : 'novalidate': 'novalidate' désactive l'erreur HTML5 (anglais) du navigateur.
+            Seule l'erreur Symfony sera affichée.
+            #}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+            <div class="form-body-content">
+                <div class="input-group-custom">
+                    {{ form_widget(form.name, {'attr': {'class': 'form-input', 'placeholder': ' '}}) }}
+                    {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+                </div>
+
+                {# Erreur Unique et Stylée #}
+                {% if form_errors(form.name) %}
+                    <div class="custom-error-block">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        {{ form_errors(form.name) }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-actions-group">
+                <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="btn-cancel-outline">
+                    Annuler
+                </a>
+                <button type="submit" class="btn-modern">
+                    Enregistrer <i class="fa-solid fa-check"></i>
+                </button>
+            </div>
+
             {{ form_end(form) }}
         </div>
     </div>
