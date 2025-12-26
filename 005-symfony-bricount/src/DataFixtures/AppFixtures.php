@@ -6,6 +6,7 @@ use App\Entity\Expense;
 use App\Entity\User;
 use App\Entity\Wallet;
 use App\Entity\XUserWallet;
+use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -100,7 +101,7 @@ class AppFixtures extends Fixture
         $xUserWallet->setRole($role);
 
         $xUserWallet->setCreatedBy($this->generatedUsers[0]);
-        $xUserWallet->setCreatedDate(new \DateTime());
+        $xUserWallet->setCreatedDate(new DateTime());
 
         $this->manager->persist($xUserWallet);
         $this->manager->flush();
@@ -121,7 +122,7 @@ class AppFixtures extends Fixture
         $wallet->setTotalAmount($totalAmount + $amount);
 
         $expense->setCreatedBy($createdBy);
-        $expense->setCreatedDate(new \DateTime());
+        $expense->setCreatedDate(new DateTime());
 
         $this->manager->persist($expense);
         $this->manager->flush();
@@ -140,7 +141,7 @@ class AppFixtures extends Fixture
         $wallet->setPaymentsDue([]);
 
         $wallet->setCreatedBy($this->generatedUsers[0]);
-        $wallet->setCreatedDate(new \DateTime());
+        $wallet->setCreatedDate(new DateTime());
 
         $this->manager->persist($wallet);
         $this->manager->flush();

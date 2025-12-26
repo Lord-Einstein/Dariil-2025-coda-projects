@@ -77,7 +77,7 @@ class ExpenseRepository extends ServiceEntityRepository
         //J'espère vraiment me souvenir de revenir pour effacer ces comms :p. MDR je délire là...
     }
 
-    // Trouve toutes les dépenses actives d'un user dans un wallet spécifique
+    // toutes les dépenses actives d'un user dans un wallet spécifique
     public function findActiveExpensesByWalletAndUser(Wallet $wallet, User $user): array
     {
         return $this->createQueryBuilder('e')

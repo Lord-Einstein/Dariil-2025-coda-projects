@@ -19,8 +19,6 @@ class MembersController extends AbstractController
     #[Route('/promote/{id}', name: 'wallet_member_promote')]
     public function promote(XUserWallet $relation, EntityManagerInterface $em): Response
     {
-        // Sécurité : Seul un admin/owner du wallet peut faire ça (à affiner selon tes règles)
-        // Ici je vérifie juste que l'action est logique
 
         /** @var User $user */
         $user = $this->getUser();

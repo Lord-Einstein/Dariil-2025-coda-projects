@@ -33,10 +33,10 @@ final class AddUserController extends AbstractController
 
         $access = $walletService->getUserAccessOnWallet($currentUser, $wallet);
 
-        // A. Vérif Admin
+        // Vérifier état d'Admin
         if (!$access || $access->getRole() !== 'admin') {
             $redirectError = "Seuls les administrateurs peuvent inviter des membres.";
-        } // B. Vérif Utilisateurs (seulement si on est admin)
+        } // Vérif Utilisateurs simples
         else {
             $availableUsers = $walletService->findAvailableUsersForWallet($wallet);
             if (empty($availableUsers)) {
@@ -51,7 +51,7 @@ final class AddUserController extends AbstractController
             return $this->redirectToRoute('wallets_show', ['uid' => $wallet->getUid()]);
         }
 
-        // --- 2. GESTION DU FORMULAIRE ---
+        //Formulaire
         $dto = new XUserWalletDTO();
         $form = $this->createForm(XUserWalletType::class, $dto, [
             'available_users' => $availableUsers
@@ -66,7 +66,6 @@ final class AddUserController extends AbstractController
             return $this->redirectToRoute('wallets_show', ['uid' => $wallet->getUid()]);
         }
 
-        // --- 3. AFFICHAGE (Return #3) ---
         return $this->render('wallets/add_user/index.html.twig', [
             'form' => $form->createView(),
             'wallet' => $wallet

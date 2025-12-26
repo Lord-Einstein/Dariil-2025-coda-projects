@@ -9,7 +9,7 @@
 
 {% block content %}
     <div class="wallet-header-wrapper">
-        {# 1. Top Nav #}
+        {# Top Nav #}
         <div class="top-nav">
             <a href="{{ path('wallets_list') }}" class="btn-back-styled">
                 <i class="fa-solid fa-arrow-left"></i> <span>Retour</span>
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        {# 2. Header Content #}
+        {# Header Content #}
         <div class="header-main-row">
             <div class="header-title-block">
                 <h1 class="page-title">{{ wallet.label }}</h1>
@@ -56,7 +56,6 @@
                 {{ (wallet.totalAmount/100)|number_format(2, ',', ' ') }} <span class="currency-symbol">€</span>
             </div>
         </div>
-        {# Extraction: style="z-index: 1;" -> class="balance-icon-wrapper" #}
         <div class="balance-icon-wrapper">
             <i class="fa-solid fa-wallet wallet-icon-deco"></i>
         </div>
@@ -69,7 +68,6 @@
                 <div class="accordion-title">
                     <div class="icon-balance"><i class="fa-solid fa-scale-balanced"></i></div>
                     <span>Voir les équilibres</span>
-                    {# Extraction: style="font-size: 0.7em;" -> class="badge-action" #}
                     <span class="badge bg-warning text-dark rounded-pill ms-2 badge-action">
                         Action requise
                     </span>
@@ -83,7 +81,6 @@
                         {% for debtorId, debts in balances %}
                             {% set debtor = members[debtorId] %}
                             <div class="col-md-6 mb-3">
-                                {# Extraction: style="list-style... gap: 10px;" -> class="debts-list" #}
                                 <ul class="debts-list">
                                     {% for debt in debts %}
                                         {% set creditor = members[debt.creditor_id] %}
@@ -95,7 +92,6 @@
                                                 <strong>{{ isMyDebt ? 'Vous' : debtor.name }}</strong> rembourse
                                                 <strong>{{ isMyRefund ? 'Vous' : creditor.name }}</strong>
                                             </div>
-                                            {# Extraction: Logique de couleur déplacée dans des classes CSS #}
                                             <span
                                                 class="debt-amount {{ isMyRefund ? 'text-success-custom' : (isMyDebt ? 'text-danger-custom' : 'text-neutral-custom') }}">
                                                 {{ (debt.amount / 100)|number_format(2, ',', ' ') }} €
@@ -108,7 +104,6 @@
                     </div>
 
                     {% if userAccess and userAccess.role == 'admin' %}
-                        {# Extraction: style="margin: 0;" -> class="form-no-margin" #}
                         <form action="{{ path('wallets_settle', {'uid': wallet.uid}) }}" method="post"
                               class="form-no-margin">
                             <button type="button" class="btn-settle-orange"
@@ -155,7 +150,6 @@
                 <div class="empty-icon-circle">
                     <i class="fa-solid fa-receipt empty-icon"></i>
                 </div>
-                {# Extraction: style="color: #475569; font-weight: 700;" -> class="empty-title" #}
                 <h4 class="empty-title">Aucune dépense par ici ^^</h4>
             </div>
         {% endfor %}
@@ -163,7 +157,6 @@
 
     {# --- PAGINATION --- #}
     {% if totalPages > 1 %}
-        {# Extraction: style="margin-top: 2rem;" -> class="pagination-container" #}
         <div class="pagination-wrapper pagination-container">
             <ul class="pagination">
                 <li class="page-item {{ currentPage == 1 ? 'disabled' }}">

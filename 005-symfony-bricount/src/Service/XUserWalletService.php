@@ -40,7 +40,7 @@ readonly class XUserWalletService
 
         // mettre à jour le rôle
         $association->setRole($role);
-        //à chaque fois qu'on passe par cette fonction, je m'assure que le lien qui en sort soit valide.
+        //à chaque fois qu'on passe par cette fonction, je m'assure que le lien qui en sort est valide.
         $association->setIsDeleted(false);
 
 

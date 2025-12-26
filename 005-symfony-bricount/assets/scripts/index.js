@@ -1,12 +1,6 @@
-// ============================================
-// INDEX.JS - PAGE D'ACCUEIL
-// ============================================
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ============================================
     // SCROLL TO TOP BUTTON
-    // ============================================
 
     const scrollToTopBtn = document.getElementById('scrollToTop');
 
@@ -29,9 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ============================================
     // DARK MODE TOGGLE
-    // ============================================
 
     const darkModeToggle = document.getElementById('darkModeToggle');
 
@@ -75,9 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ============================================
     // SMOOTH SCROLL POUR LES ANCRES
-    // ============================================
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -102,9 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ============================================
-    // ANIMATION AU SCROLL (Intersection Observer)
-    // ============================================
+    // ANIMATION AU SCROLL
 
     const observerOptions = {
         threshold: 0.1,
@@ -132,9 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // ============================================
     // COMPTEUR ANIMÉ POUR LES STATS
-    // ============================================
 
     const animateCounter = (element, target, duration = 2000) => {
         const start = 0;
@@ -201,9 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statsObserver.observe(stat);
     });
 
-    // ============================================
     // PARALLAX EFFECT POUR LE HERO
-    // ============================================
 
     const heroVisual = document.querySelector('.hero-visual');
 
@@ -216,9 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ============================================
     // EASTER EGG: KONAMI CODE
-    // ============================================
 
     let konamiCode = [];
     const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA

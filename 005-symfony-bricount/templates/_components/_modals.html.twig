@@ -40,15 +40,12 @@
     </div>
 </div>
 
-{# 3. Members List & Actions (ADMIN/USER/MEMBER) #}
+{# 3. Members List & Actions - Retirer user après le changement de fixtures #}
 {% if userAccess and userAccess.role in ['admin', 'user', 'member'] %}
     <div id="membersModalOverlay" class="modal-overlay">
-        {# Extraction: style="max-width: 600px;" -> class="modal-box-large" #}
         <div class="modal-box modal-box-large">
             <div class="members-header">
-                {# Extraction: style="margin:0;" -> class="title-reset" #}
                 <h3 class="modal-title title-reset">Membres du wallet.</h3>
-                {# Extraction: style="position:static;" -> class="close-static" #}
                 <button onclick="closeMembersModal()" class="modal-close-btn close-static">&times;</button>
             </div>
 
@@ -65,7 +62,6 @@
                                         <div class="member-name-block">
                                             {{ member.name }}
                                             {% if relation.role == 'admin' %}
-                                                {# Extraction: style="color... font-size..." -> class="icon-admin-gold" #}
                                                 <i class="fa-solid fa-crown icon-admin-gold" title="Admin"></i>
                                             {% endif %}
                                         </div>
@@ -93,11 +89,9 @@
                                                 <i class="fa-solid fa-trash"></i>
                                             </button>
                                         {% else %}
-                                            {# Extraction: style inline -> class="badge-role-member" #}
                                             <span class="badge bg-light text-muted badge-role-member">Membre</span>
                                         {% endif %}
                                     {% else %}
-                                        {# Extraction: style inline -> class="badge-role-owner" #}
                                         <span class="badge bg-light text-muted badge-role-owner">Owner</span>
                                     {% endif %}
                                 </div>
@@ -113,7 +107,6 @@
     <div id="deleteMemberModal" class="modal-overlay">
         <div class="modal-box modal-center">
             <div class="modal-icon-wrapper danger-wrapper">
-                {# Extraction: style="color: #ef4444;" -> géré par danger-wrapper #}
                 <span class="modal-emoji-icon">🚫</span>
             </div>
 
@@ -121,18 +114,15 @@
 
             <form id="deleteMemberForm" method="post" action="">
                 <div class="radio-group">
-                    {# Extraction: style="margin-bottom... color..." -> class="radio-group-title" #}
                     <p class="radio-group-title">Que faire des dépenses ?</p>
 
                     <label class="radio-label">
                         <input type="radio" name="delete_expenses" value="no" checked class="radio-input-purple">
-                        {# Extraction: style inline -> class="radio-text-keep" #}
                         <span class="radio-text-keep">Garder (Conseillé pour l'historique)</span>
                     </label>
 
                     <label class="radio-label">
                         <input type="radio" name="delete_expenses" value="yes" class="radio-input-red">
-                        {# Extraction: style inline -> class="radio-text-delete" #}
                         <span class="radio-text-delete">Tout supprimer (Change le solde)</span>
                     </label>
                 </div>

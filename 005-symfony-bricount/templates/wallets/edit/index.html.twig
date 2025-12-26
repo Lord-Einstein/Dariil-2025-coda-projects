@@ -25,8 +25,8 @@
             </div>
 
             {#
-            IMPORTANT : 'novalidate': 'novalidate' désactive l'erreur HTML5 (anglais) du navigateur.
-            Seule l'erreur Symfony sera affichée.
+            InFOOOO : 'novalidate': 'novalidate' désactive l'erreur HTML5 (en anglais) du navigateur.
+            Seule l'erreur Symfony sera affichée et c'est ce que je veuuuut.
             #}
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
@@ -36,7 +36,7 @@
                     {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
                 </div>
 
-                {# Erreur Unique et Stylée #}
+                {# Erreur Stylée #}
                 {% if form_errors(form.name) %}
                     <div class="custom-error-block">
                         <i class="fa-solid fa-circle-exclamation"></i>

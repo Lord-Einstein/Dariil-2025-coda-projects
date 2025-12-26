@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ============================================
     // PASSWORD TOGGLE (Bouton œil)
-    // ============================================
 
     function setupPasswordToggle(buttonId, inputId, iconId) {
         const toggleBtn = document.getElementById(buttonId);
@@ -35,9 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialisation Register
     setupPasswordToggle('toggleRegisterPassword', 'register-password', 'register-eye-icon');
 
-    // ============================================
     // CUSTOM SELECT (Design moderne)
-    // ============================================
 
     const nativeSelects = document.querySelectorAll('.js-custom-select');
 

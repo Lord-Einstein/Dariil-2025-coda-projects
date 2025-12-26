@@ -25,11 +25,6 @@ final class CreateController extends AbstractController
         //traitement de la requête 'post'
         $form->handleRequest($request);
 
-//
-//        if ($form->isSubmitted() && !$form->isValid()) {
-//            dd($form->getErrors(true, false));
-//        } //Debugger Code.
-
         //derniers controlles de validité et de soumission du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
             try {

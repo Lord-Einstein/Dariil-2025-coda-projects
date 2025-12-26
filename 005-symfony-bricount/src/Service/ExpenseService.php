@@ -67,14 +67,9 @@ class ExpenseService
         $expense->setDeletedBy($user);
         $expense->setDeletedDate(new DateTime());
 
-        //Recalcul du total du Wallet
-//        $wallet = $expense->getWallet();
-//        $currentTotal = $wallet->getTotalAmount();
-//        $expenseAmount = $expense->getAmount();
-//        $wallet->setTotalAmount($currentTotal - $expenseAmount);
 
         $this->entityManager->flush();
-        
+
         $this->walletService->refreshWalletState($expense->getWallet());
     }
 }

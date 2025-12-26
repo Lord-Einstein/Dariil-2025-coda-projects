@@ -1,12 +1,6 @@
-// ============================================
-// SETTINGS.JS - VERSION FINALE
-// ============================================
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ============================================
     // COUNTER ANIMATION
-    // ============================================
     const counters = document.querySelectorAll('[data-count-target]');
     const animationDuration = 2000; // 2 secondes
 
@@ -50,9 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Lancer les animations
     counters.forEach(counter => animateCounter(counter));
 
-    // ============================================
     // MODAL LOGIC
-    // ============================================
     const modal = document.getElementById('editProfileModal');
     const hiddenInput = document.getElementById('profile_avatar');
     const avatarItems = document.querySelectorAll('.avatar-item');

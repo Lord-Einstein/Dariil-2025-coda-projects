@@ -15,7 +15,7 @@
 
         <div class="form-card-in-app animated-container glow-card">
 
-            {# L'icône animée au sommet (Euro sign) #}
+            {# L'icône animée au sommet #}
             <div class="writing-pencil-icon icon-anim-euro">
                 <i class="fa-solid fa-euro-sign"></i>
             </div>
@@ -29,7 +29,7 @@
 
             <div class="form-body-content">
 
-                {# --- SECTION MONTANT GÉANT --- #}
+                {# --- SECTION DE MON MONTANT GÉANT --- #}
                 <div class="hero-amount-section">
                     <div class="amount-input-wrapper">
                         {{ form_widget(form.amount, {'attr': {'class': 'input-hero-display', 'placeholder': '0.00'}}) }}
@@ -58,16 +58,16 @@
 
                 </div>
 
-                {# --- GRILLE DE CATÉGORIES (STYLÉE ET COMPACTE) --- #}
+                {# --- GRILLE DE CATÉGORIES --- #}
                 <div class="category-section">
                     <label class="section-title-sm">Catégorie</label>
                     <div class="modern-grid-layout">
                         {% for choice in form.icon %}
                             <div class="category-tile-item">
-                                {# Le radio est TOTALEMENT caché ici #}
+                                {# Le radio que je mettrais ensuite en hidden #}
                                 {{ form_widget(choice, {'attr': {'class': 'hidden-check'}}) }}
 
-                                {# Le label devient notre bouton stylé #}
+                                {# Le label devient le bouton stylé pour radio choice #}
                                 {{ form_label(choice, null, {
                                     'label_html': true,
                                     'label_attr': {'class': 'tile-label'},
@@ -86,7 +86,6 @@
 
             </div>
 
-            {# --- BOUTONS (Reprise de ton style Edit) --- #}
             <div class="form-actions-group">
                 <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="btn-cancel-outline">Annuler</a>
                 <button type="submit" class="btn-modern">

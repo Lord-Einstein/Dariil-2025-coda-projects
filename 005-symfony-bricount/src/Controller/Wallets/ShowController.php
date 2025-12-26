@@ -42,18 +42,15 @@ final class ShowController extends AbstractController
             return $this->redirectToRoute('wallets_list');
         }
 
-        //1- Récupérer les depenses
+        //1- Récupérer les dépenses
         $expenses = $expenseService->getExpensesForWallet($wallet, $page, $limit);
 
-        //2- Compter la pagin...
+        //2- Compter la pagination...
         $totalExpenses = $expenseService->getCountExpensesForWallet($wallet);
         $totalPages = (int)ceil($totalExpenses / $limit);
 
-        // --- NOUVEAU CODE : Calcul des balances ---
-        // On récupère le tableau des dettes [debtor_id => [...]]
         $balances = $walletService->getUserBalances($wallet);
 
-        // On récupère les objets User pour afficher les noms (User 12 => "Alice")
         $members = $wallet->getMembers();
 
 
@@ -91,10 +88,10 @@ final class ShowController extends AbstractController
             return $this->redirectToRoute('wallets_show', ['uid' => $wallet->getUid()]);
         }
 
-        // 2. Action
+        // Action
         $walletService->markAsSettled($wallet);
 
-        // 3. Feedback et Redirection
+        //Feedback et Redirection
         $this->addFlash('success', 'Les comptes ont été marqués comme réglés.');
 
         return $this->redirectToRoute('wallets_show', ['uid' => $wallet->getUid()]);

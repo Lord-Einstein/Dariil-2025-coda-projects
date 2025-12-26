@@ -1,12 +1,6 @@
-// ============================================
-// MAIN.JS - VERSION FINALE COMPLÈTE
-// ============================================
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ============================================
     // DARK MODE TOGGLE
-    // ============================================
 
     // Récupération du thème stocké ou défaut sur 'light'
     const currentTheme = localStorage.getItem('theme') || 'light';
@@ -56,9 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ============================================
-    // FAB MENU (Floating Action Button)
-    // ============================================
+    // FAB MENU
 
     const wrapper = document.getElementById('fabWrapper');
     const trigger = document.getElementById('fabTrigger');
@@ -104,9 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ============================================
     // LOGOUT MODAL
-    // ============================================
 
     const logoutTrigger = document.getElementById('logoutTrigger');
     const logoutModal = document.getElementById('logoutModal');
@@ -133,9 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ============================================
     // FLASH MESSAGES (Auto-dismiss)
-    // ============================================
 
     const flashes = document.querySelectorAll('.flash-toast');
 

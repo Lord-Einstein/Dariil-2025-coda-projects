@@ -8,15 +8,13 @@
 {% endblock %}
 
 {% block content %}
-    {# 1. Le Glow Violet d'ambiance #}
     <div class="page-ambient-glow"></div>
 
     <div class="form-page-container">
 
-        {# On reprend la structure de la carte Edit #}
         <div class="form-card-in-app animated-container glow-card">
 
-            {# 2. L'icône Enveloppe : Positionnée en haut à droite (Absolue) #}
+            {# icône Enveloppe : Positionnée en haut à droite (Absolue) #}
             <div class="corner-floating-icon">
                 <i class="fa-solid fa-envelope-open-text"></i>
             </div>
@@ -42,7 +40,6 @@
                     </div>
                 {% endif %}
 
-                {# --- Champ Rôle (Style Cartes conservé) --- #}
                 <div class="role-selection-group">
                     <label class="section-title-sm">Rôle attribué</label>
                     <div class="radio-cards-row">
@@ -66,7 +63,6 @@
 
             </div>
 
-            {# --- Actions (Boutons identiques à Edit) --- #}
             <div class="form-actions-group">
                 <a href="{{ path('wallets_show', {uid: wallet.uid}) }}" class="btn-cancel-outline">
                     Annuler

@@ -1,7 +1,3 @@
-// ============================================
-// WALLET_DETAILS.JS - VERSION FINALE
-// ============================================
-
 // Accordéon : Gestion de l'affichage
 function toggleAccordion(header) {
     header.classList.toggle('active');
@@ -15,9 +11,7 @@ function toggleAccordion(header) {
     }
 }
 
-// ============================================
 // MODALES DÉPENSES
-// ============================================
 
 function openExpenseDeleteModal(url) {
     const btn = document.getElementById('confirmExpenseDeleteBtn');
@@ -45,9 +39,7 @@ function closeExpenseDetail() {
     document.getElementById('detailExpenseModal').classList.remove('active');
 }
 
-// ============================================
 // MODALES MEMBRES
-// ============================================
 
 function openMembersModal() {
     const modal = document.getElementById('membersModalOverlay');

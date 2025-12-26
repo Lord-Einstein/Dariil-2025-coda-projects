@@ -17,8 +17,6 @@ final class SettleController extends AbstractController
         WalletService                                  $walletService
     ): Response
     {
-        // Sécurité : Vérifier les droits...
-
         $walletService->markAsSettled($wallet);
         $this->addFlash('success', 'Le portefeuille a été marqué comme réglé. Les balances sont remises à zéro.');
 

@@ -29,7 +29,7 @@
                     {{ form_widget(form.name, {'attr': {'class': 'form-input', 'placeholder': ' '}}) }}
                     {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
                 </div>
-                {# Erreur Unique et Stylée #}
+                {# Erreur Stylée #}
                 {% if form_errors(form.name) %}
                     <div class="custom-error-block">
                         <i class="fa-solid fa-circle-exclamation"></i>
