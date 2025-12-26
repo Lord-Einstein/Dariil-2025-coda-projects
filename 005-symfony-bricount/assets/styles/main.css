@@ -689,8 +689,17 @@ body {
     border: 2px solid #4caf50;
 }
 
+[data-theme="dark"] .flash-success {
+    background: var(--card-bg);
+    color: #5bbe5f;
+}
+
 .flash-success .flash-icon svg {
     stroke: #2e7d32;
+}
+
+[data-theme="dark"] .flash-success .flash-icon svg {
+    stroke: #5bbe5f;
 }
 
 .flash-danger {

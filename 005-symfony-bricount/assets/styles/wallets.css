@@ -141,6 +141,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+[data-theme="dark"] .wallet-balance {
+    color: var(--purple-mid);
 }
 
 .wallet-balance {

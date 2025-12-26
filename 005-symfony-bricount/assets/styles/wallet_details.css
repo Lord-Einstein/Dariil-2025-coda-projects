@@ -28,6 +28,8 @@
 /* ============================================
    BOUTONS
    ============================================ */
+
+
 .btn-back-styled {
     display: inline-flex;
     align-items: center;
@@ -43,6 +45,7 @@
 
 [data-theme="dark"] .btn-back-styled {
     background: rgba(99, 102, 241, 0.2);
+    color: var(--purple-mid);
 }
 
 .btn-back-styled i {
@@ -88,6 +91,10 @@
 .btn-hero:hover i {
     transform: rotate(15deg) scale(1.1);
     color: var(--purple-deep);
+}
+
+[data-theme="dark"] .btn-hero:hover i {
+    color: var(--purple-mid);
 }
 
 .btn-hero.primary {
@@ -212,6 +219,10 @@
     filter: drop-shadow(0 8px 12px rgba(99, 102, 241, 0.25));
 }
 
+[data-theme="dark"] .wallet-icon-deco {
+    color: var(--purple-mid);
+}
+
 .balance-icon-wrapper {
     z-index: 1;
 }
@@ -252,6 +263,10 @@
     color: var(--text-dark);
     font-size: 1rem;
     text-transform: uppercase;
+}
+
+[data-theme="dark"] .icon-balance {
+    color: var(--purple-mid);
 }
 
 .icon-balance {
@@ -323,18 +338,22 @@
     font-size: 0.7em;
 }
 
+[data-theme="dark"] .btn-settle-orange {
+    background: var(--orange-dark);
+}
+
 .btn-settle-orange {
     background: var(--orange-vibrant);
     color: white;
     border: none;
     padding: 12px 30px;
-    border-radius: 16px;
+    border-radius: 16px 16px 0 0;
     font-weight: 700;
     font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 25px auto 0;
+    margin: 25px auto;
     width: fit-content;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
@@ -344,6 +363,10 @@
 .btn-settle-orange i {
     color: white;
     font-size: 1.1rem;
+}
+
+[data-theme="dark"] .btn-settle-orange:hover {
+    background: var(--orange-vibrant);
 }
 
 .btn-settle-orange:hover {
@@ -411,6 +434,10 @@
     font-size: 1.15rem;
 }
 
+[data-theme="dark"] .price-other {
+    color: var(--purple-mid);
+}
+
 .price-other {
     color: var(--purple-deep);
     font-weight: 700;
@@ -450,6 +477,7 @@
 
 [data-theme="dark"] .btn-list-action.view:hover {
     background: rgba(99, 102, 241, 0.2);
+    color: #e0e7ff;
 }
 
 .btn-list-action.del:hover {
@@ -779,6 +807,10 @@
     margin-bottom: 2rem;
     position: relative;
     z-index: 2;
+}
+
+[data-theme="dark"] .detail-icon-circle {
+    color: var(--orange-dark);
 }
 
 .detail-icon-circle {
