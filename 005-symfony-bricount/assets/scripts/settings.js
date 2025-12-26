@@ -65,7 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.closeEditModal = () => {
-        modal.classList.remove('active');
+        // modal.classList.remove('active');
+        window.location.href = window.location.pathname;
+        //J'oblige le reload total pour remettre le form à son état de départ.
     };
 
     window.selectAvatar = (el, url) => {
