@@ -2,6 +2,7 @@
 
 namespace App\Controller\Settings;
 
+use App\DTO\ProfileDTO;
 use App\Entity\User;
 use App\Form\ProfileType;
 use App\Repository\ExpenseRepository;
@@ -29,16 +30,30 @@ final class IndexController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        $form = $this->createForm(ProfileType::class, $user);
+
+        $dto = new ProfileDTO();
+        $dto->name = $user->getName();
+        $dto->gender = $user->getGender();
+        $dto->avatar = $user->getAvatar();
+
+        $openProfileModal = true;
+
+        $form = $this->createForm(ProfileType::class, $dto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $user->setName($dto->name);
+            $user->setGender($dto->gender);
+            $user->setAvatar($dto->avatar);
 
             $em->flush();
 
             $this->addFlash('success', 'Profil mis à jour !');
             return $this->redirectToRoute('settings');
         }
+
+        $openProfileModal = $form->isSubmitted() && !$form->isValid();
 
         // Récupération des stats via les méthodes corrigées
         $stats = [
@@ -106,6 +121,7 @@ final class IndexController extends AbstractController
             'form' => $form->createView(),
             'stats' => $stats,
             'avatars' => $avatars,
+            'openProfileModal' => $openProfileModal,
         ]);
     }
 }

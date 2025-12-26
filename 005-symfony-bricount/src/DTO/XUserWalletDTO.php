@@ -10,7 +10,7 @@ class XUserWalletDTO
     #[Assert\NotNull(message: "Veuillez sélectionner un utilisateur")]
     public ?User $user = null;
 
-    #[Assert\NotBlank(message: "Veuillez choisir un rôle.")]
+    #[Assert\NotNull(message: "Veuillez choisir un rôle.")]
     #[Assert\Choice(choices: ['admin', 'user'], message: "Rôle invalide.")]
-    public string $role = 'user';
+    public ?string $role = 'user';
 }

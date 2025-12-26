@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/forms.css') }}">
     <link rel="stylesheet" href="{{ asset('styles/settings.css') }}">
 {% endblock %}
 
@@ -99,7 +100,7 @@
     </div>
 
     {# --- MODAL EDIT (Glassmorphism) --- #}
-    <div id="editProfileModal" class="modal-overlay">
+    <div id="editProfileModal" class="modal-overlay {{ openProfileModal ? 'active' : '' }}">
         <div class="modal-box glass-modal">
             <div class="modal-header">
                 <h4 class="modal-title">Modifier mon profil</h4>
@@ -109,8 +110,15 @@
             {{ form_start(form) }}
             <div class="form-group-row">
                 <div class="form-col">
-                    {{ form_row(form.name, {'attr': {'class': 'input-styled', 'placeholder': 'Nom...'}}) }}
+                    {{ form_label(form.name) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'input-styled', 'placeholder': 'Nom...'}}) }}
                 </div>
+                {% if form_errors(form.name) %}
+                    <div class="custom-error-block">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        {{ form_errors(form.name) }}
+                    </div>
+                {% endif %}
             </div>
 
             <div class="form-group-row">
@@ -122,6 +130,12 @@
                             {{ form_label(child, null, {'label_attr': {'class': 'form-check-label'}}) }}
                         </div>
                     {% endfor %}
+                    {% if form_errors(form.gender) %}
+                        <div class="custom-error-block">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            {{ form_errors(form.gender) }}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -140,6 +154,12 @@
             </div>
 
             {{ form_row(form.avatar, {'id': 'profile_avatar'}) }}
+            {% if form_errors(form.avatar) %}
+                <div class="custom-error-block">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    {{ form_errors(form.avatar) }}
+                </div>
+            {% endif %}
 
             <div class="modal-actions">
                 <button type="button" class="btn-ghost" onclick="closeEditModal()">Annuler</button>

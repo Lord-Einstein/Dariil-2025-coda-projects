@@ -32,13 +32,15 @@
 
                 {# --- Champ User (Select) avec le style Input Group --- #}
                 <div class="input-group-custom">
-                    {#                    {{ form_widget(form.user, {'attr': {'class': 'form-input form-select-styled', 'placeholder': ' '}}) }} #}
                     {{ form_widget(form.user, {'attr': {'class': 'hidden-native-select js-custom-select', 'placeholder': ' '}}) }}
                     {{ form_label(form.user, 'Sélectionner l\'utilisateur', {'label_attr': {'class': 'form-label'}}) }}
                 </div>
-                <div class="form-error-simple">
-                    {{ form_errors(form.user) }}
-                </div>
+                {% if form_errors(form.user) %}
+                    <div class="custom-error-block">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        {{ form_errors(form.user) }}
+                    </div>
+                {% endif %}
 
                 {# --- Champ Rôle (Style Cartes conservé) --- #}
                 <div class="role-selection-group">
@@ -54,9 +56,12 @@
                             </label>
                         {% endfor %}
                     </div>
-                    <div class="form-error-simple">
-                        {{ form_errors(form.role) }}
-                    </div>
+                    {% if form_errors(form.role) %}
+                        <div class="custom-error-block">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            {{ form_errors(form.role) }}
+                        </div>
+                    {% endif %}
                 </div>
 
             </div>

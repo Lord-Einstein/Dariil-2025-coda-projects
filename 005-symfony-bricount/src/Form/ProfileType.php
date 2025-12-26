@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\DTO\ProfileDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -17,7 +17,7 @@ class ProfileType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Nom',
-                'attr' => ['class' => 'form-control']
+                'trim' => true,
             ])
             ->add('gender', ChoiceType::class, [
                 'label' => 'Sexe',
@@ -27,8 +27,8 @@ class ProfileType extends AbstractType
                 ],
                 'expanded' => true, // Boutons radios
                 'multiple' => false,
-                
-                'row_attr' => ['class' => 'mt-2']
+
+                'row_attr' => ['class' => 'mt-2'],
             ])
             // Le champ caché qui sera rempli par le JS
             ->add('avatar', HiddenType::class);
@@ -36,7 +36,8 @@ class ProfileType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => User::class]);
+        $resolver->setDefaults(['data_class' => ProfileDTO::class]);
     }
+
 }
 

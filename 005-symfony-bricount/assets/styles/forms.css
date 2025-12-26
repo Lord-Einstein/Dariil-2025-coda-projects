@@ -49,6 +49,11 @@
     background: rgba(255, 167, 38, 0.15);
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    appearance: none;
+}
+
 @keyframes pulseBlob {
     0% {
         transform: scale(1);
@@ -239,7 +244,7 @@
 .password-toggle {
     position: absolute;
     right: 15px;
-    top: 50%;
+    top: 10%;
     transform: translateY(-50%);
     cursor: pointer;
     color: var(--text-muted);
@@ -509,6 +514,10 @@
     animation: slideDown 0.3s ease-out;
 }
 
+[data-theme="dark"] .custom-error-block {
+    background: transparent;
+}
+
 .custom-error-block ul {
     margin: 0;
     padding: 0;
@@ -671,7 +680,7 @@
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
-    height: 1.3rem;
+    height: 3rem;
 }
 
 .custom-select-wrapper.open .custom-select-trigger {
@@ -704,7 +713,7 @@
     right: 0;
     background: var(--card-bg);
     backdrop-filter: blur(15px);
-    border: 2px solid var(--main-color);
+    border: 1px solid var(--main-color);
     border-top: none;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -728,9 +737,13 @@
     padding: 12px 15px;
     cursor: pointer;
     transition: background 0.2s;
-    color: var(--text-muted);
+    color: rgba(45, 45, 45, 0.94);
     border: 1px solid var(--main-color);
-    font-weight: 600;
+    font-weight: 400;
+}
+
+[data-theme="dark"] .custom-option {
+    color: white;
 }
 
 .custom-option:hover {
@@ -894,14 +907,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    width: 25%;
+    padding: 15px;
     border-radius: 16px;
     font-size: 1.3rem;
     color: rgba(67, 56, 213, 0.8);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: solid 1px rgba(71, 61, 199, 0.88);
+}
+
+[data-theme="dark"] .tile-label {
+    color: var(--purple-mid);
+    border: solid 1px var(--purple-mid);
 }
 
 .tile-label:hover {

@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const scrolled = window.scrollY;
             const parallaxSpeed = 0.5;
 
-            heroVisual.style.transform = `translateY(${(scrolled * parallaxSpeed) - 200}px)`;
+            heroVisual.style.transform = `translateY(${(scrolled * parallaxSpeed)}px)`;
         });
     }
 

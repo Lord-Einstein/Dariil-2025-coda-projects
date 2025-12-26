@@ -76,7 +76,12 @@
                             </div>
                         {% endfor %}
                     </div>
-                    {{ form_errors(form.icon) }}
+                    {% if form_errors(form.icon) %}
+                        <div class="custom-error-block">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            {{ form_errors(form.icon) }}
+                        </div>
+                    {% endif %}
                 </div>
 
             </div>

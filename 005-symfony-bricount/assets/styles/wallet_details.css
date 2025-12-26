@@ -809,10 +809,6 @@
     z-index: 2;
 }
 
-[data-theme="dark"] .detail-icon-circle {
-    color: var(--orange-dark);
-}
-
 .detail-icon-circle {
     width: 90px;
     height: 90px;
@@ -823,7 +819,7 @@
     align-items: center;
     justify-content: center;
     font-size: 2.5rem;
-    color: var(--purple-deep);
+    color: var(--orange-dark);
     margin-bottom: 1.5rem;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
