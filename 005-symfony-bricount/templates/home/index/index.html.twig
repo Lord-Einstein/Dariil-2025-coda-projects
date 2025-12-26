@@ -1,15 +1,393 @@
 {% extends '_layouts/standard.html.twig' %}
 
-{% block title %}Acceuil | +Count{% endblock %}
+{% block title %}Accueil | +Count - Gérez vos dépenses en groupe{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/index.css') }}">
+{% endblock %}
 
 {% block content %}
-    <div class="example-wrapper">
-        <h1>Hello {{ controller_name }}! ✅</h1>
+    {# Hero Section #}
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="hero-badge">✨ Nouveau sur +Count</span>
+                <h1 class="hero-title">
+                    Simplifiez vos <span class="gradient-text">dépenses partagées</span>
+                </h1>
+                <p class="hero-subtitle">
+                    La solution intuitive pour gérer les dépenses entre amis, en famille ou en colocation.
+                    Fini les calculs compliqués, +Count s'occupe de tout.
+                </p>
+                <div class="hero-cta">
+                    <a href="{{ path('app_register') }}" class="btn-hero primary">
+                        Commencer gratuitement
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#features" class="btn-hero secondary">
+                        Découvrir les fonctionnalités
+                        <i class="fa-solid fa-play"></i>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Utilisateurs actifs</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Dépenses gérées</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">99.9%</span>
+                        <span class="stat-label">Satisfaction</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?w=800&h=600&fit=crop"
+                         alt="Gestion collaborative"
+                         class="hero-image">
+                    <div class="floating-card card-1">
+                        <i class="fa-solid fa-wallet"></i>
+                        <span>Portefeuille partagé</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Mode collaboratif</span>
+                    </div>
+                    <div class="floating-card card-3">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Statistiques en temps réel</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-wave"></div>
+    </section>
 
-        This friendly message is coming from:
-        <ul>
-            <li>Your controller at <code>/app/src/Controller/Home/IndexController.php</code></li>
-            <li>Your template at <code>/app/templates/home/index/index.html.twig</code></li>
-        </ul>
-    </div>
+    {# Features Section #}
+    <section id="features" class="features-section">
+        <div class="section-container">
+            <div class="section-header-center">
+                <span class="section-badge">Fonctionnalités</span>
+                <h2 class="section-title">Tout ce dont vous avez besoin</h2>
+                <p class="section-description">
+                    Une plateforme complète pour gérer vos finances partagées en toute simplicité
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon purple">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <h3 class="feature-title">Portefeuilles illimités</h3>
+                    <p class="feature-description">
+                        Créez autant de portefeuilles que nécessaire pour vos différents groupes :
+                        colocation, vacances, sorties...
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon orange">
+                        <i class="fa-solid fa-users-gear"></i>
+                    </div>
+                    <h3 class="feature-title">Gestion collaborative</h3>
+                    <p class="feature-description">
+                        Invitez vos amis, attribuez des rôles et gérez les dépenses ensemble
+                        en temps réel.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon green">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <h3 class="feature-title">Calcul automatique</h3>
+                    <p class="feature-description">
+                        L'application calcule automatiquement qui doit combien à qui.
+                        Fini les prises de tête !
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon blue">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <h3 class="feature-title">Statistiques détaillées</h3>
+                    <p class="feature-description">
+                        Visualisez vos dépenses par catégorie, par période et par membre
+                        du groupe.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon pink">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="feature-title">Sécurité maximale</h3>
+                    <p class="feature-description">
+                        Vos données sont chiffrées et sécurisées. Nous ne partageons
+                        jamais vos informations.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon cyan">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                    </div>
+                    <h3 class="feature-title">Multi-plateforme</h3>
+                    <p class="feature-description">
+                        Accessible depuis votre ordinateur, tablette ou smartphone.
+                        Partout, tout le temps.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# How It Works Section #}
+    <section class="how-section">
+        <div class="section-container">
+            <div class="section-header-center">
+                <span class="section-badge">Comment ça marche ?</span>
+                <h2 class="section-title">Simple comme bonjour</h2>
+            </div>
+
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Créez un portefeuille</h3>
+                        <p class="step-description">
+                            Donnez-lui un nom (vacances, colocation, sorties...) et invitez vos amis.
+                        </p>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop"
+                             alt="Créer un portefeuille">
+                    </div>
+                </div>
+
+                <div class="step-item reverse">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Ajoutez vos dépenses</h3>
+                        <p class="step-description">
+                            Enregistrez chaque dépense avec le montant, la catégorie et qui a payé.
+                        </p>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://images.unsplash.com/photo-1554224311-beee460c201e?w=400&h=300&fit=crop"
+                             alt="Ajouter une dépense">
+                    </div>
+                </div>
+
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Équilibrez les comptes</h3>
+                        <p class="step-description">
+                            +Count calcule qui doit rembourser qui. Un clic et c'est réglé !
+                        </p>
+                    </div>
+                    <div class="step-visual">
+                        <img src="https://images.unsplash.com/photo-1554224154-26032ffc0d07?w=400&h=300&fit=crop"
+                             alt="Équilibrer les comptes">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# Testimonials Section #}
+    <section class="testimonials-section">
+        <div class="section-container">
+            <div class="section-header-center">
+                <span class="section-badge">Témoignages</span>
+                <h2 class="section-title">Ils adorent +Count</h2>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "Indispensable pour notre colocation ! Plus de disputes pour les courses,
+                        tout est clair et transparent."
+                    </p>
+                    <div class="testimonial-author">
+                        <img src="https://i.pravatar.cc/150?img=1" alt="Sarah">
+                        <div>
+                            <div class="author-name">Sarah M.</div>
+                            <div class="author-role">Étudiante à Lyon</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "On l'utilise pour nos week-ends entre amis. Le calcul automatique
+                        nous fait gagner un temps fou !"
+                    </p>
+                    <div class="testimonial-author">
+                        <img src="https://i.pravatar.cc/150?img=12" alt="Thomas">
+                        <div>
+                            <div class="author-name">Thomas L.</div>
+                            <div class="author-role">Chef de projet</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "Interface intuitive et moderne. Mes parents l'utilisent même
+                        pour gérer leurs dépenses familiales !"
+                    </p>
+                    <div class="testimonial-author">
+                        <img src="https://i.pravatar.cc/150?img=5" alt="Emma">
+                        <div>
+                            <div class="author-name">Emma D.</div>
+                            <div class="author-role">Designer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# CTA Section #}
+    <section class="cta-section">
+        <div class="cta-container">
+            <div class="cta-content">
+                <h2 class="cta-title">Prêt à simplifier vos finances ?</h2>
+                <p class="cta-description">
+                    Rejoignez des milliers d'utilisateurs qui ont déjà adopté +Count
+                </p>
+                <a href="{{ path('app_register') }}" class="btn-cta">
+                    Créer mon compte gratuit
+                    <i class="fa-solid fa-rocket"></i>
+                </a>
+                <p class="cta-note">
+                    <i class="fa-solid fa-check-circle"></i>
+                    Aucune carte bancaire requise • Gratuit pour toujours
+                </p>
+            </div>
+            <div class="cta-decoration"></div>
+        </div>
+    </section>
+
+    {# Footer #}
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-column brand-column">
+                    <div class="footer-logo">
+                        <svg viewBox="0 0 100 100" class="logo-footer">
+                            <polygon points="50 5, 95 27.5, 95 72.5, 50 95, 5 72.5, 5 27.5" fill="var(--main-color)"/>
+                            <path d="M50 30 V70 M30 50 H70" stroke="white" stroke-width="8" stroke-linecap="round"/>
+                        </svg>
+                        <span>Count.</span>
+                    </div>
+                    <p class="footer-description">
+                        La solution moderne pour gérer vos dépenses partagées en toute simplicité.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Produit</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Fonctionnalités</a></li>
+                        <li><a href="#">Tarifs</a></li>
+                        <li><a href="#">Sécurité</a></li>
+                        <li><a href="#">Mises à jour</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Entreprise</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Carrières</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Ressources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Centre d'aide</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API</a></li>
+                        <li><a href="#">Statut</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Légal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Confidentialité</a></li>
+                        <li><a href="#">CGU</a></li>
+                        <li><a href="#">Cookies</a></li>
+                        <li><a href="#">Licences</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    © 2024 +Count. Tous droits réservés.
+                </p>
+                <div class="footer-bottom-links">
+                    <a href="#">Mentions légales</a>
+                    <a href="#">Plan du site</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {# Scroll to Top Button #}
+    <button id="scrollToTop" class="scroll-to-top" aria-label="Retour en haut">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    {# Dark Mode Toggle (Fixed) #}
+    <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Changer de thème">
+        <i class="fa-solid fa-moon"></i>
+    </button>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('scripts/index.js') }}"></script>
 {% endblock %}
