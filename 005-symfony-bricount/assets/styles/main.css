@@ -712,8 +712,17 @@ body {
     border: 2px solid #ef5350;
 }
 
+[data-theme="dark"] .flash-danger {
+    background: var(--card-bg);
+    color: #ec3636;
+}
+
 .flash-danger .flash-icon svg {
     stroke: #c62828;
+}
+
+[data-theme="dark"] .flash-danger .flash-icon svg {
+    stroke: #ec3636;
 }
 
 .flash-warning {
@@ -722,7 +731,16 @@ body {
     border: 2px solid #ff9800;
 }
 
+[data-theme="dark"] .flash-warning {
+    background: var(--card-bg);
+    color: #f85a03;
+}
+
 .flash-warning .flash-icon svg {
+    stroke: #ef6c00;
+}
+
+[data-theme="dark"] .flash-warning .flash-icon svg {
     stroke: #ef6c00;
 }
 
@@ -732,8 +750,17 @@ body {
     border: 2px solid #2196f3;
 }
 
+[data-theme="dark"] .flash-info {
+    background: var(--card-bg);
+    color: #3382ff;
+}
+
 .flash-info .flash-icon svg {
-    stroke: #1565c0;
+    stroke: #3682ff;
+}
+
+[data-theme="dark"] .flash-info .flash-icon svg {
+    stroke: #0e58d0;
 }
 
 .flash-icon {
@@ -760,6 +787,10 @@ body {
     transition: opacity 0.2s, transform 0.2s;
     display: flex;
     align-items: center;
+}
+
+[data-theme="dark"] .flash-close {
+    color: white;
 }
 
 .flash-close:hover {
